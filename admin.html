@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel administrativo | Gestoria Sonia</title>
+  <meta name="description" content="Panel de gestion para administrar autos e inmuebles.">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+  <div class="admin-shell">
+    <section class="login-view" id="login-view">
+      <div class="login-card">
+        <div class="login-copy">
+          <span class="eyebrow">Panel privado</span>
+          <h1>Gestiona autos e inmuebles desde un solo lugar.</h1>
+          <p>
+            Desde este panel puedes crear, editar y eliminar publicaciones, cargar imagenes y
+            mantener el sitio actualizado sin tocar los archivos de la web.
+          </p>
+          <ul class="login-points">
+            <li>Acceso con usuario y contrasena.</li>
+            <li>Base de datos SQLite local.</li>
+            <li>Carga de portada y galeria de imagenes.</li>
+          </ul>
+        </div>
+
+        <form class="login-form" id="login-form">
+          <h2>Entrar al panel</h2>
+          <label>
+            <span>Usuario</span>
+            <input type="text" name="username" autocomplete="username" required>
+          </label>
+          <label>
+            <span>Contrasena</span>
+            <input type="password" name="password" autocomplete="current-password" required>
+          </label>
+          <button type="submit" class="btn btn-primary">Ingresar</button>
+          <p class="helper-text">Si es el primer acceso, revisa la consola al iniciar el servidor.</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="dashboard-view" id="dashboard-view" hidden>
+      <header class="dashboard-topbar">
+        <div>
+          <span class="eyebrow">Gestoria Sonia</span>
+          <h1>Panel administrativo</h1>
+          <p>Administra vehiculos, inmuebles y la cuenta de acceso.</p>
+        </div>
+
+        <div class="topbar-actions">
+          <span class="user-chip" id="current-user"></span>
+          <button type="button" class="btn btn-secondary" id="logout-button">Cerrar sesion</button>
+        </div>
+      </header>
+
+      <section class="stats-grid" id="stats-grid">
+        <article class="stat-card">
+          <span>Autos</span>
+          <strong id="stats-autos">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Inmuebles</span>
+          <strong id="stats-inmuebles">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Destacados</span>
+          <strong id="stats-destacados">0</strong>
+        </article>
+      </section>
+
+      <nav class="tabs-bar">
+        <button type="button" class="tab-button is-active" data-tab-target="autos">Autos</button>
+        <button type="button" class="tab-button" data-tab-target="inmuebles">Inmuebles</button>
+        <button type="button" class="tab-button" data-tab-target="cuenta">Cuenta</button>
+      </nav>
+
+      <section class="tab-panel is-active" data-tab-panel="autos">
+        <div class="panel-grid">
+          <article class="admin-card">
+            <div class="card-head">
+              <div>
+                <span class="eyebrow">Formulario</span>
+                <h2 id="auto-form-title">Nuevo auto</h2>
+              </div>
+              <button type="button" class="btn btn-ghost" id="auto-reset-button">Limpiar</button>
+            </div>
+
+            <form id="auto-form" class="listing-form">
+              <input type="hidden" name="id">
+              <input type="hidden" name="status" value="venta">
+
+              <div class="form-grid two-columns">
+                <label><span>Nombre de publicacion</span><input type="text" name="title" required></label>
+                <label><span>Precio</span><input type="text" name="price" required></label>
+                <label class="stack-field">
+                  <span>Marca</span>
+                  <select name="brandSelect" id="auto-brand-select"></select>
+                  <span class="inline-custom" id="auto-brand-custom-wrap" aria-hidden="true">
+                    <small>Completar marca</small>
+                    <input type="text" name="brandCustom" placeholder="Escribe la marca">
+                  </span>
+                </label>
+                <label class="stack-field">
+                  <span>Modelo</span>
+                  <select name="modelSelect" id="auto-model-select" disabled></select>
+                  <span class="inline-custom" id="auto-model-custom-wrap" aria-hidden="true">
+                    <small>Completar modelo</small>
+                    <input type="text" name="modelCustom" placeholder="Escribe el modelo">
+                  </span>
+                </label>
+                <label><span>Version</span><input type="text" name="version"></label>
+                <label>
+                  <span>Moneda</span>
+                  <select name="currency">
+                    <option value="ARS">ARS - Pesos argentinos</option>
+                    <option value="USD">USD - Dolares estadounidenses</option>
+                  </select>
+                </label>
+                <label><span>A&ntilde;o</span><input type="number" name="year" min="1900" max="2100"></label>
+                <label><span>Kilometros</span><input type="number" name="km" min="0"></label>
+                <label><span>Tipo</span><input type="text" name="vehicleType" placeholder="pickup, sedan, suv..."></label>
+                <label>
+                  <span>Combustible</span>
+                  <select name="fuel">
+                    <option value="">Seleccionar combustible</option>
+                    <option value="Nafta">Nafta</option>
+                    <option value="Diesel">Diesel</option>
+                    <option value="Nafta/GNC">Nafta/GNC</option>
+                    <option value="Hibrido">Hibrido</option>
+                    <option value="Electrico">Electrico</option>
+                    <option value="GNC">GNC</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Transmision</span>
+                  <select name="transmission">
+                    <option value="">Seleccionar transmision</option>
+                    <option value="Manual">Manual</option>
+                    <option value="Automatica">Automatica</option>
+                    <option value="CVT">CVT</option>
+                    <option value="Secuencial">Secuencial</option>
+                    <option value="Doble embrague">Doble embrague</option>
+                  </select>
+                </label>
+                <label class="stack-field">
+                  <span>Color</span>
+                  <select name="colorSelect" id="auto-color-select">
+                    <option value="">Seleccionar color</option>
+                    <option value="Blanco">Blanco</option>
+                    <option value="Negro">Negro</option>
+                    <option value="Gris">Gris</option>
+                    <option value="Plata">Plata</option>
+                    <option value="Rojo">Rojo</option>
+                    <option value="Azul">Azul</option>
+                    <option value="Otro">Completar manualmente</option>
+                  </select>
+                  <span class="inline-custom" id="auto-color-custom-wrap" aria-hidden="true">
+                    <small>Otro color</small>
+                    <input type="text" name="colorCustom" placeholder="Escribe el color">
+                  </span>
+                </label>
+                <label><span>Puertas</span><input type="number" name="doors" min="0"></label>
+                <label><span>Motor</span><input type="text" name="engine"></label>
+                <label><span>Direccion</span><input type="text" name="steering"></label>
+                <label>
+                  <span>Traccion</span>
+                  <select name="traction">
+                    <option value="">Seleccionar traccion</option>
+                    <option value="Delantera">Delantera</option>
+                    <option value="Trasera">Trasera</option>
+                    <option value="Integral (AWD)">Integral (AWD)</option>
+                    <option value="4x4">4x4</option>
+                    <option value="4x2">4x2</option>
+                  </select>
+                </label>
+                <label><span>Cabina</span><input type="text" name="cabin"></label>
+                <label class="full-width"><span>Ubicacion</span><input type="text" name="location"></label>
+                <label class="full-width">
+                  <span>Descripcion</span>
+                  <textarea name="description" rows="5" required></textarea>
+                </label>
+                <label class="full-width">
+                  <span>Puntos destacados</span>
+                  <textarea name="highlights" rows="4" placeholder="Un punto por linea"></textarea>
+                </label>
+              </div>
+
+              <div class="media-grid">
+                <div class="upload-card">
+                  <div class="upload-head">
+                    <h3>Portada</h3>
+                    <button type="button" class="link-button" id="auto-clear-cover">Quitar</button>
+                  </div>
+                  <input type="file" id="auto-cover-input" accept="image/*">
+                  <div class="preview-grid single" id="auto-cover-preview"></div>
+                </div>
+
+                <div class="upload-card">
+                  <div class="upload-head">
+                    <h3>Galeria</h3>
+                  </div>
+                  <input type="file" id="auto-gallery-input" accept="image/*" multiple>
+                  <div class="preview-grid" id="auto-gallery-preview"></div>
+                </div>
+              </div>
+
+              <label class="toggle-row">
+                <input type="checkbox" name="featured">
+                <span>Mostrar como destacado en la home</span>
+              </label>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Guardar auto</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="admin-card">
+            <div class="card-head">
+              <div>
+                <span class="eyebrow">Listado</span>
+                <h2>Autos cargados</h2>
+              </div>
+              <button type="button" class="btn btn-secondary" id="auto-new-button">Nuevo auto</button>
+            </div>
+            <div class="records-list" id="autos-list"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="inmuebles">
+        <div class="panel-grid">
+          <article class="admin-card">
+            <div class="card-head">
+              <div>
+                <span class="eyebrow">Formulario</span>
+                <h2 id="property-form-title">Nuevo inmueble</h2>
+              </div>
+              <button type="button" class="btn btn-ghost" id="property-reset-button">Limpiar</button>
+            </div>
+
+            <form id="property-form" class="listing-form">
+              <input type="hidden" name="id">
+
+              <div class="form-grid two-columns">
+                <label><span>Nombre de publicacion</span><input type="text" name="title" required></label>
+                <label><span>Precio</span><input type="text" name="price" required></label>
+                <label><span>Moneda</span><input type="text" name="currency" value="USD"></label>
+                <label><span>Operacion</span><input type="text" name="operation" value="venta" placeholder="venta o alquiler"></label>
+                <label><span>Estado</span><input type="text" name="status" value="venta" placeholder="venta, alquiler, reserva, vendido"></label>
+                <label><span>Tipo</span><input type="text" name="propertyType" placeholder="casa, lote, departamento..."></label>
+                <label class="full-width"><span>Ubicacion</span><input type="text" name="location"></label>
+                <label><span>Dormitorios</span><input type="number" name="bedrooms" min="0"></label>
+                <label><span>Banos</span><input type="number" name="bathrooms" min="0"></label>
+                <label><span>Metros cubiertos</span><input type="number" name="areaM2" min="0" step="0.1"></label>
+                <label><span>Metros de terreno</span><input type="number" name="landAreaM2" min="0" step="0.1"></label>
+                <label><span>Medidas</span><input type="text" name="dimensions"></label>
+                <label><span>Acceso</span><input type="text" name="access"></label>
+                <label><span>Infraestructura</span><input type="text" name="infrastructure"></label>
+                <label class="full-width"><span>URL de mapa</span><input type="url" name="mapUrl"></label>
+                <label class="full-width">
+                  <span>Descripcion</span>
+                  <textarea name="description" rows="5" required></textarea>
+                </label>
+                <label class="full-width">
+                  <span>Puntos destacados</span>
+                  <textarea name="highlights" rows="4" placeholder="Un punto por linea"></textarea>
+                </label>
+              </div>
+
+              <div class="media-grid">
+                <div class="upload-card">
+                  <div class="upload-head">
+                    <h3>Portada</h3>
+                    <button type="button" class="link-button" id="property-clear-cover">Quitar</button>
+                  </div>
+                  <input type="file" id="property-cover-input" accept="image/*">
+                  <div class="preview-grid single" id="property-cover-preview"></div>
+                </div>
+
+                <div class="upload-card">
+                  <div class="upload-head">
+                    <h3>Galeria</h3>
+                  </div>
+                  <input type="file" id="property-gallery-input" accept="image/*" multiple>
+                  <div class="preview-grid" id="property-gallery-preview"></div>
+                </div>
+              </div>
+
+              <label class="toggle-row">
+                <input type="checkbox" name="corner">
+                <span>Es inmueble en esquina</span>
+              </label>
+
+              <label class="toggle-row">
+                <input type="checkbox" name="featured">
+                <span>Mostrar como destacado en la home</span>
+              </label>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Guardar inmueble</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="admin-card">
+            <div class="card-head">
+              <div>
+                <span class="eyebrow">Listado</span>
+                <h2>Inmuebles cargados</h2>
+              </div>
+              <button type="button" class="btn btn-secondary" id="property-new-button">Nuevo inmueble</button>
+            </div>
+            <div class="records-list" id="properties-list"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="cuenta">
+        <article class="admin-card narrow-card">
+          <div class="card-head">
+            <div>
+              <span class="eyebrow">Seguridad</span>
+              <h2>Cambiar contrasena</h2>
+            </div>
+          </div>
+
+          <form id="password-form" class="listing-form">
+            <label><span>Clave actual</span><input type="password" name="currentPassword" required></label>
+            <label><span>Nueva clave</span><input type="password" name="nextPassword" minlength="8" required></label>
+            <button type="submit" class="btn btn-primary">Actualizar contrasena</button>
+          </form>
+        </article>
+      </section>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>
