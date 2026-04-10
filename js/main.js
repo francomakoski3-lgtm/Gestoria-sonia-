@@ -103,6 +103,111 @@ const INMUEBLES = [
   }
 ];
 
+const SEGURO_COTIZADOR = [
+  {
+    id: 'auto',
+    label: 'Autos',
+    description: 'Elegi si queres cotizar el valor base o la opcion con grua.',
+    options: [
+      {
+        id: 'auto-sin-grua',
+        label: 'Auto sin grua',
+        price: 30285.5,
+        detail: 'Valor de referencia para auto sin servicio de grua.'
+      },
+      {
+        id: 'auto-con-grua',
+        label: 'Auto con grua',
+        price: 34458.88,
+        detail: 'Valor de referencia para auto con servicio de grua.'
+      }
+    ]
+  },
+  {
+    id: 'camioneta',
+    label: 'Camionetas',
+    description: 'Las camionetas pueden variar segun el modelo y la pauta que tome la compania.',
+    options: [
+      {
+        id: 'camioneta-hilux-ranger-sin-grua',
+        label: 'Hilux / Ranger sin grua',
+        price: 30285.5,
+        detail: 'Estas camionetas suelen cotizar al mismo valor que un auto sin grua.',
+        note: 'Hilux y Ranger suelen manejar el mismo precio que auto.'
+      },
+      {
+        id: 'camioneta-hilux-ranger-con-grua',
+        label: 'Hilux / Ranger con grua',
+        price: 34458.88,
+        detail: 'Estas camionetas suelen cotizar al mismo valor que un auto con grua.',
+        note: 'Hilux y Ranger suelen manejar el mismo precio que auto.'
+      },
+      {
+        id: 'camioneta-fuera-pauta-sin-grua',
+        label: 'Camioneta fuera de pauta sin grua',
+        price: 33311.33,
+        detail: 'Valor de referencia para camionetas fuera de pauta sin servicio de grua.',
+        note: 'El valor de camioneta fuera de pauta puede cambiar segun modelo.'
+      },
+      {
+        id: 'camioneta-fuera-pauta-con-grua',
+        label: 'Camioneta fuera de pauta con grua',
+        price: 37484.7,
+        detail: 'Valor de referencia para camionetas fuera de pauta con servicio de grua.',
+        note: 'El valor de camioneta fuera de pauta puede cambiar segun modelo.'
+      },
+      {
+        id: 'camioneta-amarok',
+        label: 'Amarok',
+        price: null,
+        detail: 'La Amarok puede cambiar de precio y conviene confirmarla de forma manual.',
+        note: 'La Amarok no tiene un valor fijo cargado porque puede variar.'
+      }
+    ]
+  },
+  {
+    id: 'camion',
+    label: 'Camiones',
+    description: 'Selecciona si el camion trabaja en uso local o rutero.',
+    options: [
+      {
+        id: 'camion-local',
+        label: 'Camion local',
+        price: 45959.81,
+        detail: 'Valor de referencia para camion de uso local.'
+      },
+      {
+        id: 'camion-rutero',
+        label: 'Camion rutero',
+        price: 95899.54,
+        detail: 'Valor de referencia para camion de uso rutero.'
+      }
+    ]
+  },
+  {
+    id: 'moto',
+    label: 'Motos',
+    description: 'Valor base informado para motos.',
+    options: [
+      {
+        id: 'moto-base',
+        label: 'Moto',
+        price: 12784.78,
+        detail: 'Valor de referencia para seguro de moto.'
+      }
+    ]
+  }
+];
+
+function formatARS(value) {
+  if (typeof value !== 'number') return 'Consultar';
+
+  return `$ ${new Intl.NumberFormat('es-AR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(value)}`;
+}
+
 function waLink(message) {
   return `${WA_BASE}?text=${encodeURIComponent(message)}`;
 }
@@ -609,6 +714,24 @@ function initNavbar() {
   const links = document.querySelector('.nav-links');
   const navbar = document.querySelector('.navbar');
 
+  if (navbar) {
+    let isScrolled = false;
+    const syncNavbarScrollState = () => {
+      const scrollTop = window.scrollY || window.pageYOffset || 0;
+
+      if (!isScrolled && scrollTop > 40) {
+        isScrolled = true;
+      } else if (isScrolled && scrollTop < 12) {
+        isScrolled = false;
+      }
+
+      navbar.classList.toggle('is-scrolled', isScrolled);
+    };
+
+    syncNavbarScrollState();
+    window.addEventListener('scroll', syncNavbarScrollState, { passive: true });
+  }
+
   if (toggle && links && navbar) {
     toggle.addEventListener('click', event => {
       event.stopPropagation();
@@ -659,10 +782,139 @@ function initContactForm() {
   });
 }
 
+function renderSeguroOptionCards(category, selectedOptionId) {
+  return category.options
+    .map(
+      option => `
+        <button type="button" class="seguro-option-card${option.id === selectedOptionId ? ' is-active' : ''}" data-seguro-option="${option.id}" aria-pressed="${option.id === selectedOptionId}">
+          <span class="seguro-option-type">${category.label}</span>
+          <strong>${option.label}</strong>
+          <span class="seguro-option-price">${formatARS(option.price)}</span>
+          ${option.note ? `<small>${option.note}</small>` : ''}
+        </button>`
+    )
+    .join('');
+}
+
+function buildSeguroQuoteMessage(option) {
+  if (typeof option.price !== 'number') {
+    return `Hola, quiero cotizar ${option.label} de Liderar. Vi que el valor puede variar y quiero confirmarlo.`;
+  }
+
+  return `Hola, quiero cotizar ${option.label} de Liderar. Vi un valor de referencia de ${formatARS(option.price)} y quiero confirmar cobertura y precio.`;
+}
+
+function initSeguroCotizador() {
+  const root = document.querySelector('[data-seguro-cotizador]');
+  if (!root) return;
+
+  const categoriesElement = root.querySelector('[data-seguro-categorias]');
+  const optionsElement = root.querySelector('[data-seguro-opciones]');
+  const priceElement = root.querySelector('[data-seguro-precio]');
+  const nameElement = root.querySelector('[data-seguro-nombre]');
+  const descriptionElement = root.querySelector('[data-seguro-descripcion]');
+  const noteElement = root.querySelector('[data-seguro-aclaracion]');
+  const categoryTextElement = root.querySelector('[data-seguro-categoria-texto]');
+  const optionsGridElement = root.querySelector('[data-seguro-tarifas]');
+  const waElement = root.querySelector('[data-seguro-wa]');
+
+  if (!categoriesElement || !optionsElement || !priceElement || !nameElement || !descriptionElement || !noteElement || !categoryTextElement || !optionsGridElement || !waElement) {
+    return;
+  }
+
+  const state = {
+    categoryId: SEGURO_COTIZADOR[0].id,
+    optionId: SEGURO_COTIZADOR[0].options[0].id
+  };
+
+  function getCategory() {
+    return SEGURO_COTIZADOR.find(category => category.id === state.categoryId) || SEGURO_COTIZADOR[0];
+  }
+
+  function getOption(category) {
+    return category.options.find(option => option.id === state.optionId) || category.options[0];
+  }
+
+  function ensureOption(category) {
+    if (!category.options.some(option => option.id === state.optionId)) {
+      state.optionId = category.options[0].id;
+    }
+  }
+
+  function renderCategories() {
+    categoriesElement.innerHTML = SEGURO_COTIZADOR
+      .map(
+        category => `
+          <button type="button" class="seguro-categoria-btn${category.id === state.categoryId ? ' is-active' : ''}" data-seguro-category="${category.id}" aria-pressed="${category.id === state.categoryId}">
+            ${category.label}
+          </button>`
+      )
+      .join('');
+  }
+
+  function render() {
+    const category = getCategory();
+    ensureOption(category);
+    const option = getOption(category);
+
+    renderCategories();
+
+    optionsElement.innerHTML = category.options
+      .map(
+        item => `
+          <option value="${item.id}" ${item.id === option.id ? 'selected' : ''}>
+            ${item.label}
+          </option>`
+      )
+      .join('');
+
+    priceElement.textContent = formatARS(option.price);
+    nameElement.textContent = option.label;
+    descriptionElement.textContent = option.detail;
+    categoryTextElement.textContent = category.description;
+    optionsGridElement.innerHTML = renderSeguroOptionCards(category, option.id);
+    waElement.href = waLink(buildSeguroQuoteMessage(option));
+    waElement.textContent = typeof option.price === 'number' ? 'Consultar esta cotizacion' : 'Consultar esta opcion';
+
+    if (option.note) {
+      noteElement.hidden = false;
+      noteElement.textContent = option.note;
+    } else {
+      noteElement.hidden = true;
+      noteElement.textContent = '';
+    }
+  }
+
+  categoriesElement.addEventListener('click', event => {
+    const button = event.target.closest('[data-seguro-category]');
+    if (!button) return;
+
+    state.categoryId = button.getAttribute('data-seguro-category') || state.categoryId;
+    state.optionId = '';
+    render();
+  });
+
+  optionsElement.addEventListener('change', () => {
+    state.optionId = optionsElement.value;
+    render();
+  });
+
+  optionsGridElement.addEventListener('click', event => {
+    const button = event.target.closest('[data-seguro-option]');
+    if (!button) return;
+
+    state.optionId = button.getAttribute('data-seguro-option') || state.optionId;
+    render();
+  });
+
+  render();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
   initHomeDestacados();
   initAutoPage();
   initPropFilters();
+  initSeguroCotizador();
   initContactForm();
 });
