@@ -10,11 +10,17 @@ const DATA_DIR = path.join(ROOT_DIR, 'data');
 const DB_PATH = path.join(DATA_DIR, 'gestoria-sonia.db');
 const UPLOADS_DIR = path.join(ROOT_DIR, 'uploads');
 const PORT = Number.parseInt(process.env.PORT || '3000', 10);
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const COOKIE_NAME = 'gs_admin_session';
 const SESSION_DAYS = 30;
 const MAX_BODY_SIZE = 30 * 1024 * 1024;
 const DEFAULT_ADMIN_USER = process.env.ADMIN_USERNAME || 'admin';
 const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin1234';
+
+// Rate limiting — protección contra fuerza bruta en el login
+const loginAttempts = new Map(); // ip -> { count, resetAt }
+const LOGIN_MAX_ATTEMPTS = 10;
+const LOGIN_WINDOW_MS = 15 * 60 * 1000; // 15 minutos
 
 const MIME_TYPES = {
   '.css': 'text/css; charset=utf-8',
@@ -241,7 +247,7 @@ function ensureDefaultAdmin() {
 
   console.log('Usuario administrador inicial creado.');
   console.log(`Usuario: ${DEFAULT_ADMIN_USER}`);
-  console.log(`Clave inicial: ${DEFAULT_ADMIN_PASSWORD}`);
+  console.log('Clave: definida por variable de entorno ADMIN_PASSWORD (o el valor por defecto).');
   console.log('Cambia la clave desde el panel despues del primer acceso.');
 }
 
@@ -265,6 +271,18 @@ async function handleApi(req, res, url) {
   }
 
   if (req.method === 'POST' && pathname === '/api/auth/login') {
+    // Rate limiting por IP
+    const ip = req.socket.remoteAddress || 'unknown';
+    const now = Date.now();
+    const record = loginAttempts.get(ip) || { count: 0, resetAt: now + LOGIN_WINDOW_MS };
+    if (now > record.resetAt) { record.count = 0; record.resetAt = now + LOGIN_WINDOW_MS; }
+    if (record.count >= LOGIN_MAX_ATTEMPTS) {
+      const waitMin = Math.ceil((record.resetAt - now) / 60000);
+      throw createHttpError(429, `Demasiados intentos. Esperá ${waitMin} minuto(s).`, true);
+    }
+    record.count++;
+    loginAttempts.set(ip, record);
+
     const body = await readJsonBody(req);
     const username = readString(body.username);
     const password = readString(body.password);
@@ -281,12 +299,16 @@ async function handleApi(req, res, url) {
       throw createHttpError(401, 'Usuario o contrasena incorrectos.', true);
     }
 
+    // Login exitoso: limpiar contador de la IP
+    loginAttempts.delete(ip);
+
     const session = createSession(user.id);
     setCookie(res, COOKIE_NAME, session.token, {
       httpOnly: true,
       maxAge: SESSION_DAYS * 24 * 60 * 60,
       path: '/',
-      sameSite: 'Lax'
+      sameSite: 'Lax',
+      secure: IS_PRODUCTION  // HTTPS en producción
     });
 
     sendJson(res, 200, { user: { id: user.id, username: user.username } });
@@ -490,7 +512,11 @@ async function serveStatic(req, res, pathname) {
 
   res.writeHead(200, {
     'Content-Length': stat.size,
-    'Content-Type': contentType
+    'Content-Type': contentType,
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'SAMEORIGIN',
+    'Referrer-Policy': 'strict-origin-when-cross-origin',
+    ...(IS_PRODUCTION && { 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains' })
   });
 
   if (req.method === 'HEAD') {
