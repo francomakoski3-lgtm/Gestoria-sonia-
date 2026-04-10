@@ -163,20 +163,5 @@
 </a>
 
 <script src="js/site.js"></script>
-<script>
-  // Tabs de operación (venta / alquiler / todos)
-  function setTab(btn, operacion) {
-    document.querySelectorAll('.tab-btn').forEach(b => {
-      b.style.color = 'var(--gray-500)';
-      b.style.borderBottomColor = 'transparent';
-    });
-    btn.style.color = 'var(--black)';
-    btn.style.borderBottomColor = 'var(--red)';
-
-    const select = document.getElementById('filtro-operacion');
-    if (select) { select.value = operacion; }
-    filtrarInmuebles();
-  }
-</script>
 </body>
 </html>
