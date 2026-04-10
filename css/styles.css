@@ -2402,19 +2402,19 @@ button { cursor: pointer; font-family: var(--font); }
   transform: translateY(-1px);
 }
 .quote-estimate-box {
-  background: linear-gradient(180deg, #f7f3ee 0%, #fff 100%);
-  border: 1px solid var(--gray-200);
-  border-radius: 18px;
-  padding: 22px;
-  margin: 22px 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0 0 18px;
 }
 .quote-estimate-label {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: var(--gray-500);
-  margin-bottom: 8px;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.7px;
+  text-transform: none;
+  color: #171412;
+  margin: 0;
 }
 .quote-estimate-amount {
   display: block;
