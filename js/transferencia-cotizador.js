@@ -1,40 +1,35 @@
 const TRANSFERENCIA_WA_NUMBER = '543743668039';
-const ESTIMATE_MIN_RATE = 0.03;
-const ESTIMATE_MAX_RATE = 0.05;
+const FIXED_SERVICE_FEE = 150000;
+const STAMP_RATE = 0.03;
+const ZERO_AMOUNT = 0;
+const MONTHLY_INTEREST_RATE = 0.0589;
 
 const TRANSFERENCIA_DATA = {
-  auto: {
-    label: 'Auto',
-    brands: {
-      Toyota: ['Corolla', 'Hilux', 'Etios', 'Yaris', 'SW4'],
-      Volkswagen: ['Gol', 'Polo', 'Amarok', 'Taos', 'T-Cross'],
-      Ford: ['Fiesta', 'Focus', 'Ranger', 'EcoSport', 'Ka'],
-      Chevrolet: ['Onix', 'Cruze', 'Tracker', 'S10', 'Prisma'],
-      Renault: ['Kwid', 'Sandero', 'Logan', 'Duster', 'Kangoo'],
-      Fiat: ['Cronos', 'Argo', 'Toro', 'Strada', 'Mobi'],
-      Peugeot: ['208', '2008', '308', 'Partner', '3008'],
-      Nissan: ['Versa', 'Sentra', 'Frontier', 'Kicks', 'March']
-    }
-  },
-  moto: {
-    label: 'Moto',
-    brands: {
-      Honda: ['Wave 110', 'CG Titan', 'XR 150', 'CB 125F', 'Biz 125'],
-      Yamaha: ['Crypton', 'FZ-S', 'YBR 125', 'XTZ 125', 'MT-03'],
-      Motomel: ['B110', 'S2 150', 'Skua 150', 'Blitz', 'CX 150'],
-      Corven: ['Energy 110', 'Triax 150', 'Hunter 150', 'Mirage 110', 'Terrain 250'],
-      Zanella: ['ZB 110', 'RX 150', 'ZR 150', 'Patagonian Eagle', 'Due 110'],
-      Gilera: ['Smash', 'VC 150', 'Sahel 150', 'AC1', 'VC 200'],
-      Keller: ['Crono Classic', 'KN 110-8', 'Miracle', 'MX 260', 'Crono 110']
-    }
-  }
+  auto: { label: 'Auto' },
+  moto: { label: 'Moto' }
+};
+
+const REGISTRY_RATE_BY_SELLER_SIGNATURE = {
+  lt90: 0.01,
+  '90d1y': 0.012,
+  '1y2y': 0.014,
+  '2y3y': 0.016,
+  '3y4y': 0.018,
+  gt4: 0.02
 };
 
 const TRANSFERENCIA_AGE_OPTIONS = {
-  lt3: 'Menos de 3 meses',
-  '3m1y': 'Entre 3 meses y 1 ano',
-  '1y5y': 'Entre 1 ano y 5 anos',
-  gt5: 'Mas de 5 anos'
+  lt90: 'Menos de 90 dias',
+  '90d1y': 'Mas de 90 dias y hasta 1 ano',
+  '1y2y': 'Entre 1 ano y 2 anos',
+  '2y3y': 'Entre 2 anos y 3 anos',
+  '3y4y': 'Entre 3 anos y 4 anos',
+  gt4: 'Mas de 4 anos'
+};
+
+const BUYER_SIGNATURE_OPTIONS = {
+  lt15: 'Menos de 15 dias habiles',
+  gt15: 'Mas de 15 dias habiles'
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -42,73 +37,95 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!form) return;
 
   const vehicleInputs = Array.from(form.querySelectorAll('input[name="vehicleType"]'));
-  const provinceSelect = document.getElementById('transfer-province');
-  const brandSelect = document.getElementById('transfer-brand');
-  const modelSelect = document.getElementById('transfer-model');
+  const misionesInputs = Array.from(form.querySelectorAll('input[name="misionesResidence"]'));
+  const buyerSignatureInputs = Array.from(form.querySelectorAll('input[name="buyerSignatureRange"]'));
   const priceInput = document.getElementById('transfer-price');
   const ageSelect = document.getElementById('transfer-age');
-  const resultAmount = document.getElementById('quote-estimate-amount');
-  const resultMeta = document.getElementById('quote-estimate-meta');
+  const buyerSignatureDateInput = document.getElementById('buyer-signature-date');
+  const buyerSignatureDateGroup = document.getElementById('buyer-signature-date-group');
+  const buyerSignatureDateHelp = document.getElementById('buyer-signature-date-help');
   const whatsappButton = document.getElementById('transferencia-whatsapp');
   const summaryType = document.getElementById('summary-type');
-  const summaryProvince = document.getElementById('summary-province');
-  const summaryBrand = document.getElementById('summary-brand');
-  const summaryModel = document.getElementById('summary-model');
+  const summaryMisiones = document.getElementById('summary-misiones');
   const summaryPrice = document.getElementById('summary-price');
   const summaryAge = document.getElementById('summary-age');
+  const summaryBuyerSignature = document.getElementById('summary-buyer-signature');
+  const breakdownServiceFee = document.getElementById('breakdown-service-fee');
+  const breakdownRegistry = document.getElementById('breakdown-registry');
+  const breakdownRegistryNote = document.getElementById('breakdown-registry-note');
+  const breakdownStampedTotal = document.getElementById('breakdown-stamped-total');
+  const breakdownStamps = document.getElementById('breakdown-stamps');
+  const breakdownInterest = document.getElementById('breakdown-interest');
+  const breakdownPenalty = document.getElementById('breakdown-penalty');
+  const breakdownTotal = document.getElementById('breakdown-total');
 
-  const formatter = new Intl.NumberFormat('es-AR', {
+  const moneyFormatter = new Intl.NumberFormat('es-AR', {
     style: 'currency',
     currency: 'ARS',
     maximumFractionDigits: 0
   });
 
+  const dateFormatter = new Intl.DateTimeFormat('es-AR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+
+  buyerSignatureDateInput.max = formatDateForInput(new Date());
+  breakdownServiceFee.textContent = moneyFormatter.format(FIXED_SERVICE_FEE);
+
+  function formatDateForInput(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  function parseInputDate(value) {
+    if (!value) return null;
+    const [year, month, day] = value.split('-').map(Number);
+    if (!year || !month || !day) return null;
+    return new Date(year, month - 1, day);
+  }
+
+  function countBusinessDays(startDate, endDate) {
+    if (!(startDate instanceof Date) || !(endDate instanceof Date)) return 0;
+
+    const current = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+    const last = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+
+    if (current > last) return 0;
+
+    let count = 0;
+
+    while (current < last) {
+      current.setDate(current.getDate() + 1);
+      const day = current.getDay();
+      if (day !== 0 && day !== 6) {
+        count += 1;
+      }
+    }
+
+    return count;
+  }
+
   function getVehicleType() {
     return vehicleInputs.find(input => input.checked)?.value || 'auto';
   }
 
-  function setActiveVehicleOption() {
-    vehicleInputs.forEach(input => {
+  function getMisionesResidence() {
+    return misionesInputs.find(input => input.checked)?.value || '';
+  }
+
+  function getBuyerSignatureRange() {
+    return buyerSignatureInputs.find(input => input.checked)?.value || '';
+  }
+
+  function setActiveOption(inputs) {
+    inputs.forEach(input => {
       const option = input.closest('.vehicle-type-option');
       if (!option) return;
       option.classList.toggle('is-active', input.checked);
-    });
-  }
-
-  function resetSelect(select, placeholder) {
-    select.innerHTML = `<option value="">${placeholder}</option>`;
-  }
-
-  function populateBrands() {
-    const vehicleType = getVehicleType();
-    const brands = Object.keys(TRANSFERENCIA_DATA[vehicleType].brands);
-
-    resetSelect(brandSelect, 'Seleccionar marca');
-    resetSelect(modelSelect, 'Seleccionar modelo del vehiculo');
-    modelSelect.disabled = true;
-
-    brands.forEach(brand => {
-      const option = document.createElement('option');
-      option.value = brand;
-      option.textContent = brand;
-      brandSelect.appendChild(option);
-    });
-  }
-
-  function populateModels() {
-    const vehicleType = getVehicleType();
-    const brand = brandSelect.value;
-
-    resetSelect(modelSelect, 'Seleccionar modelo del vehiculo');
-    modelSelect.disabled = !brand;
-
-    if (!brand) return;
-
-    TRANSFERENCIA_DATA[vehicleType].brands[brand].forEach(model => {
-      const option = document.createElement('option');
-      option.value = model;
-      option.textContent = model;
-      modelSelect.appendChild(option);
     });
   }
 
@@ -116,13 +133,160 @@ document.addEventListener('DOMContentLoaded', () => {
     return TRANSFERENCIA_AGE_OPTIONS[key] || '-';
   }
 
+  function getMisionesLabel(value) {
+    if (value === 'si') return 'Si';
+    if (value === 'no') return 'No';
+    return '-';
+  }
+
+  function getBuyerSignatureLabel(range, dateValue) {
+    if (!range) return '-';
+
+    if (range === 'lt15') {
+      return BUYER_SIGNATURE_OPTIONS.lt15;
+    }
+
+    if (range !== 'gt15') {
+      return '-';
+    }
+
+    if (!dateValue) {
+      return BUYER_SIGNATURE_OPTIONS.gt15;
+    }
+
+    const selectedDate = parseInputDate(dateValue);
+    if (!selectedDate) {
+      return BUYER_SIGNATURE_OPTIONS.gt15;
+    }
+
+    const businessDays = countBusinessDays(selectedDate, new Date());
+    return `${BUYER_SIGNATURE_OPTIONS.gt15} (${businessDays} dias habiles aprox. desde el ${dateFormatter.format(selectedDate)})`;
+  }
+
+  function formatPercent(rate, decimals = 1) {
+    return `${(rate * 100).toFixed(decimals).replace('.', ',')}%`;
+  }
+
+  function roundCurrency(value) {
+    return Math.round((value + Number.EPSILON) * 100) / 100;
+  }
+
+  function formatDateLabel(date) {
+    return dateFormatter.format(date);
+  }
+
+  function getTodayDateOnly() {
+    const today = new Date();
+    return new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  }
+
+  function getSelladoCharges(stamps, buyerSignatureRange, buyerSignatureDate) {
+    if (buyerSignatureRange !== 'gt15' || !buyerSignatureDate) {
+      return {
+        interest: ZERO_AMOUNT,
+        penalty: ZERO_AMOUNT,
+        stampedTotal: roundCurrency(stamps),
+        dueDate: null,
+        selladoNote: 'Sellado sin mora cargada.'
+      };
+    }
+
+    const calculator = window.TransferenciaCalculatorCore;
+    const signatureDate = parseInputDate(buyerSignatureDate);
+
+    if (!calculator || !signatureDate) {
+      return {
+        interest: ZERO_AMOUNT,
+        penalty: ZERO_AMOUNT,
+        stampedTotal: roundCurrency(stamps),
+        dueDate: null,
+        selladoNote: 'No se pudo resolver el calculo exacto del sellado.'
+      };
+    }
+
+    const liquidationDate = getTodayDateOnly();
+    const dueDate = calculator.agregarDiasHabiles(signatureDate, 15, new Set());
+    const interest = roundCurrency(
+      calculator.calcularInteresProrrateadoPorMes({
+        liquidacionSellos: stamps,
+        fechaVencimiento: dueDate,
+        fechaLiquidacion: liquidationDate
+      })
+    );
+    const penalty = roundCurrency(
+      calculator.calcularMulta({
+        liquidacionSellos: stamps,
+        fechaVencimiento: dueDate,
+        fechaLiquidacion: liquidationDate,
+        holidaySet: new Set()
+      }).multa
+    );
+    const stampedTotal = roundCurrency(stamps + interest + penalty);
+
+    return {
+      interest,
+      penalty,
+      stampedTotal,
+      dueDate,
+      selladoNote: `Vencimiento estimado del sellado: ${formatDateLabel(dueDate)}. Interes mensual aplicado: ${formatPercent(MONTHLY_INTEREST_RATE, 2)}.`
+    };
+  }
+
+  function updateBuyerSignatureDateField() {
+    const range = getBuyerSignatureRange();
+    const shouldShow = range === 'gt15';
+
+    buyerSignatureDateGroup.hidden = !shouldShow;
+    buyerSignatureDateInput.required = shouldShow;
+
+    if (!shouldShow) {
+      buyerSignatureDateHelp.textContent = 'Selecciona la fecha para calcular los dias habiles aproximados.';
+      return;
+    }
+
+    if (!buyerSignatureDateInput.value) {
+      buyerSignatureDateHelp.textContent = 'Selecciona la fecha para calcular los dias habiles aproximados.';
+      return;
+    }
+
+    const selectedDate = parseInputDate(buyerSignatureDateInput.value);
+    if (!selectedDate) {
+      buyerSignatureDateHelp.textContent = 'Selecciona la fecha para calcular los dias habiles aproximados.';
+      return;
+    }
+
+    const businessDays = countBusinessDays(selectedDate, new Date());
+    buyerSignatureDateHelp.textContent = `Han pasado ${businessDays} dias habiles aprox. desde el ${dateFormatter.format(selectedDate)}.`;
+  }
+
   function setSummary(data) {
     summaryType.textContent = data.typeLabel || '-';
-    summaryProvince.textContent = data.province || '-';
-    summaryBrand.textContent = data.brand || '-';
-    summaryModel.textContent = data.model || '-';
-    summaryPrice.textContent = data.price ? formatter.format(data.price) : '-';
+    summaryMisiones.textContent = data.misionesLabel || '-';
+    summaryPrice.textContent = data.price ? moneyFormatter.format(data.price) : '-';
     summaryAge.textContent = data.ageLabel || '-';
+    summaryBuyerSignature.textContent = data.buyerSignatureLabel || '-';
+  }
+
+  function resetBreakdown() {
+    breakdownServiceFee.textContent = moneyFormatter.format(FIXED_SERVICE_FEE);
+    breakdownRegistry.textContent = '-';
+    breakdownRegistryNote.textContent = 'Base 1%';
+    breakdownStampedTotal.textContent = '-';
+    breakdownStamps.textContent = '-';
+    breakdownInterest.textContent = '-';
+    breakdownPenalty.textContent = '-';
+    breakdownTotal.textContent = '-';
+  }
+
+  function setBreakdown(data) {
+    breakdownServiceFee.textContent = moneyFormatter.format(data.serviceFee);
+    breakdownRegistry.textContent = moneyFormatter.format(data.registryAmount);
+    breakdownRegistryNote.textContent = `Base ${formatPercent(data.registryRate)} segun la firma del vendedor: ${data.ageLabel}.`;
+    breakdownStampedTotal.textContent = moneyFormatter.format(data.stampedTotal);
+    breakdownStamps.textContent = moneyFormatter.format(data.stamps);
+    breakdownInterest.textContent = moneyFormatter.format(data.interest);
+    breakdownPenalty.textContent = moneyFormatter.format(data.penalty);
+    breakdownTotal.textContent = moneyFormatter.format(data.total);
   }
 
   function setWhatsappState(enabled, href = '', label = 'Pedir cotizacion exacta por WhatsApp') {
@@ -141,51 +305,75 @@ document.addEventListener('DOMContentLoaded', () => {
     const lines = [
       'Hola, quiero pedir una cotizacion exacta de transferencia.',
       `Tipo: ${data.typeLabel}`,
-      `Provincia: ${data.province}`,
-      `Marca: ${data.brand}`,
-      `Modelo del vehiculo: ${data.model}`,
-      `Precio de compra informado: ${formatter.format(data.price)}`,
-      `Antiguedad de la compra: ${data.ageLabel}`,
-      data.rangeText
+      `Titular nuevo con domicilio en Misiones: ${data.misionesLabel}`,
+      `Precio de compra informado: ${moneyFormatter.format(data.price)}`,
+      `Firma del vendedor certificada hace: ${data.ageLabel}`,
+      `Firma del comprador certificada hace: ${data.buyerSignatureLabel}`
     ];
+
+    if (data.includeBreakdown !== false) {
+      lines.push(
+        `Formulario + Escribania + Honorarios: ${moneyFormatter.format(data.serviceFee)}`,
+        `Registro (${formatPercent(data.registryRate)}): ${moneyFormatter.format(data.registryAmount)}`,
+        `Sellado total: ${moneyFormatter.format(data.stampedTotal)}`,
+        `- Liquidacion de sellos: ${moneyFormatter.format(data.stamps)}`,
+        `- Intereses: ${moneyFormatter.format(data.interest)}`,
+        `- Multas: ${moneyFormatter.format(data.penalty)}`
+      );
+      if (data.selladoNote) {
+        lines.push(data.selladoNote);
+      }
+    }
+
+    lines.push(data.totalText);
 
     return `https://wa.me/${TRANSFERENCIA_WA_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
   }
 
-  function hasCompleteData(province, brand, model, price, ageKey) {
-    return Boolean(province && brand && model && Number.isFinite(price) && price > 0 && ageKey);
+  function hasCompleteData(misionesResidence, price, sellerAgeKey, buyerSignatureRange, buyerSignatureDate) {
+    if (!misionesResidence) return false;
+    if (!Number.isFinite(price) || price <= 0) return false;
+    if (!sellerAgeKey) return false;
+    if (!buyerSignatureRange) return false;
+    if (buyerSignatureRange === 'gt15' && !buyerSignatureDate) return false;
+    return true;
   }
 
   function updateQuote() {
     const vehicleType = getVehicleType();
     const typeLabel = TRANSFERENCIA_DATA[vehicleType].label;
-    const province = provinceSelect.value;
-    const brand = brandSelect.value;
-    const model = modelSelect.value;
+    const misionesResidence = getMisionesResidence();
+    const misionesLabel = getMisionesLabel(misionesResidence);
     const price = Number(priceInput.value);
-    const ageKey = ageSelect.value;
-    const ageLabel = getAgeLabel(ageKey);
-    const completeData = hasCompleteData(province, brand, model, price, ageKey);
+    const sellerAgeKey = ageSelect.value;
+    const ageLabel = getAgeLabel(sellerAgeKey);
+    const buyerSignatureRange = getBuyerSignatureRange();
+    const buyerSignatureDate = buyerSignatureDateInput.value;
+    const buyerSignatureLabel = getBuyerSignatureLabel(buyerSignatureRange, buyerSignatureDate);
+    const completeData = hasCompleteData(
+      misionesResidence,
+      price,
+      sellerAgeKey,
+      buyerSignatureRange,
+      buyerSignatureDate
+    );
 
     setSummary({
       typeLabel,
-      province,
-      brand,
-      model,
+      misionesLabel,
       price: Number.isFinite(price) && price > 0 ? price : null,
-      ageLabel: ageKey ? ageLabel : ''
+      ageLabel: sellerAgeKey ? ageLabel : '',
+      buyerSignatureLabel: buyerSignatureRange ? buyerSignatureLabel : ''
     });
 
-    if (!province && !brand && !model && !Number.isFinite(price) && !ageKey) {
-      resultAmount.textContent = 'Completa los datos';
-      resultMeta.textContent = 'Elegi provincia, tipo de vehiculo, marca, modelo del vehiculo, valor y antiguedad para calcular.';
+    if (!misionesResidence && !Number.isFinite(price) && !sellerAgeKey && !buyerSignatureRange) {
+      resetBreakdown();
       setWhatsappState(false);
       return;
     }
 
-    if (province && province !== 'Misiones') {
-      resultAmount.textContent = 'Cotizacion exacta por WhatsApp';
-      resultMeta.textContent = 'El estimador automatico funciona solo para Misiones. Si queres seguir, completamos la cotizacion exacta por WhatsApp.';
+    if (misionesResidence === 'no') {
+      resetBreakdown();
 
       if (!completeData) {
         setWhatsappState(false, '', 'Cotizacion exacta por WhatsApp');
@@ -196,12 +384,19 @@ document.addEventListener('DOMContentLoaded', () => {
         true,
         buildWhatsappLink({
           typeLabel,
-          province,
-          brand,
-          model,
+          misionesLabel,
           price,
           ageLabel,
-          rangeText: 'Provincia fuera de Misiones. Solicito cotizacion exacta por WhatsApp.'
+          buyerSignatureLabel,
+          includeBreakdown: false,
+          serviceFee: FIXED_SERVICE_FEE,
+          registryRate: REGISTRY_RATE_BY_SELLER_SIGNATURE[sellerAgeKey] || REGISTRY_RATE_BY_SELLER_SIGNATURE.lt90,
+          registryAmount: ZERO_AMOUNT,
+          stampedTotal: ZERO_AMOUNT,
+          stamps: ZERO_AMOUNT,
+          interest: ZERO_AMOUNT,
+          penalty: ZERO_AMOUNT,
+          totalText: 'Titular nuevo sin domicilio en Misiones. Solicito cotizacion exacta por WhatsApp.'
         }),
         'Cotizacion exacta por WhatsApp'
       );
@@ -209,29 +404,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (!completeData) {
-      resultAmount.textContent = 'Completa los datos';
-      resultMeta.textContent = 'Elegi provincia, tipo de vehiculo, marca, modelo del vehiculo, valor y antiguedad para calcular.';
+      resetBreakdown();
       setWhatsappState(false);
       return;
     }
 
-    const minEstimate = Math.round(price * ESTIMATE_MIN_RATE);
-    const maxEstimate = Math.round(price * ESTIMATE_MAX_RATE);
-    const rangeText = `Rango orientativo web en Misiones: entre ${formatter.format(maxEstimate)} y ${formatter.format(minEstimate)}.`;
+    const registryRate = REGISTRY_RATE_BY_SELLER_SIGNATURE[sellerAgeKey] || REGISTRY_RATE_BY_SELLER_SIGNATURE.lt90;
+    const registryAmount = roundCurrency(price * registryRate);
+    const stamps = roundCurrency(price * STAMP_RATE);
+    const selladoCharges = getSelladoCharges(stamps, buyerSignatureRange, buyerSignatureDate);
+    const interest = selladoCharges.interest;
+    const penalty = selladoCharges.penalty;
+    const stampedTotal = selladoCharges.stampedTotal;
+    const total = roundCurrency(FIXED_SERVICE_FEE + registryAmount + stampedTotal);
+    const totalText = `Total estimado web: ${moneyFormatter.format(total)}.`;
 
-    resultAmount.textContent = `Entre ${formatter.format(maxEstimate)} y ${formatter.format(minEstimate)}`;
-    resultMeta.textContent = `Rango orientativo para ${typeLabel.toLowerCase()} en Misiones sobre ${formatter.format(price)}. La cotizacion exacta se confirma por WhatsApp.`;
+    setBreakdown({
+      serviceFee: FIXED_SERVICE_FEE,
+      registryRate,
+      registryAmount,
+      ageLabel,
+      stampedTotal,
+      stamps,
+      interest,
+      penalty,
+      total
+    });
 
     setWhatsappState(
       true,
       buildWhatsappLink({
         typeLabel,
-        province,
-        brand,
-        model,
+        misionesLabel,
         price,
         ageLabel,
-        rangeText
+        buyerSignatureLabel,
+        serviceFee: FIXED_SERVICE_FEE,
+        registryRate,
+        registryAmount,
+        stampedTotal,
+        stamps,
+        interest,
+        penalty,
+        selladoNote: selladoCharges.selladoNote,
+        totalText
       }),
       'Pedir cotizacion exacta por WhatsApp'
     );
@@ -239,27 +455,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
   vehicleInputs.forEach(input => {
     input.addEventListener('change', () => {
-      setActiveVehicleOption();
-      populateBrands();
+      setActiveOption(vehicleInputs);
       updateQuote();
     });
   });
 
-  provinceSelect.addEventListener('change', updateQuote);
-  brandSelect.addEventListener('change', () => {
-    populateModels();
-    updateQuote();
+  misionesInputs.forEach(input => {
+    input.addEventListener('change', () => {
+      setActiveOption(misionesInputs);
+      updateQuote();
+    });
   });
-  modelSelect.addEventListener('change', updateQuote);
+
+  buyerSignatureInputs.forEach(input => {
+    input.addEventListener('change', () => {
+      setActiveOption(buyerSignatureInputs);
+      updateBuyerSignatureDateField();
+      updateQuote();
+    });
+  });
+
   priceInput.addEventListener('input', updateQuote);
   ageSelect.addEventListener('change', updateQuote);
+  buyerSignatureDateInput.addEventListener('input', () => {
+    updateBuyerSignatureDateField();
+    updateQuote();
+  });
 
   form.addEventListener('submit', event => {
     event.preventDefault();
     updateQuote();
   });
 
-  populateBrands();
-  setActiveVehicleOption();
+  setActiveOption(vehicleInputs);
+  setActiveOption(misionesInputs);
+  setActiveOption(buyerSignatureInputs);
+  resetBreakdown();
+  updateBuyerSignatureDateField();
   updateQuote();
 });

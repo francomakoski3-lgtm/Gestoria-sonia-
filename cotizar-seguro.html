@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cotizar Transferencia Automotor | Gestor&iacute;a Sonia</title>
-  <meta name="description" content="Cotiz&aacute; una transferencia automotor o moto con un rango orientativo y envi&aacute; la consulta por WhatsApp para recibir la cotizaci&oacute;n exacta.">
-  <link rel="canonical" href="https://gestoriasonia.ar/cotizar-transferencia.html">
+  <title>Cotizar Seguro Liderar | Gestor&iacute;a Sonia</title>
+  <meta name="description" content="Cotiz&aacute; seguros Liderar con valores fijos para autos, motos, camionetas y camiones. Complet&aacute; los datos y revis&aacute; el precio correspondiente.">
+  <link rel="canonical" href="https://gestoriasonia.ar/cotizar-seguro.html">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -24,7 +24,7 @@
     <li><a href="index.html">Inicio</a></li>
     <li><a href="gestoria.html">Gestor&iacute;a automotor</a></li>
     <li><a href="gestoria-inmobiliaria.html">Gestor&iacute;a inmobiliaria</a></li>
-    <li><a href="seguros.html">Seguros</a></li>
+    <li><a href="seguros.html" class="active">Seguros</a></li>
     <li><a href="autos.html">Autos</a></li>
     <li><a href="inmuebles.html">Inmuebles</a></li>
   </ul>
@@ -49,185 +49,147 @@
 
 <section class="hero interior-hero interior-hero--gestoria">
   <div class="hero-bg"></div>
-  <div class="hero-content transferencia-hero-content">
-    <p class="hero-crumb hero-crumb--compact"><a href="index.html">Inicio</a> / <a href="gestoria.html">Gestor&iacute;a automotor</a> / <span>Cotizar transferencia</span></p>
-    <h1>Cotiz&aacute; tu transferencia<br>de auto o moto.</h1>
+  <div class="hero-content">
+    <p class="hero-crumb"><a href="index.html">Inicio</a> / <a href="seguros.html">Seguros</a> / <span>Cotizar seguro</span></p>
+    <span class="hero-tag">Cotizador fijo</span>
+    <h1>Cotiz&aacute; tu seguro<br>de auto, moto,<br>camioneta o cami&oacute;n.</h1>
+    <p>Complet&aacute; los datos b&aacute;sicos, eleg&iacute; el tipo de veh&iacute;culo y revis&aacute; el valor fijo de la opci&oacute;n correspondiente. Los importes cargados toman como referencia los valores informados el 10 de abril de 2026.</p>
+    <div class="hero-actions">
+      <a href="#cotizador" class="btn btn-primary">Completar cotizador</a>
+      <a href="seguros.html" class="btn btn-secondary">Volver a seguros</a>
+    </div>
   </div>
 </section>
 
-<section class="section" id="cotizador">
-  <div class="transferencia-layout">
-    <div class="transferencia-form-card">
-      <span class="transferencia-card-tag">Datos del veh&iacute;culo</span>
-      <h3>Complet&aacute; los datos</h3>
+<section class="section" id="cotizador" data-seguro-quote-page>
+  <div class="section-header">
+    <h2>Cotizar seguro Liderar</h2>
+    <p>El cotizador muestra valores fijos. La tarifa cambia solamente seg&uacute;n el tipo de veh&iacute;culo y la modalidad que elijas.</p>
+  </div>
 
-      <form id="transferencia-form" novalidate>
+  <div class="transferencia-layout seguro-quote-layout">
+    <div class="transferencia-form-card seguro-form-card">
+      <span class="transferencia-card-tag">Datos del seguro</span>
+      <h3>Complet&aacute; los datos</h3>
+      <p class="transferencia-card-copy">Primero eleg&iacute; si quer&eacute;s cotizar un auto, una moto, una camioneta o un cami&oacute;n. Despu&eacute;s seleccion&aacute; la variante para ver el valor fijo correspondiente.</p>
+
+      <form id="seguro-cotizador-form" novalidate>
         <div class="form-group">
-          <div class="vehicle-type-switch" role="radiogroup" aria-label="Tipo de veh&iacute;culo">
+          <label>Tipo de veh&iacute;culo</label>
+          <div class="vehicle-type-switch vehicle-type-switch--4" role="radiogroup" aria-label="Tipo de veh&iacute;culo">
             <label class="vehicle-type-option is-active">
-              <input type="radio" name="vehicleType" value="auto" checked>
+              <input type="radio" name="insuranceVehicleType" value="auto" checked>
               <span>Auto</span>
             </label>
             <label class="vehicle-type-option">
-              <input type="radio" name="vehicleType" value="moto">
+              <input type="radio" name="insuranceVehicleType" value="moto">
               <span>Moto</span>
             </label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>&iquest;El titular nuevo tiene domicilio en Misiones?</label>
-          <div class="vehicle-type-switch" role="radiogroup" aria-label="Domicilio del titular nuevo en Misiones">
-            <label class="vehicle-type-option is-active">
-              <input type="radio" name="misionesResidence" value="si" checked>
-              <span>S&iacute;</span>
+            <label class="vehicle-type-option">
+              <input type="radio" name="insuranceVehicleType" value="camioneta">
+              <span>Camioneta</span>
             </label>
             <label class="vehicle-type-option">
-              <input type="radio" name="misionesResidence" value="no">
-              <span>No</span>
+              <input type="radio" name="insuranceVehicleType" value="camion">
+              <span>Cami&oacute;n</span>
             </label>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="transfer-price">Precio de compra</label>
-          <input type="number" id="transfer-price" name="price" min="1" step="1000" inputmode="numeric" placeholder="Ej: 15000000" required>
+          <label for="seguro-name">Nombre y apellido</label>
+          <input type="text" id="seguro-name" name="name" placeholder="Ej: Juan P&eacute;rez">
         </div>
 
         <div class="form-group">
-          <label for="transfer-age">Hace cu&aacute;nto se certific&oacute; la firma del vendedor</label>
-          <select id="transfer-age" name="ageBracket" required>
-            <option value="lt90" selected>Menos de 90 d&iacute;as</option>
-            <option value="90d1y">M&aacute;s de 90 d&iacute;as y hasta 1 a&ntilde;o</option>
-            <option value="1y2y">Entre 1 a&ntilde;o y 2 a&ntilde;os</option>
-            <option value="2y3y">Entre 2 a&ntilde;os y 3 a&ntilde;os</option>
-            <option value="3y4y">Entre 3 a&ntilde;os y 4 a&ntilde;os</option>
-            <option value="gt4">M&aacute;s de 4 a&ntilde;os</option>
+          <label for="seguro-phone">Tel&eacute;fono</label>
+          <input type="tel" id="seguro-phone" name="phone" placeholder="+54 3743 ...">
+        </div>
+
+        <div class="form-group">
+          <label for="seguro-vehicle-model">Marca y modelo</label>
+          <input type="text" id="seguro-vehicle-model" name="vehicleModel" placeholder="Ej: Toyota Corolla">
+        </div>
+
+        <div class="form-group" id="seguro-pickup-group" hidden>
+          <label for="seguro-pickup-type">Tipo de camioneta</label>
+          <select id="seguro-pickup-type" name="pickupType">
+            <option value="general">Fuera de pauta</option>
+            <option value="hilux-ranger">Hilux / Ranger</option>
+            <option value="amarok">Amarok</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label>&iquest;Hace cu&aacute;nto se certific&oacute; la firma del comprador?</label>
-          <div class="vehicle-type-switch" role="radiogroup" aria-label="Tiempo desde la certificaci&oacute;n de la firma del comprador">
-            <label class="vehicle-type-option is-active">
-              <input type="radio" name="buyerSignatureRange" value="lt15" checked>
-              <span>Menos de 15 d&iacute;as h&aacute;biles</span>
-            </label>
-            <label class="vehicle-type-option">
-              <input type="radio" name="buyerSignatureRange" value="gt15">
-              <span>M&aacute;s de 15 d&iacute;as h&aacute;biles</span>
-            </label>
-          </div>
+          <label id="seguro-plan-label" for="seguro-plan">Cobertura / modalidad</label>
+          <select id="seguro-plan" name="plan" required></select>
         </div>
 
-        <div class="form-group conditional-field" id="buyer-signature-date-group" hidden>
-          <label for="buyer-signature-date">Fecha de certificaci&oacute;n de la firma del comprador</label>
-          <input type="date" id="buyer-signature-date" name="buyerSignatureDate">
-          <p class="form-helper" id="buyer-signature-date-help">Seleccion&aacute; la fecha para calcular los d&iacute;as h&aacute;biles aproximados.</p>
-        </div>
-
-        <button type="submit" class="btn btn-dark">Calcular estimador</button>
+        <button type="submit" class="btn btn-dark">Ver cotizaci&oacute;n</button>
       </form>
     </div>
 
-    <aside class="transferencia-result-card">
+    <aside class="transferencia-result-card seguro-result-card">
+      <span class="transferencia-card-tag">Resultado fijo</span>
+      <h3>Tu cotizaci&oacute;n</h3>
+      <p class="transferencia-card-copy">El precio mostrado es fijo para la opci&oacute;n elegida. Si cambia el modelo o hay una excepci&oacute;n, te lo indicamos en la aclaraci&oacute;n de abajo.</p>
+
       <div class="quote-estimate-box">
-        <p class="quote-estimate-label">Cotizaci&oacute;n</p>
+        <p class="quote-estimate-label">Precio actual</p>
+        <strong class="quote-estimate-amount" id="seguro-quote-amount">Eleg&iacute; una opci&oacute;n</strong>
+        <p class="quote-estimate-meta" id="seguro-quote-meta">Complet&aacute; el tipo de veh&iacute;culo y la modalidad para ver la cotizaci&oacute;n fija.</p>
       </div>
 
       <dl class="quote-summary-list">
         <div>
           <dt>Tipo</dt>
-          <dd id="summary-type">-</dd>
+          <dd id="seguro-summary-type">-</dd>
         </div>
         <div>
-          <dt>Domicilio en Misiones</dt>
-          <dd id="summary-misiones">-</dd>
+          <dt>Variante</dt>
+          <dd id="seguro-summary-plan">-</dd>
         </div>
         <div>
-          <dt>Precio de compra</dt>
-          <dd id="summary-price">-</dd>
+          <dt>Marca / modelo</dt>
+          <dd id="seguro-summary-vehicle">-</dd>
         </div>
         <div>
-          <dt>Firma del vendedor</dt>
-          <dd id="summary-age">-</dd>
+          <dt>Nombre</dt>
+          <dd id="seguro-summary-name">-</dd>
         </div>
         <div>
-          <dt>Firma del comprador</dt>
-          <dd id="summary-buyer-signature">-</dd>
+          <dt>Tel&eacute;fono</dt>
+          <dd id="seguro-summary-phone">-</dd>
         </div>
       </dl>
 
-      <div class="quote-breakdown">
-        <div class="quote-breakdown-group">
-          <div class="quote-breakdown-row">
-            <span>Formulario + Escriban&iacute;a + Honorarios</span>
-            <strong id="breakdown-service-fee">$ 150.000</strong>
-          </div>
-        </div>
+      <div class="quote-rate-list" id="seguro-rate-list"></div>
 
-        <div class="quote-breakdown-group">
-          <div class="quote-breakdown-row">
-            <span>Registro</span>
-            <strong id="breakdown-registry">-</strong>
-          </div>
-          <p class="quote-breakdown-note" id="breakdown-registry-note">Base 1%</p>
-        </div>
+      <p class="quote-disclaimer" id="seguro-quote-note">Los valores cargados son fijos y sirven como referencia interna de cotizaci&oacute;n.</p>
 
-        <div class="quote-breakdown-group">
-          <div class="quote-breakdown-row quote-breakdown-row--section">
-            <span>Sellado</span>
-            <strong id="breakdown-stamped-total">-</strong>
-          </div>
-          <div class="quote-breakdown-subrows">
-            <div class="quote-breakdown-row quote-breakdown-row--sub">
-              <span>Liquidaci&oacute;n de sellos</span>
-              <strong id="breakdown-stamps">-</strong>
-            </div>
-            <div class="quote-breakdown-row quote-breakdown-row--sub">
-              <span>Intereses</span>
-              <strong id="breakdown-interest">-</strong>
-            </div>
-            <div class="quote-breakdown-row quote-breakdown-row--sub">
-              <span>Multas</span>
-              <strong id="breakdown-penalty">-</strong>
-            </div>
-          </div>
-        </div>
-
-        <div class="quote-breakdown-total">
-          <span>Total a pagar</span>
-          <strong id="breakdown-total">-</strong>
-        </div>
-      </div>
-
-      <p class="quote-disclaimer">Este detalle usa un fijo de honorarios y calcula registro y sellado sobre el valor informado. La cotizaci&oacute;n exacta final siempre se confirma por WhatsApp.</p>
-
-      <a id="transferencia-whatsapp" class="btn btn-primary quote-whatsapp-btn is-disabled" target="_blank" rel="noopener" aria-disabled="true">
-        Pedir cotizacion exacta por WhatsApp
-      </a>
+      <a href="seguros.html" class="btn btn-primary quote-whatsapp-btn">Volver a seguros</a>
     </aside>
   </div>
 </section>
 
 <section class="section section-gray">
   <div class="section-header">
-    <h2>Qu&eacute; hace este cotizador</h2>
-    <p>Te ordena la consulta para que el mensaje llegue completo y se pueda responder m&aacute;s r&aacute;pido.</p>
+    <h2>Aclaraciones importantes</h2>
+    <p>Estas referencias te ayudan a interpretar mejor los valores antes de cerrar la cotizaci&oacute;n.</p>
   </div>
 
   <div class="consultas-grid">
     <article class="consulta-card">
-      <h4>Separa autos y motos</h4>
-      <p>Te permite indicar r&aacute;pido si la transferencia corresponde a un auto o a una moto.</p>
+      <h4>Autos</h4>
+      <p>Para autos trabajamos con RC sin gr&uacute;a y RC con gr&uacute;a, ambos con valores fijos.</p>
     </article>
     <article class="consulta-card">
-      <h4>Toma domicilio y precio de compra</h4>
-      <p>Calcula el rango sobre el valor que vos cargues y deja el estimador autom&aacute;tico activo solo cuando el titular nuevo tiene domicilio en Misiones.</p>
+      <h4>Camionetas</h4>
+      <p>Hilux y Ranger suelen cotizar igual que auto. Las camionetas fuera de pauta tienen otro valor y la Amarok se confirma aparte.</p>
     </article>
     <article class="consulta-card">
-      <h4>Prepara el mensaje para WhatsApp</h4>
-      <p>Cuando termin&aacute;s, el bot&oacute;n arma la consulta con todos los datos y el rango estimado para pedir el valor exacto.</p>
+      <h4>Camiones y motos</h4>
+      <p>En camiones distinguimos local y rutero. Para motos cargamos un valor base fijo.</p>
     </article>
   </div>
 </section>
@@ -240,12 +202,12 @@
           <img src="img/logo.png" alt="Gestor&iacute;a Sonia" class="nav-logo-img">
         </div>
       </div>
-      <p>Gestor&iacute;a del automotor con foco en transferencias, informes, c&eacute;dulas, 0 km, prendas y consultas registrales.</p>
+      <p>Trabajamos con Liderar Seguros y te asesoramos localmente desde Av. Ant&aacute;rtida Argentina 564, Jard&iacute;n Am&eacute;rica, Misiones.</p>
     </div>
     <div class="footer-col">
       <h5>Servicios</h5>
       <a href="gestoria.html">Gestor&iacute;a del automotor</a>
-      <a href="cotizar-transferencia.html">Cotizar transferencia</a>
+      <a href="cotizar-seguro.html">Cotizar seguro</a>
       <a href="seguros.html">Seguros del automotor</a>
       <a href="autos.html">Compra y venta de autos</a>
       <a href="inmuebles.html">Inmuebles</a>
@@ -254,9 +216,9 @@
       <h5>Navegaci&oacute;n</h5>
       <a href="index.html">Inicio</a>
       <a href="gestoria.html">Gestor&iacute;a automotor</a>
+      <a href="seguros.html">Seguros</a>
       <a href="autos.html">Autos</a>
       <a href="inmuebles.html">Inmuebles</a>
-      <a href="index.html#contacto">Contacto</a>
     </div>
     <div class="footer-col">
       <h5>Contacto</h5>
@@ -278,7 +240,6 @@
 </a>
 
 <script src="js/site.js"></script>
-<script src="js/transferencia-calculator-core.js"></script>
-<script src="js/transferencia-cotizador.js"></script>
+<script src="js/seguro-cotizador.js"></script>
 </body>
 </html>
