@@ -1235,6 +1235,65 @@ button { cursor: pointer; font-family: var(--font); }
 .service-card-badge {
   pointer-events: none;
 }
+.inmobiliaria-services-grid {
+  align-items: stretch;
+}
+.inmobiliaria-service-card .service-card-img {
+  min-height: 220px;
+}
+.inmobiliaria-cover-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  margin-bottom: 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.28);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.inmobiliaria-cover-note {
+  display: block;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: rgba(255,255,255,0.9);
+}
+.inmobiliaria-service-card .service-card-body h3 {
+  margin-bottom: 12px;
+}
+.inmobiliaria-service-card .service-card-body p {
+  margin-bottom: 18px;
+  max-width: none;
+}
+.inmobiliaria-service-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+}
+.inmobiliaria-service-list li {
+  position: relative;
+  padding-left: 20px;
+  color: rgba(23,20,18,0.78);
+  font-size: 14px;
+  line-height: 1.65;
+}
+.inmobiliaria-service-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--red);
+  box-shadow: 0 0 0 4px rgba(var(--accent-rgb),0.12);
+}
 
 /* ── Por qué elegirnos ─────────────────────────────────────── */
 .features-grid {
@@ -1389,6 +1448,153 @@ button { cursor: pointer; font-family: var(--font); }
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 24px;
+}
+
+.market-grid {
+  align-items: stretch;
+}
+
+.market-page-hero {
+  min-height: 380px;
+}
+
+.market-hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.market-hero-tags span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(23,19,17,0.08);
+  color: var(--gray-800);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.market-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.market-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.market-card-link {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  color: inherit;
+}
+
+.market-card-link:focus-visible {
+  outline: 2px solid var(--black);
+  outline-offset: -2px;
+}
+
+.market-card-media {
+  position: relative;
+  height: 230px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f0e8df 0%, #ddd0c0 100%);
+}
+
+.market-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.market-card-kind {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.92);
+  color: var(--black);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.market-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+
+.market-card-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+
+.market-card-body h3 {
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+}
+
+.market-card-location {
+  color: var(--gray-500);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.market-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.market-card-meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--gray-100);
+  color: var(--gray-800);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.market-card-price {
+  margin-top: auto;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--black);
+}
+
+.market-card-price small {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gray-500);
 }
 
 /* ── Card de Auto ──────────────────────────────────────────── */
@@ -2305,6 +2511,16 @@ button { cursor: pointer; font-family: var(--font); }
   gap: 28px;
   align-items: start;
 }
+.transferencia-layout--single {
+  grid-template-columns: minmax(0, 720px);
+  justify-content: center;
+}
+.transferencia-layout.is-results-hidden {
+  grid-template-columns: minmax(0, 1fr);
+}
+.transferencia-layout.is-results-hidden .transferencia-result-card {
+  display: none;
+}
 .transferencia-form-card,
 .transferencia-result-card {
   background: var(--white);
@@ -2312,6 +2528,31 @@ button { cursor: pointer; font-family: var(--font); }
   border-radius: 22px;
   box-shadow: var(--shadow-sm);
   padding: 30px;
+}
+.transferencia-form-card--single {
+  width: 100%;
+}
+.transferencia-result-page {
+  max-width: 780px;
+  margin: 0 auto;
+  display: grid;
+  gap: 22px;
+}
+.transferencia-result-head h2 {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -0.9px;
+  margin-bottom: 10px;
+  color: #171412;
+}
+.transferencia-result-copy {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--gray-500);
+  margin: 0;
+}
+.transferencia-result-card--full {
+  max-width: 100%;
 }
 .transferencia-card-tag {
   display: inline-block;
@@ -2561,9 +2802,44 @@ button { cursor: pointer; font-family: var(--font); }
   justify-content: center;
   text-align: center;
 }
+.quote-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.quote-actions .btn {
+  flex: 1 1 240px;
+  justify-content: center;
+  text-align: center;
+}
+.quote-actions .quote-whatsapp-btn {
+  width: auto;
+}
 .quote-whatsapp-btn.is-disabled {
   opacity: 0.55;
   pointer-events: none;
+}
+.btn.is-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.88;
+}
+.btn.is-loading::after {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-left: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.35);
+  border-top-color: rgba(255,255,255,0.95);
+  animation: button-spin 0.7s linear infinite;
+  vertical-align: -2px;
+}
+@keyframes button-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ── Contacto ──────────────────────────────────────────────── */
@@ -3274,6 +3550,8 @@ button { cursor: pointer; font-family: var(--font); }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 
   .filters-bar { padding: 12px 16px; }
+  .market-hero-tags { gap: 8px; }
+  .market-card-media { height: 220px; }
   .listings-section { padding: 20px 16px; }
   .auto-detail-view { padding: 24px 16px; }
   .auto-market-layout { grid-template-columns: 1fr; }
@@ -3304,6 +3582,104 @@ button { cursor: pointer; font-family: var(--font); }
   }
 }
 
+/* ── Quiénes somos ─────────────────────────────────────────── */
+.quienes-section { background: var(--white); }
+
+.quienes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.quienes-fotos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.quienes-foto-wrap img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: top;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+.quienes-foto-wrap--bottom {
+  margin-top: 36px;
+}
+
+.quienes-eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.quienes-texto h3 {
+  font-size: clamp(22px, 2.8vw, 34px);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  margin-bottom: 28px;
+}
+
+.quienes-texto h3 em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.quienes-texto p {
+  font-size: 15px;
+  color: var(--gray-500);
+  line-height: 1.8;
+  margin-bottom: 14px;
+}
+
+.quienes-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.quienes-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--gray-100);
+  border-radius: var(--radius);
+  padding: 9px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gray-800);
+  letter-spacing: 0.2px;
+}
+
+.quienes-badge svg {
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+@media (max-width: 860px) {
+  .quienes-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .quienes-fotos {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
+
 @media (max-width: 600px) {
   .section { padding: 48px 16px; }
   .footer-grid { grid-template-columns: 1fr; }
@@ -3329,6 +3705,16 @@ button { cursor: pointer; font-family: var(--font); }
     font-size: 16px;
   }
   .page-empty-shell { min-height: 44vh; }
+  .market-page-hero { min-height: 320px; }
+  .market-hero-tags span {
+    min-height: 34px;
+    padding: 0 13px;
+    font-size: 11px;
+  }
+  .market-card-media { height: 210px; }
+  .market-card-body { padding: 18px; }
+  .market-card-body h3 { font-size: 16px; }
+  .market-card-price { font-size: 20px; }
   .auto-detail-view { padding: 16px; }
   .auto-product-section,
   .auto-market-card,

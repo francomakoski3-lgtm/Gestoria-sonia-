@@ -25,8 +25,7 @@
     <li><a href="gestoria.html">Gestor&iacute;a automotor</a></li>
     <li><a href="gestoria-inmobiliaria.html">Gestor&iacute;a inmobiliaria</a></li>
     <li><a href="seguros.html">Seguros</a></li>
-    <li><a href="autos.html">Autos</a></li>
-    <li><a href="inmuebles.html">Inmuebles</a></li>
+    <li><a href="mercado.html">Mercado</a></li>
   </ul>
   <div class="nav-actions">
     <a href="index.html#contacto" class="nav-search" aria-label="Ir a la secci&oacute;n de contacto">
@@ -47,17 +46,10 @@
   </div>
 </nav>
 
-<section class="hero interior-hero interior-hero--gestoria">
-  <div class="hero-bg"></div>
-  <div class="hero-content transferencia-hero-content">
-    <p class="hero-crumb hero-crumb--compact"><a href="index.html">Inicio</a> / <a href="gestoria.html">Gestor&iacute;a automotor</a> / <span>Cotizar transferencia</span></p>
-    <h1>Cotiz&aacute; tu transferencia<br>de auto o moto.</h1>
-  </div>
-</section>
 
 <section class="section" id="cotizador">
-  <div class="transferencia-layout">
-    <div class="transferencia-form-card">
+  <div class="transferencia-layout transferencia-layout--single">
+    <div class="transferencia-form-card transferencia-form-card--single">
       <span class="transferencia-card-tag">Datos del veh&iacute;culo</span>
       <h3>Complet&aacute; los datos</h3>
 
@@ -91,7 +83,7 @@
 
         <div class="form-group">
           <label for="transfer-price">Precio de compra</label>
-          <input type="number" id="transfer-price" name="price" min="1" step="1000" inputmode="numeric" placeholder="Ej: 15000000" required>
+          <input type="number" id="transfer-price" name="price" min="1" step="1" inputmode="numeric" placeholder="Ej: 15000000" required>
         </div>
 
         <div class="form-group">
@@ -126,87 +118,9 @@
           <p class="form-helper" id="buyer-signature-date-help">Seleccion&aacute; la fecha para calcular los d&iacute;as h&aacute;biles aproximados.</p>
         </div>
 
-        <button type="submit" class="btn btn-dark">Calcular estimador</button>
+        <button type="submit" class="btn btn-dark" id="transferencia-submit-btn">Calcular estimador</button>
       </form>
     </div>
-
-    <aside class="transferencia-result-card">
-      <div class="quote-estimate-box">
-        <p class="quote-estimate-label">Cotizaci&oacute;n</p>
-      </div>
-
-      <dl class="quote-summary-list">
-        <div>
-          <dt>Tipo</dt>
-          <dd id="summary-type">-</dd>
-        </div>
-        <div>
-          <dt>Domicilio en Misiones</dt>
-          <dd id="summary-misiones">-</dd>
-        </div>
-        <div>
-          <dt>Precio de compra</dt>
-          <dd id="summary-price">-</dd>
-        </div>
-        <div>
-          <dt>Firma del vendedor</dt>
-          <dd id="summary-age">-</dd>
-        </div>
-        <div>
-          <dt>Firma del comprador</dt>
-          <dd id="summary-buyer-signature">-</dd>
-        </div>
-      </dl>
-
-      <div class="quote-breakdown">
-        <div class="quote-breakdown-group">
-          <div class="quote-breakdown-row">
-            <span>Formulario + Escriban&iacute;a + Honorarios</span>
-            <strong id="breakdown-service-fee">$ 150.000</strong>
-          </div>
-        </div>
-
-        <div class="quote-breakdown-group">
-          <div class="quote-breakdown-row">
-            <span>Registro</span>
-            <strong id="breakdown-registry">-</strong>
-          </div>
-          <p class="quote-breakdown-note" id="breakdown-registry-note">Base 1%</p>
-        </div>
-
-        <div class="quote-breakdown-group">
-          <div class="quote-breakdown-row quote-breakdown-row--section">
-            <span>Sellado</span>
-            <strong id="breakdown-stamped-total">-</strong>
-          </div>
-          <div class="quote-breakdown-subrows">
-            <div class="quote-breakdown-row quote-breakdown-row--sub">
-              <span>Liquidaci&oacute;n de sellos</span>
-              <strong id="breakdown-stamps">-</strong>
-            </div>
-            <div class="quote-breakdown-row quote-breakdown-row--sub">
-              <span>Intereses</span>
-              <strong id="breakdown-interest">-</strong>
-            </div>
-            <div class="quote-breakdown-row quote-breakdown-row--sub">
-              <span>Multas</span>
-              <strong id="breakdown-penalty">-</strong>
-            </div>
-          </div>
-        </div>
-
-        <div class="quote-breakdown-total">
-          <span>Total a pagar</span>
-          <strong id="breakdown-total">-</strong>
-        </div>
-      </div>
-
-      <p class="quote-disclaimer">Este detalle usa un fijo de honorarios y calcula registro y sellado sobre el valor informado. La cotizaci&oacute;n exacta final siempre se confirma por WhatsApp.</p>
-
-      <a id="transferencia-whatsapp" class="btn btn-primary quote-whatsapp-btn is-disabled" target="_blank" rel="noopener" aria-disabled="true">
-        Pedir cotizacion exacta por WhatsApp
-      </a>
-    </aside>
   </div>
 </section>
 
@@ -247,15 +161,14 @@
       <a href="gestoria.html">Gestor&iacute;a del automotor</a>
       <a href="cotizar-transferencia.html">Cotizar transferencia</a>
       <a href="seguros.html">Seguros del automotor</a>
-      <a href="autos.html">Compra y venta de autos</a>
-      <a href="inmuebles.html">Inmuebles</a>
+      <a href="mercado.html?tipo=auto">Autos en mercado</a>
+      <a href="mercado.html?tipo=inmueble">Inmuebles en mercado</a>
     </div>
     <div class="footer-col">
       <h5>Navegaci&oacute;n</h5>
       <a href="index.html">Inicio</a>
       <a href="gestoria.html">Gestor&iacute;a automotor</a>
-      <a href="autos.html">Autos</a>
-      <a href="inmuebles.html">Inmuebles</a>
+      <a href="mercado.html">Mercado</a>
       <a href="index.html#contacto">Contacto</a>
     </div>
     <div class="footer-col">

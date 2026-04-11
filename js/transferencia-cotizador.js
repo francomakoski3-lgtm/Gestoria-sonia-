@@ -1,4 +1,6 @@
 const TRANSFERENCIA_WA_NUMBER = '543743668039';
+const TRANSFERENCIA_RESULT_STORAGE_KEY = 'transferenciaQuoteResult';
+const TRANSFERENCIA_RESULT_PAGE = 'cotizacion-transferencia-resultado.html';
 const FIXED_SERVICE_FEE = 150000;
 const STAMP_RATE = 0.03;
 const ZERO_AMOUNT = 0;
@@ -36,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('transferencia-form');
   if (!form) return;
 
+  const submitButton = document.getElementById('transferencia-submit-btn');
   const vehicleInputs = Array.from(form.querySelectorAll('input[name="vehicleType"]'));
   const misionesInputs = Array.from(form.querySelectorAll('input[name="misionesResidence"]'));
   const buyerSignatureInputs = Array.from(form.querySelectorAll('input[name="buyerSignatureRange"]'));
@@ -44,20 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const buyerSignatureDateInput = document.getElementById('buyer-signature-date');
   const buyerSignatureDateGroup = document.getElementById('buyer-signature-date-group');
   const buyerSignatureDateHelp = document.getElementById('buyer-signature-date-help');
-  const whatsappButton = document.getElementById('transferencia-whatsapp');
-  const summaryType = document.getElementById('summary-type');
-  const summaryMisiones = document.getElementById('summary-misiones');
-  const summaryPrice = document.getElementById('summary-price');
-  const summaryAge = document.getElementById('summary-age');
-  const summaryBuyerSignature = document.getElementById('summary-buyer-signature');
-  const breakdownServiceFee = document.getElementById('breakdown-service-fee');
-  const breakdownRegistry = document.getElementById('breakdown-registry');
-  const breakdownRegistryNote = document.getElementById('breakdown-registry-note');
-  const breakdownStampedTotal = document.getElementById('breakdown-stamped-total');
-  const breakdownStamps = document.getElementById('breakdown-stamps');
-  const breakdownInterest = document.getElementById('breakdown-interest');
-  const breakdownPenalty = document.getElementById('breakdown-penalty');
-  const breakdownTotal = document.getElementById('breakdown-total');
 
   const moneyFormatter = new Intl.NumberFormat('es-AR', {
     style: 'currency',
@@ -71,8 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
     year: 'numeric'
   });
 
+  const submitButtonDefaultLabel = submitButton ? submitButton.textContent.trim() : 'Calcular estimador';
+  let isSubmitting = false;
+
   buyerSignatureDateInput.max = formatDateForInput(new Date());
-  breakdownServiceFee.textContent = moneyFormatter.format(FIXED_SERVICE_FEE);
 
   function formatDateForInput(date) {
     const year = date.getFullYear();
@@ -259,46 +250,11 @@ document.addEventListener('DOMContentLoaded', () => {
     buyerSignatureDateHelp.textContent = `Han pasado ${businessDays} dias habiles aprox. desde el ${dateFormatter.format(selectedDate)}.`;
   }
 
-  function setSummary(data) {
-    summaryType.textContent = data.typeLabel || '-';
-    summaryMisiones.textContent = data.misionesLabel || '-';
-    summaryPrice.textContent = data.price ? moneyFormatter.format(data.price) : '-';
-    summaryAge.textContent = data.ageLabel || '-';
-    summaryBuyerSignature.textContent = data.buyerSignatureLabel || '-';
-  }
-
-  function resetBreakdown() {
-    breakdownServiceFee.textContent = moneyFormatter.format(FIXED_SERVICE_FEE);
-    breakdownRegistry.textContent = '-';
-    breakdownRegistryNote.textContent = 'Base 1%';
-    breakdownStampedTotal.textContent = '-';
-    breakdownStamps.textContent = '-';
-    breakdownInterest.textContent = '-';
-    breakdownPenalty.textContent = '-';
-    breakdownTotal.textContent = '-';
-  }
-
-  function setBreakdown(data) {
-    breakdownServiceFee.textContent = moneyFormatter.format(data.serviceFee);
-    breakdownRegistry.textContent = moneyFormatter.format(data.registryAmount);
-    breakdownRegistryNote.textContent = `Base ${formatPercent(data.registryRate)} segun la firma del vendedor: ${data.ageLabel}.`;
-    breakdownStampedTotal.textContent = moneyFormatter.format(data.stampedTotal);
-    breakdownStamps.textContent = moneyFormatter.format(data.stamps);
-    breakdownInterest.textContent = moneyFormatter.format(data.interest);
-    breakdownPenalty.textContent = moneyFormatter.format(data.penalty);
-    breakdownTotal.textContent = moneyFormatter.format(data.total);
-  }
-
-  function setWhatsappState(enabled, href = '', label = 'Pedir cotizacion exacta por WhatsApp') {
-    whatsappButton.classList.toggle('is-disabled', !enabled);
-    whatsappButton.setAttribute('aria-disabled', String(!enabled));
-    whatsappButton.textContent = label;
-
-    if (enabled) {
-      whatsappButton.href = href;
-    } else {
-      whatsappButton.removeAttribute('href');
-    }
+  function setSubmitLoadingState(isLoading) {
+    if (!submitButton) return;
+    submitButton.classList.toggle('is-loading', isLoading);
+    submitButton.disabled = isLoading;
+    submitButton.textContent = isLoading ? 'Calculando' : submitButtonDefaultLabel;
   }
 
   function buildWhatsappLink(data) {
@@ -306,26 +262,29 @@ document.addEventListener('DOMContentLoaded', () => {
       'Hola, quiero pedir una cotizacion exacta de transferencia.',
       `Tipo: ${data.typeLabel}`,
       `Titular nuevo con domicilio en Misiones: ${data.misionesLabel}`,
-      `Precio de compra informado: ${moneyFormatter.format(data.price)}`,
+      `Precio de compra informado: ${data.priceFormatted}`,
       `Firma del vendedor certificada hace: ${data.ageLabel}`,
       `Firma del comprador certificada hace: ${data.buyerSignatureLabel}`
     ];
 
-    if (data.includeBreakdown !== false) {
+    if (data.includeBreakdown) {
       lines.push(
-        `Formulario + Escribania + Honorarios: ${moneyFormatter.format(data.serviceFee)}`,
-        `Registro (${formatPercent(data.registryRate)}): ${moneyFormatter.format(data.registryAmount)}`,
-        `Sellado total: ${moneyFormatter.format(data.stampedTotal)}`,
-        `- Liquidacion de sellos: ${moneyFormatter.format(data.stamps)}`,
-        `- Intereses: ${moneyFormatter.format(data.interest)}`,
-        `- Multas: ${moneyFormatter.format(data.penalty)}`
+        `Formulario + Escribania + Honorarios: ${data.serviceFeeFormatted}`,
+        `Registro: ${data.registryAmountFormatted}`,
+        `Sellado total: ${data.stampedTotalFormatted}`,
+        `- Liquidacion de sellos: ${data.stampsFormatted}`,
+        `- Intereses: ${data.interestFormatted}`,
+        `- Multas: ${data.penaltyFormatted}`
       );
+
       if (data.selladoNote) {
         lines.push(data.selladoNote);
       }
-    }
 
-    lines.push(data.totalText);
+      lines.push(`Total estimado web: ${data.totalFormatted}.`);
+    } else {
+      lines.push('Titular nuevo sin domicilio en Misiones. Solicito cotizacion exacta por WhatsApp.');
+    }
 
     return `https://wa.me/${TRANSFERENCIA_WA_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
   }
@@ -339,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   }
 
-  function updateQuote() {
+  function buildQuotePayload() {
     const vehicleType = getVehicleType();
     const typeLabel = TRANSFERENCIA_DATA[vehicleType].label;
     const misionesResidence = getMisionesResidence();
@@ -358,55 +317,43 @@ document.addEventListener('DOMContentLoaded', () => {
       buyerSignatureDate
     );
 
-    setSummary({
+    if (!completeData) {
+      return null;
+    }
+
+    const basePayload = {
       typeLabel,
       misionesLabel,
-      price: Number.isFinite(price) && price > 0 ? price : null,
-      ageLabel: sellerAgeKey ? ageLabel : '',
-      buyerSignatureLabel: buyerSignatureRange ? buyerSignatureLabel : ''
-    });
-
-    if (!misionesResidence && !Number.isFinite(price) && !sellerAgeKey && !buyerSignatureRange) {
-      resetBreakdown();
-      setWhatsappState(false);
-      return;
-    }
+      price,
+      priceFormatted: moneyFormatter.format(price),
+      ageLabel,
+      buyerSignatureLabel,
+      buyerSignatureRange,
+      buyerSignatureDate
+    };
 
     if (misionesResidence === 'no') {
-      resetBreakdown();
+      const registryRate = REGISTRY_RATE_BY_SELLER_SIGNATURE[sellerAgeKey] || REGISTRY_RATE_BY_SELLER_SIGNATURE.lt90;
+      const payload = {
+        ...basePayload,
+        includeBreakdown: false,
+        resultCopy: 'Como el titular nuevo no tiene domicilio en Misiones, la cotizacion exacta se confirma por WhatsApp.',
+        disclaimer: 'La cotizacion exacta final se confirma por WhatsApp.',
+        whatsappLabel: 'Pedir cotizacion exacta por WhatsApp',
+        registryRateLabel: formatPercent(registryRate),
+        serviceFeeFormatted: moneyFormatter.format(FIXED_SERVICE_FEE),
+        registryAmountFormatted: moneyFormatter.format(ZERO_AMOUNT),
+        stampedTotalFormatted: moneyFormatter.format(ZERO_AMOUNT),
+        stampsFormatted: moneyFormatter.format(ZERO_AMOUNT),
+        interestFormatted: moneyFormatter.format(ZERO_AMOUNT),
+        penaltyFormatted: moneyFormatter.format(ZERO_AMOUNT),
+        totalFormatted: '-',
+        registryNote: '',
+        selladoNote: ''
+      };
 
-      if (!completeData) {
-        setWhatsappState(false, '', 'Cotizacion exacta por WhatsApp');
-        return;
-      }
-
-      setWhatsappState(
-        true,
-        buildWhatsappLink({
-          typeLabel,
-          misionesLabel,
-          price,
-          ageLabel,
-          buyerSignatureLabel,
-          includeBreakdown: false,
-          serviceFee: FIXED_SERVICE_FEE,
-          registryRate: REGISTRY_RATE_BY_SELLER_SIGNATURE[sellerAgeKey] || REGISTRY_RATE_BY_SELLER_SIGNATURE.lt90,
-          registryAmount: ZERO_AMOUNT,
-          stampedTotal: ZERO_AMOUNT,
-          stamps: ZERO_AMOUNT,
-          interest: ZERO_AMOUNT,
-          penalty: ZERO_AMOUNT,
-          totalText: 'Titular nuevo sin domicilio en Misiones. Solicito cotizacion exacta por WhatsApp.'
-        }),
-        'Cotizacion exacta por WhatsApp'
-      );
-      return;
-    }
-
-    if (!completeData) {
-      resetBreakdown();
-      setWhatsappState(false);
-      return;
+      payload.whatsappHref = buildWhatsappLink(payload);
+      return payload;
     }
 
     const registryRate = REGISTRY_RATE_BY_SELLER_SIGNATURE[sellerAgeKey] || REGISTRY_RATE_BY_SELLER_SIGNATURE.lt90;
@@ -417,53 +364,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const penalty = selladoCharges.penalty;
     const stampedTotal = selladoCharges.stampedTotal;
     const total = roundCurrency(FIXED_SERVICE_FEE + registryAmount + stampedTotal);
-    const totalText = `Total estimado web: ${moneyFormatter.format(total)}.`;
 
-    setBreakdown({
-      serviceFee: FIXED_SERVICE_FEE,
-      registryRate,
-      registryAmount,
-      ageLabel,
-      stampedTotal,
-      stamps,
-      interest,
-      penalty,
-      total
-    });
+    const payload = {
+      ...basePayload,
+      includeBreakdown: true,
+      resultCopy: 'Revisa el detalle y continua por WhatsApp si queres la cotizacion exacta.',
+      disclaimer: 'Este detalle usa un fijo de honorarios y calcula registro y sellado sobre el valor informado. La cotizacion exacta final siempre se confirma por WhatsApp.',
+      whatsappLabel: 'Pedir cotizacion exacta por WhatsApp',
+      registryRateLabel: formatPercent(registryRate),
+      serviceFeeFormatted: moneyFormatter.format(FIXED_SERVICE_FEE),
+      registryAmountFormatted: moneyFormatter.format(registryAmount),
+      stampedTotalFormatted: moneyFormatter.format(stampedTotal),
+      stampsFormatted: moneyFormatter.format(stamps),
+      interestFormatted: moneyFormatter.format(interest),
+      penaltyFormatted: moneyFormatter.format(penalty),
+      totalFormatted: moneyFormatter.format(total),
+      registryNote: `Base ${formatPercent(registryRate)} segun la firma del vendedor: ${ageLabel}.`,
+      selladoNote: selladoCharges.selladoNote
+    };
 
-    setWhatsappState(
-      true,
-      buildWhatsappLink({
-        typeLabel,
-        misionesLabel,
-        price,
-        ageLabel,
-        buyerSignatureLabel,
-        serviceFee: FIXED_SERVICE_FEE,
-        registryRate,
-        registryAmount,
-        stampedTotal,
-        stamps,
-        interest,
-        penalty,
-        selladoNote: selladoCharges.selladoNote,
-        totalText
-      }),
-      'Pedir cotizacion exacta por WhatsApp'
-    );
+    payload.whatsappHref = buildWhatsappLink(payload);
+    return payload;
   }
 
   vehicleInputs.forEach(input => {
     input.addEventListener('change', () => {
       setActiveOption(vehicleInputs);
-      updateQuote();
     });
   });
 
   misionesInputs.forEach(input => {
     input.addEventListener('change', () => {
       setActiveOption(misionesInputs);
-      updateQuote();
     });
   });
 
@@ -471,26 +403,37 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('change', () => {
       setActiveOption(buyerSignatureInputs);
       updateBuyerSignatureDateField();
-      updateQuote();
     });
   });
 
-  priceInput.addEventListener('input', updateQuote);
-  ageSelect.addEventListener('change', updateQuote);
-  buyerSignatureDateInput.addEventListener('input', () => {
-    updateBuyerSignatureDateField();
-    updateQuote();
-  });
+  buyerSignatureDateInput.addEventListener('input', updateBuyerSignatureDateField);
 
   form.addEventListener('submit', event => {
     event.preventDefault();
-    updateQuote();
+    if (isSubmitting) return;
+
+    updateBuyerSignatureDateField();
+
+    if (!form.reportValidity()) {
+      return;
+    }
+
+    const payload = buildQuotePayload();
+    if (!payload) {
+      return;
+    }
+
+    isSubmitting = true;
+    setSubmitLoadingState(true);
+
+    window.setTimeout(() => {
+      window.sessionStorage.setItem(TRANSFERENCIA_RESULT_STORAGE_KEY, JSON.stringify(payload));
+      window.location.href = TRANSFERENCIA_RESULT_PAGE;
+    }, 1000);
   });
 
   setActiveOption(vehicleInputs);
   setActiveOption(misionesInputs);
   setActiveOption(buyerSignatureInputs);
-  resetBreakdown();
   updateBuyerSignatureDateField();
-  updateQuote();
 });

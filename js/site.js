@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   await Promise.all([
     initHomeDestacados(),
+    initMarketplacePage(),
     initAutoPage(),
     initPropertyPage()
   ]);
@@ -133,6 +134,131 @@ function renderPropertyCard(property) {
   `;
 }
 
+function formatVehicleType(type) {
+  const map = {
+    pickup: 'Pickup',
+    sedan: 'Sedan',
+    suv: 'SUV',
+    hatchback: 'Hatchback',
+    utilitario: 'Utilitario'
+  };
+
+  return map[type] || 'Auto';
+}
+
+function formatPropertyType(type) {
+  const map = {
+    casa: 'Casa',
+    departamento: 'Departamento',
+    lote: 'Lote',
+    local: 'Local',
+    campo: 'Campo'
+  };
+
+  return map[type] || 'Inmueble';
+}
+
+function getMarketTimestamp(item) {
+  const raw = item.createdAt || item.updatedAt || '';
+  const parsed = new Date(raw);
+  return Number.isNaN(parsed.getTime()) ? 0 : parsed.getTime();
+}
+
+function buildMarketItems(autos, properties) {
+  const autoItems = autos.map(auto => {
+    const [badgeClass, badgeText] = badgeLabel(auto.status);
+
+    return {
+      id: auto.id,
+      kind: 'auto',
+      title: auto.title || [auto.brand, auto.model].filter(Boolean).join(' ') || 'Vehiculo',
+      href: `autos.html?auto=${auto.id}`,
+      image: safeUrl(auto.coverImage || auto.galleryImages?.[0] || 'img/services/autos-cover.jpg'),
+      badgeClass,
+      badgeText,
+      categoryLabel: 'Auto',
+      typeLabel: formatVehicleType(auto.vehicleType),
+      location: auto.location || 'Jardin America, Misiones',
+      price: auto.price || 'Consultar precio',
+      currency: auto.currency || '',
+      meta: [
+        auto.year ? String(auto.year) : '',
+        auto.fuel || '',
+        auto.km ? formatAutoKm(auto.km) : ''
+      ].filter(Boolean),
+      filterType: 'auto',
+      filterOperation: auto.status === 'alquiler' ? 'alquiler' : 'venta',
+      featured: Boolean(auto.featured),
+      createdAt: auto.createdAt,
+      updatedAt: auto.updatedAt
+    };
+  });
+
+  const propertyItems = properties.map(property => {
+    const [badgeClass, badgeText] = badgeLabel(property.status || property.operation);
+    const areaLabel =
+      property.landAreaM2 ? `${property.landAreaM2} m2`
+        : property.areaM2 ? `${property.areaM2} m2`
+          : '';
+
+    return {
+      id: property.id,
+      kind: 'inmueble',
+      title: property.title || 'Propiedad',
+      href: `inmuebles.html?inmueble=${property.id}`,
+      image: safeUrl(property.coverImage || property.galleryImages?.[0] || 'img/services/inmuebles-cover.jpg'),
+      badgeClass,
+      badgeText,
+      categoryLabel: 'Inmueble',
+      typeLabel: formatPropertyType(property.propertyType),
+      location: property.location || 'Jardin America, Misiones',
+      price: property.price || 'Consultar precio',
+      currency: property.currency || '',
+      meta: [
+        formatPropertyType(property.propertyType),
+        property.operation === 'alquiler' ? 'Alquiler' : 'Venta',
+        areaLabel || (property.bedrooms ? `${property.bedrooms} dorm.` : '')
+      ].filter(Boolean),
+      filterType: 'inmueble',
+      filterOperation: property.operation || (property.status === 'alquiler' ? 'alquiler' : 'venta'),
+      featured: Boolean(property.featured),
+      createdAt: property.createdAt,
+      updatedAt: property.updatedAt
+    };
+  });
+
+  return [...autoItems, ...propertyItems].sort((left, right) => {
+    if (left.featured !== right.featured) {
+      return Number(right.featured) - Number(left.featured);
+    }
+
+    return getMarketTimestamp(right) - getMarketTimestamp(left);
+  });
+}
+
+function renderMarketCard(item) {
+  return `
+    <article class="market-card" data-market-type="${escapeHtml(item.filterType)}" data-market-operation="${escapeHtml(item.filterOperation)}">
+      <a href="${escapeHtml(item.href)}" class="market-card-link" aria-label="Ver ${escapeHtml(item.title)}">
+        <div class="market-card-media">
+          <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" loading="lazy">
+          <span class="badge ${escapeHtml(item.badgeClass)}">${escapeHtml(item.badgeText)}</span>
+          <span class="market-card-kind">${escapeHtml(item.categoryLabel)}</span>
+        </div>
+        <div class="market-card-body">
+          <p class="market-card-eyebrow">Mercado · ${escapeHtml(item.typeLabel)}</p>
+          <h3>${escapeHtml(item.title)}</h3>
+          <p class="market-card-location">${escapeHtml(item.location)}</p>
+          <div class="market-card-meta">
+            ${item.meta.map(detail => `<span>${escapeHtml(detail)}</span>`).join('')}
+          </div>
+          <p class="market-card-price">${escapeHtml(item.price)}${item.currency ? ` <small>${escapeHtml(item.currency)}</small>` : ''}</p>
+        </div>
+      </a>
+    </article>
+  `;
+}
+
 function formatAutoKm(value) {
   if (value === null || value === undefined || value === '') {
     return 'Kilometraje no informado';
@@ -228,8 +354,8 @@ function renderAutoDetailPage(auto) {
   return `
     <section class="auto-detail-page">
       <div class="auto-detail-topbar">
-        <p class="breadcrumb"><a href="index.html">Inicio</a> › <a href="autos.html">Autos</a> › <span>${escapeHtml(title)}</span></p>
-        <a href="autos.html" class="auto-back-link" data-back-link aria-label="Volver">
+        <p class="breadcrumb"><a href="index.html">Inicio</a> › <a href="mercado.html">Mercado</a> › <span>${escapeHtml(title)}</span></p>
+        <a href="mercado.html" class="auto-back-link" data-back-link aria-label="Volver">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 5.3a1 1 0 0 1 0 1.4L10.4 11H20a1 1 0 1 1 0 2h-9.6l4.3 4.3a1 1 0 0 1-1.4 1.4l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 0 1 1.4 0Z" fill="currentColor"/></svg>
         </a>
       </div>
@@ -342,7 +468,7 @@ function renderPropertyDetailPage(property) {
     <section class="property-detail-section">
       <div class="page-hero" style="margin-bottom:32px;">
         <div>
-          <p class="breadcrumb"><a href="index.html">Inicio</a> › <a href="inmuebles.html">Inmuebles</a> › <span>${escapeHtml(property.title)}</span></p>
+          <p class="breadcrumb"><a href="index.html">Inicio</a> › <a href="mercado.html">Mercado</a> › <span>${escapeHtml(property.title)}</span></p>
           <h1>${escapeHtml(property.title)}</h1>
           <p>${escapeHtml([property.location, property.price].filter(Boolean).join(' · '))}</p>
         </div>
@@ -385,10 +511,12 @@ function renderPropertyDetailPage(property) {
 async function initHomeDestacados() {
   const autosMount = document.getElementById('home-autos');
   const propertiesMount = document.getElementById('home-inmuebles');
-  if (!autosMount && !propertiesMount) return;
+  const marketplaceMount = document.getElementById('home-mercado');
+  if (!autosMount && !propertiesMount && !marketplaceMount) return;
 
   try {
     const [autos, properties] = await Promise.all([loadAutos(), loadProperties()]);
+    const marketItems = buildMarketItems(autos, properties);
     if (autosMount) {
       const featuredAutos = autos.filter(item => item.featured).slice(0, 3);
       autosMount.innerHTML = (featuredAutos.length ? featuredAutos : autos.slice(0, 3)).map(renderCarCard).join('');
@@ -397,9 +525,64 @@ async function initHomeDestacados() {
       const featuredProperties = properties.filter(item => item.featured).slice(0, 3);
       propertiesMount.innerHTML = (featuredProperties.length ? featuredProperties : properties.slice(0, 3)).map(renderPropertyCard).join('');
     }
+    if (marketplaceMount) {
+      const featuredMarket = marketItems.filter(item => item.featured).slice(0, 4);
+      marketplaceMount.innerHTML = (featuredMarket.length ? featuredMarket : marketItems.slice(0, 4)).map(renderMarketCard).join('');
+    }
   } catch {
     if (autosMount) autosMount.innerHTML = '<p style="color:var(--gray-500);">No se pudieron cargar los autos.</p>';
     if (propertiesMount) propertiesMount.innerHTML = '<p style="color:var(--gray-500);">No se pudieron cargar los inmuebles.</p>';
+    if (marketplaceMount) marketplaceMount.innerHTML = '<p style="color:var(--gray-500);">No se pudo cargar el mercado.</p>';
+  }
+}
+
+async function initMarketplacePage() {
+  const grid = document.getElementById('mercado-grid');
+  if (!grid) return;
+
+  try {
+    const [autos, properties] = await Promise.all([loadAutos(), loadProperties()]);
+    const items = buildMarketItems(autos, properties);
+    const params = new URLSearchParams(window.location.search);
+    const typeSelect = document.getElementById('filtro-mercado-tipo');
+    const operationSelect = document.getElementById('filtro-mercado-operacion');
+    const count = document.getElementById('mercado-count');
+    const requestedType = params.get('tipo') || '';
+    const requestedOperation = params.get('operacion') || '';
+
+    if (typeSelect && ['auto', 'inmueble'].includes(requestedType)) {
+      typeSelect.value = requestedType;
+    }
+
+    if (operationSelect && ['venta', 'alquiler'].includes(requestedOperation)) {
+      operationSelect.value = requestedOperation;
+    }
+
+    const renderFilteredMarket = () => {
+      const selectedType = typeSelect?.value || '';
+      const selectedOperation = operationSelect?.value || '';
+      const filtered = items.filter(item => {
+        if (selectedType && item.filterType !== selectedType) return false;
+        if (selectedOperation && item.filterOperation !== selectedOperation) return false;
+        return true;
+      });
+
+      grid.innerHTML = filtered.length
+        ? filtered.map(renderMarketCard).join('')
+        : '<div class="no-results"><p>No se encontraron publicaciones para esos filtros.</p></div>';
+
+      if (count) {
+        count.textContent = `${filtered.length} publicacion${filtered.length === 1 ? '' : 'es'}`;
+      }
+    };
+
+    [typeSelect, operationSelect].forEach(select => {
+      select?.addEventListener('change', renderFilteredMarket);
+    });
+
+    renderFilteredMarket();
+  } catch {
+    grid.innerHTML = '<p style="color:var(--gray-500);">No se pudieron cargar las publicaciones del mercado.</p>';
   }
 }
 
@@ -416,7 +599,7 @@ async function initAutoPage() {
       const auto = autos.find(item => item.id === requestedId);
       document.querySelectorAll('[data-autos-list-view]').forEach(section => { section.hidden = true; });
       detailMount.hidden = false;
-      detailMount.innerHTML = auto ? renderAutoDetailPage(auto) : '<section class="auto-detail-empty"><h1>Vehiculo no encontrado</h1><p>La publicacion ya no existe.</p><a href="autos.html" class="btn btn-dark">Volver a autos</a></section>';
+      detailMount.innerHTML = auto ? renderAutoDetailPage(auto) : '<section class="auto-detail-empty"><h1>Vehiculo no encontrado</h1><p>La publicacion ya no existe.</p><a href="mercado.html" class="btn btn-dark">Volver al mercado</a></section>';
       bindDetailGallery();
       return;
     }
@@ -464,7 +647,7 @@ async function initPropertyPage() {
       const property = properties.find(item => item.id === requestedId);
       document.querySelectorAll('[data-inmuebles-list-view]').forEach(section => { section.hidden = true; });
       detailMount.hidden = false;
-      detailMount.innerHTML = property ? renderPropertyDetailPage(property) : '<section class="auto-detail-empty"><h1>Inmueble no encontrado</h1><p>La publicacion ya no existe.</p><a href="inmuebles.html" class="btn btn-dark">Volver a inmuebles</a></section>';
+      detailMount.innerHTML = property ? renderPropertyDetailPage(property) : '<section class="auto-detail-empty"><h1>Inmueble no encontrado</h1><p>La publicacion ya no existe.</p><a href="mercado.html" class="btn btn-dark">Volver al mercado</a></section>';
       return;
     }
 
