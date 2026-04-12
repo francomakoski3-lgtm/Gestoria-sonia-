@@ -2253,6 +2253,172 @@ button { cursor: pointer; font-family: var(--font); }
 .prop-card-footer .btn { flex: 1; justify-content: center; }
 
 /* ── Gestoría page ─────────────────────────────────────────── */
+.gestoria-services-section {
+  background: linear-gradient(180deg, rgba(247,243,238,0.72) 0%, #ffffff 100%);
+}
+.gestoria-services-header {
+  max-width: 780px;
+  margin: 0 auto 36px;
+}
+.gestoria-services-showcase {
+  max-width: 1240px;
+  margin: 0 auto 28px;
+}
+.gestoria-service-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.9fr);
+  gap: 28px;
+  align-items: stretch;
+  padding: 30px;
+  border: 1px solid var(--gray-200);
+  border-radius: 24px;
+  background: linear-gradient(135deg, #fcfaf7 0%, #f2ebe3 100%);
+  box-shadow: var(--shadow-sm);
+}
+.gestoria-service-feature-copy {
+  display: flex;
+  flex-direction: column;
+}
+.gestoria-service-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(var(--accent-rgb),0.12);
+  color: var(--red-dark);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.gestoria-service-feature h3,
+.gestoria-service-panel h3 {
+  font-weight: 900;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  color: #171412;
+}
+.gestoria-service-feature h3 {
+  font-size: clamp(30px, 4vw, 42px);
+  margin-bottom: 16px;
+}
+.gestoria-service-panel h3 {
+  font-size: 28px;
+  margin-bottom: 14px;
+}
+.gestoria-service-description {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--gray-800);
+  margin-bottom: 18px;
+}
+.gestoria-service-block {
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid var(--gray-200);
+  background: rgba(255,255,255,0.86);
+  margin-bottom: 14px;
+}
+.gestoria-service-block h4 {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 10px;
+}
+.gestoria-service-block p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--gray-800);
+}
+.gestoria-service-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+}
+.gestoria-service-list li {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--gray-800);
+}
+.gestoria-service-actions {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.gestoria-service-actions .btn {
+  min-height: 46px;
+  justify-content: center;
+}
+.gestoria-service-feature-tool {
+  min-width: 0;
+  scroll-margin-top: 120px;
+}
+.gestoria-transfer-form {
+  height: 100%;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.96);
+}
+.gestoria-transfer-form .transferencia-card-copy {
+  margin-bottom: 22px;
+}
+.gestoria-transfer-note {
+  margin: 16px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--gray-500);
+}
+.gestoria-service-gallery {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+.gestoria-service-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 26px;
+  border: 1px solid var(--gray-200);
+  border-radius: 22px;
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+.gestoria-service-panel .gestoria-service-block {
+  background: #faf7f3;
+}
+.gestoria-service-include {
+  margin: 0 0 18px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(var(--accent-rgb),0.18);
+  background: rgba(var(--accent-rgb),0.08);
+  color: var(--gray-800);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.gestoria-service-include strong {
+  color: var(--black);
+}
+.gestoria-service-cta {
+  width: 100%;
+  justify-content: center;
+  margin-top: auto;
+}
+@media (max-width: 1180px) {
+  .gestoria-service-feature,
+  .gestoria-service-gallery {
+    grid-template-columns: 1fr;
+  }
+}
 .gestoria-hero {
   position: relative;
   overflow: hidden;
@@ -3501,6 +3667,21 @@ button { cursor: pointer; font-family: var(--font); }
     justify-content: center;
     text-align: center;
   }
+  .gestoria-service-feature,
+  .gestoria-service-panel,
+  .gestoria-transfer-form {
+    padding: 22px;
+    border-radius: 20px;
+  }
+  .gestoria-service-actions {
+    flex-direction: column;
+  }
+  .gestoria-service-actions .btn {
+    width: 100%;
+  }
+  .gestoria-service-panel h3 {
+    font-size: 24px;
+  }
   .gestoria-categories-grid,
   .consultas-grid,
   .gestoria-step-grid {
@@ -3703,6 +3884,15 @@ button { cursor: pointer; font-family: var(--font); }
   .nav-links.open a {
     padding: 13px 14px;
     font-size: 16px;
+  }
+  .gestoria-service-feature,
+  .gestoria-service-panel,
+  .gestoria-transfer-form {
+    padding: 18px;
+  }
+  .gestoria-service-feature h3,
+  .gestoria-service-panel h3 {
+    font-size: 24px;
   }
   .page-empty-shell { min-height: 44vh; }
   .market-page-hero { min-height: 320px; }
