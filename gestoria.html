@@ -55,295 +55,106 @@
 
 <section class="section gestoria-services-section">
   <div class="section-header gestoria-services-header">
-    <h2>Servicios de gestor&iacute;a del automotor</h2>
-    <p>Eleg&iacute; el tr&aacute;mite, revis&aacute; qu&eacute; necesit&aacute;s y avanz&aacute; con una consulta clara, profesional y sin vueltas.</p>
+    <h2>Servicios que realizamos</h2>
   </div>
 
-  <div class="gestoria-services-showcase">
-    <article class="gestoria-service-feature">
-      <div class="gestoria-service-feature-copy">
-        <span class="gestoria-service-eyebrow">Servicio destacado</span>
-        <h3>Transferencias</h3>
-        <p class="gestoria-service-description">Gestionamos la transferencia de autos y motos para que el tr&aacute;mite sea m&aacute;s simple, claro y seguro. Te ayudamos a conocer la documentaci&oacute;n necesaria, los costos aproximados y el paso a paso para realizar la transferencia correctamente.</p>
-
-        <div class="gestoria-service-block">
-          <h4>&iquest;Qu&eacute; necesito?</h4>
-          <ul class="gestoria-service-list">
-            <li>DNI de comprador y vendedor</li>
-            <li>Datos del veh&iacute;culo</li>
-            <li>Documentaci&oacute;n del automotor</li>
-            <li>Informaci&oacute;n b&aacute;sica para cotizar el tr&aacute;mite</li>
-          </ul>
-        </div>
-
-        <div class="gestoria-service-block">
-          <h4>&iquest;Para qui&eacute;n es?</h4>
-          <p>Para personas que compran o venden un auto o una moto y necesitan hacer la transferencia con acompa&ntilde;amiento y una cotizaci&oacute;n clara.</p>
-        </div>
-
-        <div class="gestoria-service-block">
-          <h4>&iquest;Cu&aacute;nto cuesta?</h4>
-          <p>El costo depende del valor del veh&iacute;culo, el tipo de tr&aacute;mite y otros gastos registrales. Pod&eacute;s calcular un estimado con nuestra calculadora de transferencia.</p>
-        </div>
-
-        <div class="gestoria-service-block">
-          <h4>Tiempo estimado del tr&aacute;mite</h4>
-          <p>Puede variar seg&uacute;n el caso y el registro, pero normalmente orientamos al cliente desde el inicio sobre los tiempos estimados.</p>
-        </div>
-
-        <div class="gestoria-service-actions">
-          <a href="#transferencia-calculadora" class="btn btn-dark">Calcular transferencia</a>
-          <a href="https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20una%20transferencia%20de%20auto%20o%20moto." target="_blank" rel="noopener" class="btn btn-dark">Consultar por WhatsApp</a>
+  <div class="services-grid gestoria-services-grid">
+    <article class="service-card gestoria-gallery-card transfer-service-card">
+      <div class="service-card-img transfer-quote-cover">
+        <div class="transfer-quote-cover-content">
+          <strong>Transferencias</strong>
         </div>
       </div>
+      <div class="service-card-body">
+        <p class="service-card-subtitle">Autos y motos</p>
+        <h3>Transferencia del automotor</h3>
+        <p>Conoc&eacute; requisitos, costos aproximados y c&oacute;mo avanzar con el tr&aacute;mite.</p>
+        <a href="gestoria-servicio.html?servicio=transferencias" class="btn btn-dark btn-sm">Ver servicio</a>
+      </div>
+    </article>
 
-      <div class="gestoria-service-feature-tool" id="transferencia-calculadora">
-        <div class="transferencia-form-card gestoria-transfer-form">
-          <span class="transferencia-card-tag">Calculadora</span>
-          <h3>Calcular transferencia</h3>
-          <p class="transferencia-card-copy">Complet&aacute; los datos b&aacute;sicos para obtener un estimado y luego confirmar el valor exacto por WhatsApp.</p>
-
-          <form id="transferencia-form" novalidate>
-            <div class="form-group">
-              <div class="vehicle-type-switch" role="radiogroup" aria-label="Tipo de veh&iacute;culo">
-                <label class="vehicle-type-option is-active">
-                  <input type="radio" name="vehicleType" value="auto" checked>
-                  <span>Auto</span>
-                </label>
-                <label class="vehicle-type-option">
-                  <input type="radio" name="vehicleType" value="moto">
-                  <span>Moto</span>
-                </label>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label>&iquest;El titular nuevo tiene domicilio en Misiones?</label>
-              <div class="vehicle-type-switch" role="radiogroup" aria-label="Domicilio del titular nuevo en Misiones">
-                <label class="vehicle-type-option is-active">
-                  <input type="radio" name="misionesResidence" value="si" checked>
-                  <span>S&iacute;</span>
-                </label>
-                <label class="vehicle-type-option">
-                  <input type="radio" name="misionesResidence" value="no">
-                  <span>No</span>
-                </label>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="transfer-price">Precio de compra</label>
-              <input type="number" id="transfer-price" name="price" min="1" step="1" inputmode="numeric" placeholder="Ej: 15000000" required>
-            </div>
-
-            <div class="form-group">
-              <label for="transfer-age">Hace cu&aacute;nto se certific&oacute; la firma del vendedor</label>
-              <select id="transfer-age" name="ageBracket" required>
-                <option value="lt90" selected>Menos de 90 d&iacute;as</option>
-                <option value="90d1y">M&aacute;s de 90 d&iacute;as y hasta 1 a&ntilde;o</option>
-                <option value="1y2y">Entre 1 a&ntilde;o y 2 a&ntilde;os</option>
-                <option value="2y3y">Entre 2 a&ntilde;o y 3 a&ntilde;os</option>
-                <option value="3y4y">Entre 3 a&ntilde;os y 4 a&ntilde;os</option>
-                <option value="gt4">M&aacute;s de 4 a&ntilde;os</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>&iquest;Hace cu&aacute;nto se certific&oacute; la firma del comprador?</label>
-              <div class="vehicle-type-switch" role="radiogroup" aria-label="Tiempo desde la certificaci&oacute;n de la firma del comprador">
-                <label class="vehicle-type-option is-active">
-                  <input type="radio" name="buyerSignatureRange" value="lt15" checked>
-                  <span>Menos de 15 d&iacute;as h&aacute;biles</span>
-                </label>
-                <label class="vehicle-type-option">
-                  <input type="radio" name="buyerSignatureRange" value="gt15">
-                  <span>M&aacute;s de 15 d&iacute;as h&aacute;biles</span>
-                </label>
-              </div>
-            </div>
-
-            <div class="form-group conditional-field" id="buyer-signature-date-group" hidden>
-              <label for="buyer-signature-date">Fecha de certificaci&oacute;n de la firma del comprador</label>
-              <input type="date" id="buyer-signature-date" name="buyerSignatureDate">
-              <p class="form-helper" id="buyer-signature-date-help">Seleccion&aacute; la fecha para calcular los d&iacute;as h&aacute;biles aproximados.</p>
-            </div>
-
-            <button type="submit" class="btn btn-dark" id="transferencia-submit-btn">Calcular transferencia</button>
-          </form>
-
-          <p class="gestoria-transfer-note">La cotizaci&oacute;n final se confirma seg&uacute;n la documentaci&oacute;n disponible y el caso puntual.</p>
+    <article class="service-card gestoria-gallery-card report-service-card">
+      <div class="service-card-img domain-report-cover">
+        <div class="transfer-quote-cover-content">
+          <strong>Informes</strong>
         </div>
       </div>
-    </article>
-  </div>
-
-  <div class="gestoria-service-gallery">
-    <article class="gestoria-service-panel">
-      <span class="gestoria-service-eyebrow">Consulta registral</span>
-      <h3>Informe de dominio</h3>
-      <p class="gestoria-service-description">Te ayudamos a solicitar el informe de dominio del veh&iacute;culo para conocer su situaci&oacute;n registral antes de avanzar con una compra, venta o consulta.</p>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Qu&eacute; necesito?</h4>
-        <ul class="gestoria-service-list">
-          <li>Datos b&aacute;sicos del veh&iacute;culo</li>
-          <li>Patente o dominio</li>
-          <li>Informaci&oacute;n necesaria para identificar el automotor</li>
-        </ul>
+      <div class="service-card-body">
+        <p class="service-card-subtitle">Verificaci&oacute;n previa</p>
+        <h3>Informe de dominio del automotor</h3>
+        <p>Revis&aacute; la situaci&oacute;n registral del veh&iacute;culo antes de comprar, vender o consultar.</p>
+        <a href="gestoria-servicio.html?servicio=informe-dominio" class="btn btn-dark btn-sm">Ver servicio</a>
       </div>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Para qui&eacute;n es?</h4>
-        <p>Para personas que quieren verificar la situaci&oacute;n de un auto o moto antes de comprar, vender o realizar un tr&aacute;mite.</p>
-      </div>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Cu&aacute;nto cuesta?</h4>
-        <p>Consultanos para informarte el valor actualizado del tr&aacute;mite.</p>
-      </div>
-      <div class="gestoria-service-block">
-        <h4>Tiempo estimado del tr&aacute;mite</h4>
-        <p>El tiempo puede variar seg&uacute;n el tipo de informe y el organismo correspondiente.</p>
-      </div>
-      <a href="https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20un%20informe%20de%20dominio%20del%20automotor." target="_blank" rel="noopener" class="btn btn-dark btn-sm gestoria-service-cta">Consultar por WhatsApp</a>
     </article>
 
-    <article class="gestoria-service-panel">
-      <span class="gestoria-service-eyebrow">Resguardo del vendedor</span>
-      <h3>Denuncia de venta</h3>
-      <p class="gestoria-service-description">Te ayudamos a presentar la denuncia de venta para dejar constancia registral de que el veh&iacute;culo ya no est&aacute; bajo tu responsabilidad.</p>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Qu&eacute; necesito?</h4>
-        <ul class="gestoria-service-list">
-          <li>DNI del vendedor</li>
-          <li>Patente o datos del veh&iacute;culo</li>
-          <li>Documentaci&oacute;n disponible del automotor</li>
-          <li>Datos b&aacute;sicos de la operaci&oacute;n</li>
-        </ul>
+    <article class="service-card gestoria-gallery-card">
+      <div class="service-card-img gestoria-sale-cover">
+        <div class="transfer-quote-cover-content">
+          <strong>Denuncia de venta</strong>
+        </div>
       </div>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Para qui&eacute;n es?</h4>
-        <p>Para personas que ya vendieron su auto o moto y necesitan dejar asentada la venta en el registro.</p>
+      <div class="service-card-body">
+        <p class="service-card-subtitle">Protecci&oacute;n del vendedor</p>
+        <h3>Denuncia de venta</h3>
+        <p>Dej&aacute; asentada la operaci&oacute;n y evit&aacute; responsabilidades posteriores al veh&iacute;culo.</p>
+        <a href="gestoria-servicio.html?servicio=denuncia-venta" class="btn btn-dark btn-sm">Ver servicio</a>
       </div>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Cu&aacute;nto cuesta?</h4>
-        <p>El valor depende del caso y del registro. Consultanos para pasarte el costo actualizado.</p>
-      </div>
-      <div class="gestoria-service-block">
-        <h4>Tiempo estimado del tr&aacute;mite</h4>
-        <p>Puede variar seg&uacute;n la documentaci&oacute;n disponible y la respuesta del registro correspondiente.</p>
-      </div>
-      <a href="https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20una%20denuncia%20de%20venta." target="_blank" rel="noopener" class="btn btn-dark btn-sm gestoria-service-cta">Consultar por WhatsApp</a>
     </article>
 
-    <article class="gestoria-service-panel">
-      <span class="gestoria-service-eyebrow">Documentaci&oacute;n del veh&iacute;culo</span>
-      <h3>C&eacute;dula y t&iacute;tulo</h3>
-      <p class="gestoria-service-description">Gestionamos tr&aacute;mites vinculados a la documentaci&oacute;n del automotor, como c&eacute;dula, duplicado de c&eacute;dula, t&iacute;tulo y duplicado de t&iacute;tulo, para que puedas regularizar o recuperar la documentaci&oacute;n de tu veh&iacute;culo.</p>
-      <p class="gestoria-service-include"><strong>Incluye:</strong> c&eacute;dula, duplicado de c&eacute;dula, t&iacute;tulo y duplicado de t&iacute;tulo.</p>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Qu&eacute; necesito?</h4>
-        <ul class="gestoria-service-list">
-          <li>DNI del titular</li>
-          <li>Datos del veh&iacute;culo</li>
-          <li>Documentaci&oacute;n disponible del automotor</li>
-          <li>En caso de p&eacute;rdida o robo, la informaci&oacute;n correspondiente al caso</li>
-        </ul>
+    <article class="service-card gestoria-gallery-card">
+      <div class="service-card-img gestoria-documents-cover">
+        <div class="transfer-quote-cover-content">
+          <strong>C&eacute;dula y t&iacute;tulo</strong>
+        </div>
       </div>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Para qui&eacute;n es?</h4>
-        <p>Para personas que necesitan tramitar, renovar, recuperar o regularizar la documentaci&oacute;n de su auto o moto.</p>
+      <div class="service-card-body">
+        <p class="service-card-subtitle">Regularizaci&oacute;n documental</p>
+        <h3>C&eacute;dula, t&iacute;tulo y duplicados</h3>
+        <p>Resoluci&oacute;n de c&eacute;dula, duplicados, t&iacute;tulo y documentaci&oacute;n del automotor.</p>
+        <a href="gestoria-servicio.html?servicio=cedula-titulo" class="btn btn-dark btn-sm">Ver servicio</a>
       </div>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Cu&aacute;nto cuesta?</h4>
-        <p>El costo depende del tipo de tr&aacute;mite y de la situaci&oacute;n del veh&iacute;culo. Consultanos para informarte el valor actualizado.</p>
-      </div>
-      <div class="gestoria-service-block">
-        <h4>Tiempo estimado del tr&aacute;mite</h4>
-        <p>Puede variar seg&uacute;n el tr&aacute;mite y el registro correspondiente.</p>
-      </div>
-      <a href="https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20un%20tr%C3%A1mite%20de%20c%C3%A9dula%20o%20t%C3%ADtulo." target="_blank" rel="noopener" class="btn btn-dark btn-sm gestoria-service-cta">Consultar por WhatsApp</a>
     </article>
 
-    <article class="gestoria-service-panel">
-      <span class="gestoria-service-eyebrow">Patentamiento inicial</span>
-      <h3>Inscripci&oacute;n 0 km</h3>
-      <p class="gestoria-service-description">Gestionamos la inscripci&oacute;n inicial de autos y motos 0 km para que puedas patentar y circular con la documentaci&oacute;n al d&iacute;a.</p>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Qu&eacute; necesito?</h4>
-        <ul class="gestoria-service-list">
-          <li>DNI del titular</li>
-          <li>Datos de factura o compra</li>
-          <li>Documentaci&oacute;n entregada por concesionaria o agencia</li>
-          <li>Datos b&aacute;sicos del veh&iacute;culo</li>
-        </ul>
+    <article class="service-card gestoria-gallery-card">
+      <div class="service-card-img gestoria-zero-cover">
+        <div class="transfer-quote-cover-content">
+          <strong>Inscripci&oacute;n 0 km</strong>
+        </div>
       </div>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Para qui&eacute;n es?</h4>
-        <p>Para personas que compraron un auto o una moto 0 km y necesitan completar la inscripci&oacute;n inicial correctamente.</p>
+      <div class="service-card-body">
+        <p class="service-card-subtitle">Alta de veh&iacute;culo nuevo</p>
+        <h3>Inscripci&oacute;n 0 km</h3>
+        <p>Patenta tu auto o moto nueva con la documentaci&oacute;n correcta y acompa&ntilde;amiento.</p>
+        <a href="gestoria-servicio.html?servicio=inscripcion-0km" class="btn btn-dark btn-sm">Ver servicio</a>
       </div>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Cu&aacute;nto cuesta?</h4>
-        <p>El costo depende del veh&iacute;culo, la documentaci&oacute;n y los aranceles vigentes. Consultanos para orientarte.</p>
-      </div>
-      <div class="gestoria-service-block">
-        <h4>Tiempo estimado del tr&aacute;mite</h4>
-        <p>Se informa seg&uacute;n el registro y la documentaci&oacute;n entregada en la compra.</p>
-      </div>
-      <a href="https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20una%20inscripci%C3%B3n%200%20km." target="_blank" rel="noopener" class="btn btn-dark btn-sm gestoria-service-cta">Consultar por WhatsApp</a>
     </article>
 
-    <article class="gestoria-service-panel">
-      <span class="gestoria-service-eyebrow">Casos con revisi&oacute;n previa</span>
-      <h3>Prendas y tr&aacute;mites registrales</h3>
-      <p class="gestoria-service-description">Te acompa&ntilde;amos en tr&aacute;mites vinculados a prendas, cancelaciones y gestiones registrales que requieren una revisi&oacute;n previa del caso.</p>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Qu&eacute; necesito?</h4>
-        <ul class="gestoria-service-list">
-          <li>DNI del titular</li>
-          <li>Datos del veh&iacute;culo</li>
-          <li>Documentaci&oacute;n disponible del automotor</li>
-          <li>Informaci&oacute;n del tr&aacute;mite o del cr&eacute;dito involucrado</li>
-        </ul>
+    <article class="service-card gestoria-gallery-card">
+      <div class="service-card-img gestoria-registral-cover">
+        <div class="transfer-quote-cover-content">
+          <strong>Prendas y registrales</strong>
+        </div>
       </div>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Para qui&eacute;n es?</h4>
-        <p>Para personas que necesitan cancelar una prenda, regularizar un tr&aacute;mite registral o revisar un caso especial.</p>
+      <div class="service-card-body">
+        <p class="service-card-subtitle">Gestiones con revisi&oacute;n previa</p>
+        <h3>Prendas y tr&aacute;mites registrales</h3>
+        <p>Cancelaciones, regularizaciones y gestiones que requieren an&aacute;lisis puntual del caso.</p>
+        <a href="gestoria-servicio.html?servicio=prendas-registrales" class="btn btn-dark btn-sm">Ver servicio</a>
       </div>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Cu&aacute;nto cuesta?</h4>
-        <p>El costo depende del tipo de gesti&oacute;n, los organismos intervinientes y la documentaci&oacute;n a presentar.</p>
-      </div>
-      <div class="gestoria-service-block">
-        <h4>Tiempo estimado del tr&aacute;mite</h4>
-        <p>Puede variar seg&uacute;n el caso y el organismo correspondiente. Te orientamos antes de avanzar.</p>
-      </div>
-      <a href="https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20prendas%20o%20tr%C3%A1mites%20registrales." target="_blank" rel="noopener" class="btn btn-dark btn-sm gestoria-service-cta">Consultar por WhatsApp</a>
     </article>
 
-    <article class="gestoria-service-panel">
-      <span class="gestoria-service-eyebrow">No sab&eacute;s qu&eacute; tr&aacute;mite hacer</span>
-      <h3>Asesoramiento personalizado</h3>
-      <p class="gestoria-service-description">Si no sab&eacute;s exactamente qu&eacute; tr&aacute;mite necesit&aacute;s, te orientamos seg&uacute;n tu caso y te indicamos la mejor forma de resolverlo.</p>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Qu&eacute; necesito?</h4>
-        <ul class="gestoria-service-list">
-          <li>Contarnos tu caso</li>
-          <li>Datos b&aacute;sicos del veh&iacute;culo</li>
-          <li>Documentaci&oacute;n disponible</li>
-          <li>La duda puntual que quer&eacute;s resolver</li>
-        </ul>
+    <article class="service-card gestoria-gallery-card">
+      <div class="service-card-img gestoria-guidance-cover">
+        <div class="transfer-quote-cover-content">
+          <strong>Asesoramiento</strong>
+        </div>
       </div>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Para qui&eacute;n es?</h4>
-        <p>Para personas que no saben exactamente qu&eacute; tr&aacute;mite necesitan o quieren confirmar c&oacute;mo seguir antes de avanzar.</p>
+      <div class="service-card-body">
+        <p class="service-card-subtitle">No sab&eacute;s qu&eacute; tr&aacute;mite hacer</p>
+        <h3>Asesoramiento personalizado</h3>
+        <p>Te orientamos para identificar el tr&aacute;mite correcto y definir c&oacute;mo seguir.</p>
+        <a href="gestoria-servicio.html?servicio=asesoramiento" class="btn btn-dark btn-sm">Ver servicio</a>
       </div>
-      <div class="gestoria-service-block">
-        <h4>&iquest;Cu&aacute;nto cuesta?</h4>
-        <p>La orientaci&oacute;n inicial se coordina por WhatsApp seg&uacute;n el tipo de tr&aacute;mite que haya que revisar.</p>
-      </div>
-      <div class="gestoria-service-block">
-        <h4>Tiempo estimado del tr&aacute;mite</h4>
-        <p>La respuesta inicial se brinda lo antes posible dentro del horario de atenci&oacute;n.</p>
-      </div>
-      <a href="https://wa.me/543743668039?text=Hola,%20necesito%20asesoramiento%20para%20saber%20qu%C3%A9%20tr%C3%A1mite%20del%20automotor%20corresponde%20en%20mi%20caso." target="_blank" rel="noopener" class="btn btn-dark btn-sm gestoria-service-cta">Pedir asesoramiento</a>
     </article>
   </div>
 </section>
@@ -393,7 +204,5 @@
 </a>
 
 <script src="js/site.js"></script>
-<script src="js/transferencia-calculator-core.js"></script>
-<script src="js/transferencia-cotizador.js"></script>
 </body>
 </html>

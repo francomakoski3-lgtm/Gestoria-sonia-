@@ -6,9 +6,139 @@ const cache = {
   propertiesPromise: null
 };
 
+const GESTORIA_SERVICE_DETAILS = {
+  transferencias: {
+    documentTitle: 'Transferencias',
+    kicker: 'Servicio destacado',
+    title: 'Transferencias',
+    summary: 'Gestionamos la transferencia de autos y motos para que el tr&aacute;mite sea m&aacute;s simple, claro y seguro. Te ayudamos a conocer la documentaci&oacute;n necesaria, los costos aproximados y el paso a paso para realizar la transferencia correctamente.',
+    needs: [
+      'T&iacute;tulo',
+      'C&eacute;dula',
+      'F 08 debidamente firmada',
+      'F 12 verificaci&oacute;n de la polic&iacute;a',
+      'DNI del comprador'
+    ],
+    audience: 'Para personas que compran o venden un auto o una moto y necesitan hacer la transferencia con acompa&ntilde;amiento y una cotizaci&oacute;n clara.',
+    cost: 'El valor puede variar seg&uacute;n el veh&iacute;culo, la documentaci&oacute;n presentada y los gastos registrales del tr&aacute;mite.',
+    costActionText: 'Para calcular el estimado, presion&aacute;',
+    costActionLabel: 'aqu&iacute;',
+    time: 'Puede variar seg&uacute;n el caso y el registro, pero normalmente orientamos al cliente desde el inicio sobre los tiempos estimados.',
+    ctaLabel: 'Consultar por WhatsApp',
+    ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20una%20transferencia%20de%20auto%20o%20moto.',
+    secondaryLabel: 'Abrir calculadora',
+    secondaryHref: 'cotizar-transferencia.html',
+    includeCalculator: true
+  },
+  'informe-dominio': {
+    documentTitle: 'Informe de dominio',
+    kicker: 'Consulta registral',
+    title: 'Informe de dominio',
+    summary: 'Te ayudamos a solicitar el informe de dominio del veh&iacute;culo para conocer su situaci&oacute;n registral antes de avanzar con una compra, venta o consulta.',
+    needs: [
+      'Datos b&aacute;sicos del veh&iacute;culo',
+      'Patente o dominio',
+      'Informaci&oacute;n necesaria para identificar el automotor'
+    ],
+    audience: 'Para personas que quieren verificar la situaci&oacute;n de un auto o moto antes de comprar, vender o realizar un tr&aacute;mite.',
+    cost: 'Consultanos para informarte el valor actualizado del tr&aacute;mite.',
+    time: 'El tiempo puede variar seg&uacute;n el tipo de informe y el organismo correspondiente.',
+    ctaLabel: 'Consultar por WhatsApp',
+    ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20un%20informe%20de%20dominio%20del%20automotor.'
+  },
+  'denuncia-venta': {
+    documentTitle: 'Denuncia de venta',
+    kicker: 'Resguardo del vendedor',
+    title: 'Denuncia de venta',
+    summary: 'Te ayudamos a presentar la denuncia de venta para dejar constancia registral de que el veh&iacute;culo ya no est&aacute; bajo tu responsabilidad.',
+    needs: [
+      'DNI del vendedor',
+      'Patente o datos del veh&iacute;culo',
+      'Documentaci&oacute;n disponible del automotor',
+      'Datos b&aacute;sicos de la operaci&oacute;n'
+    ],
+    audience: 'Para personas que ya vendieron su auto o moto y necesitan dejar asentada la venta en el registro.',
+    cost: 'El valor depende del caso y del registro. Consultanos para pasarte el costo actualizado.',
+    time: 'Puede variar seg&uacute;n la documentaci&oacute;n disponible y la respuesta del registro correspondiente.',
+    ctaLabel: 'Consultar por WhatsApp',
+    ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20una%20denuncia%20de%20venta.'
+  },
+  'cedula-titulo': {
+    documentTitle: 'Cedula y titulo',
+    kicker: 'Documentaci&oacute;n del veh&iacute;culo',
+    title: 'C&eacute;dula y t&iacute;tulo',
+    summary: 'Gestionamos tr&aacute;mites vinculados a la documentaci&oacute;n del automotor, como c&eacute;dula, duplicado de c&eacute;dula, t&iacute;tulo y duplicado de t&iacute;tulo, para que puedas regularizar o recuperar la documentaci&oacute;n de tu veh&iacute;culo.',
+    include: 'c&eacute;dula, duplicado de c&eacute;dula, t&iacute;tulo y duplicado de t&iacute;tulo.',
+    needs: [
+      'DNI del titular',
+      'Datos del veh&iacute;culo',
+      'Documentaci&oacute;n disponible del automotor',
+      'En caso de p&eacute;rdida o robo, la informaci&oacute;n correspondiente al caso'
+    ],
+    audience: 'Para personas que necesitan tramitar, renovar, recuperar o regularizar la documentaci&oacute;n de su auto o moto.',
+    cost: 'El costo depende del tipo de tr&aacute;mite y de la situaci&oacute;n del veh&iacute;culo. Consultanos para informarte el valor actualizado.',
+    time: 'Puede variar seg&uacute;n el tr&aacute;mite y el registro correspondiente.',
+    ctaLabel: 'Consultar por WhatsApp',
+    ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20un%20tramite%20de%20cedula%20o%20titulo.'
+  },
+  'inscripcion-0km': {
+    documentTitle: 'Inscripcion 0 km',
+    kicker: 'Patentamiento inicial',
+    title: 'Inscripci&oacute;n 0 km',
+    summary: 'Gestionamos la inscripci&oacute;n inicial de autos y motos 0 km para que puedas patentar y circular con la documentaci&oacute;n al d&iacute;a.',
+    needs: [
+      'DNI del titular',
+      'Datos de factura o compra',
+      'Documentaci&oacute;n entregada por concesionaria o agencia',
+      'Datos b&aacute;sicos del veh&iacute;culo'
+    ],
+    audience: 'Para personas que compraron un auto o una moto 0 km y necesitan completar la inscripci&oacute;n inicial correctamente.',
+    cost: 'El costo depende del veh&iacute;culo, la documentaci&oacute;n y los aranceles vigentes. Consultanos para orientarte.',
+    time: 'Se informa seg&uacute;n el registro y la documentaci&oacute;n entregada en la compra.',
+    ctaLabel: 'Consultar por WhatsApp',
+    ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20una%20inscripcion%200%20km.'
+  },
+  'prendas-registrales': {
+    documentTitle: 'Prendas y tramites registrales',
+    kicker: 'Casos con revisi&oacute;n previa',
+    title: 'Prendas y tr&aacute;mites registrales',
+    summary: 'Te acompa&ntilde;amos en tr&aacute;mites vinculados a prendas, cancelaciones y gestiones registrales que requieren una revisi&oacute;n previa del caso.',
+    needs: [
+      'DNI del titular',
+      'Datos del veh&iacute;culo',
+      'Documentaci&oacute;n disponible del automotor',
+      'Informaci&oacute;n del tr&aacute;mite o del cr&eacute;dito involucrado'
+    ],
+    audience: 'Para personas que necesitan cancelar una prenda, regularizar un tr&aacute;mite registral o revisar un caso especial.',
+    cost: 'El costo depende del tipo de gesti&oacute;n, los organismos intervinientes y la documentaci&oacute;n a presentar.',
+    time: 'Puede variar seg&uacute;n el caso y el organismo correspondiente. Te orientamos antes de avanzar.',
+    ctaLabel: 'Consultar por WhatsApp',
+    ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20prendas%20o%20tramites%20registrales.'
+  },
+  asesoramiento: {
+    documentTitle: 'Asesoramiento personalizado',
+    kicker: 'Orientaci&oacute;n inicial',
+    title: 'Asesoramiento personalizado',
+    summary: 'Si no sab&eacute;s exactamente qu&eacute; tr&aacute;mite necesit&aacute;s, te orientamos seg&uacute;n tu caso y te indicamos la mejor forma de resolverlo.',
+    needs: [
+      'Contarnos tu caso',
+      'Datos b&aacute;sicos del veh&iacute;culo',
+      'Documentaci&oacute;n disponible',
+      'La duda puntual que quer&eacute;s resolver'
+    ],
+    audience: 'Para personas que no saben exactamente qu&eacute; tr&aacute;mite necesitan o quieren confirmar c&oacute;mo seguir antes de avanzar.',
+    cost: 'La orientaci&oacute;n inicial se coordina por WhatsApp seg&uacute;n el tipo de tr&aacute;mite que haya que revisar.',
+    time: 'La respuesta inicial se brinda lo antes posible dentro del horario de atenci&oacute;n.',
+    ctaLabel: 'Pedir asesoramiento',
+    ctaHref: 'https://wa.me/543743668039?text=Hola,%20necesito%20asesoramiento%20para%20saber%20que%20tramite%20del%20automotor%20corresponde%20en%20mi%20caso.'
+  }
+};
+
 document.addEventListener('DOMContentLoaded', async () => {
   initNavbar();
   initContactForm();
+  initGestoriaServiceGallery();
+  initGestoriaServicePage();
 
   await Promise.all([
     initHomeDestacados(),
@@ -708,6 +838,261 @@ function bindDetailGallery() {
     event.preventDefault();
     window.history.back();
   });
+}
+
+function initGestoriaServiceGallery() {
+  const stage = document.querySelector('[data-gestoria-service-stage]');
+  const emptyState = document.querySelector('[data-gestoria-service-empty]');
+  const triggers = Array.from(document.querySelectorAll('[data-gestoria-service-trigger]'));
+  const panels = Array.from(document.querySelectorAll('[data-gestoria-service-panel]'));
+
+  if (!stage || !emptyState || !triggers.length || !panels.length) return;
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let activeServiceId = '';
+
+  const scrollStageIntoView = () => {
+    const bounds = stage.getBoundingClientRect();
+    const isVisibleEnough = bounds.top >= 100 && bounds.top <= window.innerHeight * 0.45;
+    if (isVisibleEnough) return;
+
+    stage.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'start'
+    });
+  };
+
+  const setActiveService = serviceId => {
+    activeServiceId = serviceId || '';
+
+    triggers.forEach(trigger => {
+      const isActive = trigger.dataset.gestoriaServiceTrigger === activeServiceId;
+      trigger.classList.toggle('is-active', isActive);
+      trigger.setAttribute('aria-expanded', String(isActive));
+    });
+
+    panels.forEach(panel => {
+      panel.hidden = panel.dataset.gestoriaServicePanel !== activeServiceId;
+    });
+
+    emptyState.hidden = Boolean(activeServiceId);
+  };
+
+  triggers.forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const targetServiceId = trigger.dataset.gestoriaServiceTrigger || '';
+      const nextServiceId = activeServiceId === targetServiceId ? '' : targetServiceId;
+      setActiveService(nextServiceId);
+      if (nextServiceId) {
+        requestAnimationFrame(scrollStageIntoView);
+      }
+    });
+  });
+
+  const params = new URLSearchParams(window.location.search);
+  const requestedService = params.get('servicio') || '';
+  const requestedPanelExists = panels.some(panel => panel.dataset.gestoriaServicePanel === requestedService);
+
+  setActiveService(requestedPanelExists ? requestedService : '');
+}
+
+function initGestoriaServicePage() {
+  const mount = document.getElementById('gestoria-service-detail-mount');
+  if (!mount) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const serviceId = params.get('servicio') || '';
+  const service = GESTORIA_SERVICE_DETAILS[serviceId];
+  const crumbCurrent = document.getElementById('gestoria-service-crumb-current');
+  const canonical = document.querySelector('link[rel="canonical"]');
+
+  if (!service) {
+    if (crumbCurrent) crumbCurrent.textContent = 'No encontrado';
+    document.title = 'Servicio no encontrado | Gestoria Sonia';
+    mount.innerHTML = `
+      <section class="gestoria-service-page-error">
+        <h2>Servicio no encontrado</h2>
+        <p>El enlace no coincide con un tramite disponible. Volve a la galeria y elegi el servicio que queres revisar.</p>
+        <a href="gestoria.html" class="btn btn-dark">Volver a servicios</a>
+      </section>
+    `;
+    return;
+  }
+
+  if (crumbCurrent) crumbCurrent.innerHTML = service.title;
+  document.title = `${service.documentTitle} | Gestoria Sonia`;
+  if (canonical) canonical.href = `https://gestoriasonia.ar/gestoria-servicio.html?servicio=${encodeURIComponent(serviceId)}`;
+
+  mount.innerHTML = renderGestoriaServiceDetail(service);
+  initGestoriaServiceCalculatorReveal(mount);
+}
+
+function renderGestoriaServiceDetail(service) {
+  const includeMarkup = service.include
+    ? `<p class="gestoria-service-include"><strong>Incluye:</strong> ${service.include}</p>`
+    : '';
+
+  const calculatorActionMarkup = service.includeCalculator
+    ? `<button type="button" class="btn btn-dark" data-transfer-calculator-toggle aria-expanded="false" aria-controls="service-transfer-calculator">${service.secondaryLabel || 'Abrir calculadora'}</button>`
+    : (service.secondaryHref ? `<a href="${service.secondaryHref}" class="btn btn-dark">${service.secondaryLabel}</a>` : '');
+
+  const ctaMarkup = `
+    <div class="gestoria-service-actions">
+      ${calculatorActionMarkup}
+      <a href="${service.ctaHref}" target="_blank" rel="noopener" class="btn btn-dark${service.secondaryHref ? '' : ' gestoria-service-cta'}">${service.ctaLabel}</a>
+    </div>
+  `;
+
+  const detailCopy = `
+    <div class="gestoria-service-detail-copy">
+      <span class="gestoria-service-eyebrow">${service.kicker}</span>
+      <h3>${service.title}</h3>
+      <p class="gestoria-service-description">${service.summary}</p>
+      ${includeMarkup}
+      <div class="gestoria-service-block">
+        <h4>&iquest;Que necesito?</h4>
+        ${renderGestoriaServiceList(service.needs)}
+      </div>
+      <div class="gestoria-service-block">
+        <h4>&iquest;Para quien es?</h4>
+        <p>${service.audience}</p>
+      </div>
+      <div class="gestoria-service-block">
+        <h4>&iquest;Cuanto cuesta?</h4>
+        <p>${service.cost}</p>
+        ${service.includeCalculator ? `<p class="gestoria-service-inline-copy">${service.costActionText || 'Para calcular el estimado, presion&aacute;'} <button type="button" class="gestoria-service-inline-trigger" data-transfer-calculator-toggle aria-expanded="false" aria-controls="service-transfer-calculator">${service.costActionLabel || 'aqu&iacute;'}</button></p>` : ''}
+      </div>
+      <div class="gestoria-service-block">
+        <h4>Tiempo estimado del tramite</h4>
+        <p>${service.time}</p>
+      </div>
+      ${ctaMarkup}
+    </div>
+  `;
+
+  if (!service.includeCalculator) {
+    return `<article class="gestoria-service-detail">${detailCopy}</article>`;
+  }
+
+  return `
+    <article class="gestoria-service-detail">
+      ${detailCopy}
+      <div class="gestoria-service-calculator-shell" id="service-transfer-calculator" hidden>
+        ${renderTransferCalculator()}
+      </div>
+    </article>
+  `;
+}
+
+function initGestoriaServiceCalculatorReveal(scope) {
+  const calculatorShell = scope.querySelector('#service-transfer-calculator');
+  if (!calculatorShell) return;
+
+  const triggerButtons = Array.from(scope.querySelectorAll('[data-transfer-calculator-toggle]'));
+  if (!triggerButtons.length) return;
+
+  const revealCalculator = () => {
+    const wasHidden = calculatorShell.hidden;
+    calculatorShell.hidden = false;
+    triggerButtons.forEach(button => button.setAttribute('aria-expanded', 'true'));
+    if (wasHidden) {
+      requestAnimationFrame(() => {
+        calculatorShell.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  };
+
+  triggerButtons.forEach(button => {
+    button.addEventListener('click', revealCalculator);
+  });
+}
+
+function renderGestoriaServiceList(items) {
+  return `
+    <ul class="gestoria-service-list">
+      ${items.map(item => `<li>${item}</li>`).join('')}
+    </ul>
+  `;
+}
+
+function renderTransferCalculator() {
+  return `
+    <div class="transferencia-form-card gestoria-transfer-form">
+      <span class="transferencia-card-tag">Calculadora</span>
+      <h3>Calcular transferencia</h3>
+      <p class="transferencia-card-copy">Complet&aacute; los datos b&aacute;sicos para obtener un estimado.</p>
+
+      <form id="transferencia-form" novalidate>
+        <div class="form-group">
+          <div class="vehicle-type-switch" role="radiogroup" aria-label="Tipo de veh&iacute;culo">
+            <label class="vehicle-type-option is-active">
+              <input type="radio" name="vehicleType" value="auto" checked>
+              <span>Auto</span>
+            </label>
+            <label class="vehicle-type-option">
+              <input type="radio" name="vehicleType" value="moto">
+              <span>Moto</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>&iquest;El titular nuevo tiene domicilio en Misiones?</label>
+          <div class="vehicle-type-switch" role="radiogroup" aria-label="Domicilio del titular nuevo en Misiones">
+            <label class="vehicle-type-option is-active">
+              <input type="radio" name="misionesResidence" value="si" checked>
+              <span>S&iacute;</span>
+            </label>
+            <label class="vehicle-type-option">
+              <input type="radio" name="misionesResidence" value="no">
+              <span>No</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="transfer-price">Precio de compra</label>
+          <input type="number" id="transfer-price" name="price" min="1" step="1" inputmode="numeric" placeholder="Ej: 15000000" required>
+        </div>
+
+        <div class="form-group">
+          <label for="transfer-age">&iquest;Hace cu&aacute;nto se certific&oacute; la firma del vendedor?</label>
+          <select id="transfer-age" name="ageBracket" required>
+            <option value="lt90" selected>Menos de 90 d&iacute;as</option>
+            <option value="90d1y">M&aacute;s de 90 d&iacute;as y hasta 1 a&ntilde;o</option>
+            <option value="1y2y">Entre 1 a&ntilde;o y 2 a&ntilde;os</option>
+            <option value="2y3y">Entre 2 a&ntilde;o y 3 a&ntilde;os</option>
+            <option value="3y4y">Entre 3 a&ntilde;os y 4 a&ntilde;os</option>
+            <option value="gt4">M&aacute;s de 4 a&ntilde;os</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>&iquest;Hace cu&aacute;nto se certific&oacute; la firma del comprador?</label>
+          <div class="vehicle-type-switch" role="radiogroup" aria-label="Tiempo desde la certificaci&oacute;n de la firma del comprador">
+            <label class="vehicle-type-option is-active">
+              <input type="radio" name="buyerSignatureRange" value="lt15" checked>
+              <span>Menos de 15 d&iacute;as h&aacute;biles</span>
+            </label>
+            <label class="vehicle-type-option">
+              <input type="radio" name="buyerSignatureRange" value="gt15">
+              <span>M&aacute;s de 15 d&iacute;as h&aacute;biles</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group conditional-field" id="buyer-signature-date-group" hidden>
+          <label for="buyer-signature-date">Fecha de certificaci&oacute;n de la firma del comprador</label>
+          <input type="date" id="buyer-signature-date" name="buyerSignatureDate">
+          <p class="form-helper" id="buyer-signature-date-help">Seleccion&aacute; la fecha para calcular los d&iacute;as h&aacute;biles aproximados.</p>
+        </div>
+
+        <button type="submit" class="btn btn-dark" id="transferencia-submit-btn">Calcular transferencia</button>
+      </form>
+
+      <p class="gestoria-transfer-note">La cotizaci&oacute;n final se confirma seg&uacute;n la documentaci&oacute;n disponible y el caso puntual.</p>
+    </div>
+  `;
 }
 
 function initNavbar() {
