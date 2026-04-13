@@ -1,0 +1,17 @@
+# ── Cache control ─────────────────────────────────────────────
+# Imágenes y fuentes: cachear 30 días
+<FilesMatch "\.(jpg|jpeg|png|gif|svg|webp|ico|woff|woff2|ttf)$">
+  Header set Cache-Control "public, max-age=2592000"
+</FilesMatch>
+
+# CSS y JS: cachear solo 1 hora (se actualizan seguido)
+<FilesMatch "\.(css|js)$">
+  Header set Cache-Control "public, max-age=3600, must-revalidate"
+</FilesMatch>
+
+# HTML: sin caché (siempre pide la versión más nueva)
+<FilesMatch "\.html$">
+  Header set Cache-Control "no-cache, no-store, must-revalidate"
+  Header set Pragma "no-cache"
+  Header set Expires "0"
+</FilesMatch>
