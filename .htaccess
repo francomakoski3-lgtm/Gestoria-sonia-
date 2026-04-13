@@ -1,7 +1,7 @@
 # ── Cache control ─────────────────────────────────────────────
-# Imágenes y fuentes: cachear 30 días
+# Imágenes y fuentes: cachear 1 día (se actualizan seguido durante el desarrollo)
 <FilesMatch "\.(jpg|jpeg|png|gif|svg|webp|ico|woff|woff2|ttf)$">
-  Header set Cache-Control "public, max-age=2592000"
+  Header set Cache-Control "public, max-age=86400, must-revalidate"
 </FilesMatch>
 
 # CSS y JS: siempre verificar si cambió (cambio instantáneo)
