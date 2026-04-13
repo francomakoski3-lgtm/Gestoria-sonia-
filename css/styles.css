@@ -1225,12 +1225,63 @@ button { cursor: pointer; font-family: var(--font); }
 }
 .domain-report-cover {
   background:
+    linear-gradient(180deg, rgba(10,8,7,0.18) 0%, rgba(10,8,7,0.42) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
-    linear-gradient(135deg, #1a2024 0%, #293841 52%, #5f7a88 100%);
+    url('../img/services/informes-cover.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
+}
+.gestoria-sale-cover,
+.gestoria-documents-cover,
+.gestoria-zero-cover,
+.gestoria-registral-cover,
+.gestoria-guidance-cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.gestoria-sale-cover {
+  background:
+    linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.38) 100%),
+    radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
+    url('../img/services/denuncia-venta-cover.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.gestoria-documents-cover {
+  background:
+    linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.36) 100%),
+    radial-gradient(circle at 18% 18%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 26%),
+    url('../img/services/cedula-titulo-cover.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.gestoria-zero-cover {
+  background:
+    linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.34) 100%),
+    radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
+    url('../img/services/inscripcion-0km-cover.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.gestoria-registral-cover {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 26%),
+    linear-gradient(135deg, #241d1a 0%, #4e433a 54%, #9b887b 100%);
+}
+.gestoria-guidance-cover {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 26%),
+    linear-gradient(135deg, #1b1c1d 0%, #2d3237 48%, #5f6a73 100%);
 }
 .service-card-badge {
   pointer-events: none;
@@ -2260,24 +2311,167 @@ button { cursor: pointer; font-family: var(--font); }
   max-width: 780px;
   margin: 0 auto 36px;
 }
-.gestoria-services-showcase {
+.gestoria-services-grid {
   max-width: 1240px;
-  margin: 0 auto 28px;
-}
-.gestoria-service-feature {
-  display: grid;
-  grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.9fr);
-  gap: 28px;
+  margin: 0 auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
   align-items: stretch;
+}
+.gestoria-gallery-card {
+  min-height: 100%;
+}
+.gestoria-gallery-card .service-card-img {
+  min-height: 190px;
+}
+.gestoria-gallery-card .service-card-body {
+  padding: 20px;
+  gap: 0;
+}
+.gestoria-gallery-card .service-card-subtitle {
+  margin-bottom: 8px;
+  font-size: 11px;
+}
+.gestoria-gallery-card .service-card-body h3 {
+  margin-bottom: 10px;
+  font-size: 17px;
+}
+.gestoria-gallery-card .service-card-body p {
+  margin-bottom: 16px;
+  max-width: none;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.gestoria-gallery-card .transfer-quote-cover-content strong {
+  font-size: 26px;
+}
+.gestoria-service-crumbs {
+  max-width: 1020px;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 24px;
+}
+.gestoria-service-backlink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #3d352d;
+  font-size: 13px;
+  font-weight: 800;
+}
+.gestoria-service-backlink::before {
+  content: '\2039';
+  font-size: 16px;
+  line-height: 1;
+}
+.gestoria-service-crumb-divider,
+.gestoria-service-crumb-current {
+  color: rgba(23,20,18,0.56);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.gestoria-service-page-section {
+  padding-top: 22px;
+}
+#gestoria-service-detail-mount {
+  max-width: 1020px;
+  margin: 0 auto;
+}
+.gestoria-service-page-error {
+  max-width: 920px;
+  margin: 0 auto;
   padding: 30px;
   border: 1px solid var(--gray-200);
   border-radius: 24px;
-  background: linear-gradient(135deg, #fcfaf7 0%, #f2ebe3 100%);
+  background: var(--white);
   box-shadow: var(--shadow-sm);
 }
-.gestoria-service-feature-copy {
+.gestoria-service-page-error h2 {
+  font-size: 30px;
+  font-weight: 900;
+  color: #171412;
+  margin-bottom: 12px;
+}
+.gestoria-service-page-error p {
+  margin-bottom: 20px;
+  color: var(--gray-800);
+  line-height: 1.7;
+}
+.gestoria-service-picker {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.gestoria-service-card-btn {
+  width: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  padding: 24px;
+  border: 1px solid rgba(17,17,17,0.08);
+  border-radius: 22px;
+  background: rgba(255,255,255,0.92);
+  box-shadow: var(--shadow-sm);
+  text-align: left;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+.gestoria-service-card-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(17,17,17,0.16);
+}
+.gestoria-service-card-btn.is-active {
+  border-color: rgba(54,43,35,0.22);
+  background: linear-gradient(135deg, #fcfaf7 0%, #f2ebe3 100%);
+  box-shadow: 0 22px 44px rgba(29,20,13,0.12);
+}
+.gestoria-service-card-btn h3 {
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: #171412;
+  margin-bottom: 12px;
+}
+.gestoria-service-card-btn p {
+  margin: 0 0 18px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--gray-800);
+}
+.gestoria-service-card-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(66,55,47,0.08);
+  color: #5b5048;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.gestoria-service-card-link {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #171412;
+  font-size: 14px;
+  font-weight: 800;
+}
+.gestoria-service-card-link::after {
+  content: 'Abrir';
+  color: rgba(23,20,18,0.56);
 }
 .gestoria-service-eyebrow {
   display: inline-flex;
@@ -2286,28 +2480,76 @@ button { cursor: pointer; font-family: var(--font); }
   min-height: 30px;
   padding: 0 12px;
   border-radius: 999px;
-  background: rgba(var(--accent-rgb),0.12);
-  color: var(--red-dark);
+  background: rgba(66,55,47,0.08);
+  color: #5b5048;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 16px;
 }
-.gestoria-service-feature h3,
-.gestoria-service-panel h3 {
+.gestoria-service-detail-stage {
+  max-width: 1240px;
+  margin: 28px auto 0;
+  scroll-margin-top: 120px;
+}
+.gestoria-service-detail-empty {
+  padding: 32px;
+  border: 1px dashed rgba(17,17,17,0.12);
+  border-radius: 24px;
+  background: rgba(255,255,255,0.75);
+  text-align: center;
+}
+.gestoria-service-detail-empty h3,
+.gestoria-service-detail h3 {
   font-weight: 900;
   line-height: 1.06;
   letter-spacing: -0.03em;
   color: #171412;
 }
-.gestoria-service-feature h3 {
+.gestoria-service-detail-empty h3 {
+  font-size: 34px;
+  margin-bottom: 12px;
+}
+.gestoria-service-detail-empty p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--gray-800);
+}
+.gestoria-service-detail {
+  padding: 30px;
+  border: 1px solid var(--gray-200);
+  border-radius: 24px;
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+.gestoria-service-detail[hidden] {
+  display: none !important;
+}
+.gestoria-service-detail--split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.9fr);
+  gap: 28px;
+  align-items: stretch;
+  background: linear-gradient(135deg, #fcfaf7 0%, #f2ebe3 100%);
+}
+.gestoria-service-detail-copy {
+  display: flex;
+  flex-direction: column;
+}
+.gestoria-service-detail-tool {
+  min-width: 0;
+}
+.gestoria-service-calculator-shell {
+  margin-top: 24px;
+}
+.gestoria-service-calculator-shell[hidden] {
+  display: none !important;
+}
+.gestoria-service-detail h3 {
   font-size: clamp(30px, 4vw, 42px);
   margin-bottom: 16px;
-}
-.gestoria-service-panel h3 {
-  font-size: 28px;
-  margin-bottom: 14px;
 }
 .gestoria-service-description {
   font-size: 15px;
@@ -2336,6 +2578,33 @@ button { cursor: pointer; font-family: var(--font); }
   line-height: 1.65;
   color: var(--gray-800);
 }
+.gestoria-service-inline-copy {
+  margin-top: 12px !important;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.gestoria-service-inline-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid rgba(17,17,17,0.12);
+  border-radius: 999px;
+  background: rgba(23,19,17,0.04);
+  color: #171412;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+.gestoria-service-inline-trigger:hover {
+  background: rgba(23,19,17,0.08);
+  border-color: rgba(17,17,17,0.2);
+  transform: translateY(-1px);
+}
 .gestoria-service-list {
   display: grid;
   gap: 8px;
@@ -2357,10 +2626,6 @@ button { cursor: pointer; font-family: var(--font); }
   min-height: 46px;
   justify-content: center;
 }
-.gestoria-service-feature-tool {
-  min-width: 0;
-  scroll-margin-top: 120px;
-}
 .gestoria-transfer-form {
   height: 100%;
   border-radius: 24px;
@@ -2374,26 +2639,6 @@ button { cursor: pointer; font-family: var(--font); }
   font-size: 13px;
   line-height: 1.6;
   color: var(--gray-500);
-}
-.gestoria-service-gallery {
-  max-width: 1240px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-  align-items: stretch;
-}
-.gestoria-service-panel {
-  display: flex;
-  flex-direction: column;
-  padding: 26px;
-  border: 1px solid var(--gray-200);
-  border-radius: 22px;
-  background: var(--white);
-  box-shadow: var(--shadow-sm);
-}
-.gestoria-service-panel .gestoria-service-block {
-  background: #faf7f3;
 }
 .gestoria-service-include {
   margin: 0 0 18px;
@@ -2414,8 +2659,13 @@ button { cursor: pointer; font-family: var(--font); }
   margin-top: auto;
 }
 @media (max-width: 1180px) {
-  .gestoria-service-feature,
-  .gestoria-service-gallery {
+  .gestoria-services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .gestoria-service-picker {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .gestoria-service-detail--split {
     grid-template-columns: 1fr;
   }
 }
@@ -3659,6 +3909,7 @@ button { cursor: pointer; font-family: var(--font); }
     padding: 0;
   }
   .gestoria-hero-content { padding: 56px 24px; }
+  .gestoria-services-grid { grid-template-columns: 1fr; }
   .gestoria-highlight-row { gap: 8px; }
   .gestoria-highlight-chip { font-size: 11px; padding: 9px 12px; }
   .gestoria-tag-list { gap: 10px; }
@@ -3667,10 +3918,17 @@ button { cursor: pointer; font-family: var(--font); }
     justify-content: center;
     text-align: center;
   }
-  .gestoria-service-feature,
-  .gestoria-service-panel,
+  .gestoria-service-card-btn,
+  .gestoria-service-detail,
   .gestoria-transfer-form {
     padding: 22px;
+    border-radius: 20px;
+  }
+  .gestoria-service-picker {
+    grid-template-columns: 1fr;
+  }
+  .gestoria-service-detail-empty {
+    padding: 24px;
     border-radius: 20px;
   }
   .gestoria-service-actions {
@@ -3679,7 +3937,9 @@ button { cursor: pointer; font-family: var(--font); }
   .gestoria-service-actions .btn {
     width: 100%;
   }
-  .gestoria-service-panel h3 {
+  .gestoria-service-card-btn h3,
+  .gestoria-service-detail h3,
+  .gestoria-service-detail-empty h3 {
     font-size: 24px;
   }
   .gestoria-categories-grid,
@@ -3885,13 +4145,24 @@ button { cursor: pointer; font-family: var(--font); }
     padding: 13px 14px;
     font-size: 16px;
   }
-  .gestoria-service-feature,
-  .gestoria-service-panel,
+  .gestoria-service-crumbs {
+    padding: 0 2px;
+    margin-bottom: 14px;
+  }
+  .gestoria-gallery-card .service-card-img {
+    min-height: 210px;
+  }
+  .gestoria-service-card-btn,
+  .gestoria-service-detail,
   .gestoria-transfer-form {
     padding: 18px;
   }
-  .gestoria-service-feature h3,
-  .gestoria-service-panel h3 {
+  .gestoria-service-detail-empty {
+    padding: 20px 18px;
+  }
+  .gestoria-service-card-btn h3,
+  .gestoria-service-detail h3,
+  .gestoria-service-detail-empty h3 {
     font-size: 24px;
   }
   .page-empty-shell { min-height: 44vh; }
