@@ -4546,8 +4546,9 @@ button { cursor: pointer; font-family: var(--font); }
 
 .titulos-grid {
   display: grid;
-  gap: 22px;
-  max-width: 1200px;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  max-width: 960px;
   margin: 0 auto;
 }
 
