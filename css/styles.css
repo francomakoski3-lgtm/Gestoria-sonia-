@@ -3829,22 +3829,17 @@ button { cursor: pointer; font-family: var(--font); }
   margin-bottom: 20px;
   color: var(--black);
 }
+.contact-form--calendar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.contact-calendar-cta {
+  width: 100%;
+  justify-content: center;
+}
 .contact-form form {
   margin-top: 24px;
-}
-.contact-calendly-shell {
-  border-radius: 22px;
-  overflow: hidden;
-  border: 1px solid rgba(23,19,17,0.08);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
-  background: #faf7f2;
-}
-.contact-calendly-widget {
-  min-width: 320px;
-  height: 720px;
-}
-.contact-calendly-widget iframe {
-  min-height: 720px;
 }
 .form-group {
   margin-bottom: 16px;
@@ -4488,12 +4483,6 @@ button { cursor: pointer; font-family: var(--font); }
   }
 
   .contact-grid { grid-template-columns: 1fr; }
-  .contact-calendly-widget {
-    height: 680px;
-  }
-  .contact-calendly-widget iframe {
-    min-height: 680px;
-  }
 
   .footer-grid { grid-template-columns: 1fr 1fr; }
 
@@ -4867,13 +4856,6 @@ button { cursor: pointer; font-family: var(--font); }
   .contact-info,
   .contact-form {
     padding: 24px 18px;
-  }
-  .contact-calendly-widget {
-    min-width: 100%;
-    height: 620px;
-  }
-  .contact-calendly-widget iframe {
-    min-height: 620px;
   }
   .footer-grid { grid-template-columns: 1fr; }
   .footer-dnrpa-badge {
