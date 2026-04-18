@@ -527,6 +527,54 @@ textarea {
   font-weight: 700;
 }
 
+button:not(:disabled),
+.btn,
+.link-button,
+.tab-button {
+  animation: adminButtonAutoPressSlow 5s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform, filter;
+}
+
+button:not(:disabled):hover,
+button:not(:disabled):focus-visible,
+.btn:hover,
+.btn:focus-visible,
+.link-button:hover,
+.link-button:focus-visible,
+.tab-button:hover,
+.tab-button:focus-visible {
+  animation: none;
+}
+
+@keyframes adminButtonAutoPressSlow {
+  0%, 84%, 100% {
+    transform: translateY(0) scale(1);
+    filter: brightness(1);
+  }
+  88% {
+    transform: translateY(1px) scale(0.992);
+    filter: brightness(0.985);
+  }
+  92% {
+    transform: translateY(2px) scale(0.978);
+    filter: brightness(0.95);
+  }
+  96% {
+    transform: translateY(1px) scale(0.99);
+    filter: brightness(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button:not(:disabled),
+  .btn,
+  .link-button,
+  .tab-button {
+    animation: none;
+  }
+}
+
 .toast {
   position: fixed;
   right: 20px;

@@ -1,5 +1,7 @@
 const WA_NUMBER = '543743668039';
 const WA_BASE = `https://wa.me/${WA_NUMBER}`;
+const GESTORIA_APPOINTMENT_PAGE = 'agendar-cita.html';
+const GESTORIA_APPOINTMENT_LABEL = 'Agendar una cita gratis para evaluar tu caso';
 
 const cache = {
   autosPromise: null,
@@ -72,10 +74,8 @@ const GESTORIA_SERVICE_DETAILS = {
       }
     ],
     ctaLabel: 'Consultar por WhatsApp',
-    ctaAnimatedHand: true,
     ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20una%20transferencia%20de%20auto%20o%20moto.',
     secondaryLabel: 'Abrir calculadora',
-    secondaryAnimatedHand: true,
     secondaryHref: 'cotizar-transferencia.html',
     includeCalculator: true
   },
@@ -274,70 +274,184 @@ const GESTORIA_SERVICE_DETAILS = {
     ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20una%20denuncia%20de%20venta.'
   },
   'cedula-titulo': {
-    documentTitle: 'Cedula y titulo',
+    documentTitle: 'Cedulas del automotor',
     kicker: '',
-    title: 'C&eacute;dula y t&iacute;tulo',
+    title: 'C&eacute;dulas del automotor',
     detailClass: 'gestoria-service-detail--informe',
-    summary: 'Actualmente, el Registro del Automotor emite tanto la c&eacute;dula como el t&iacute;tulo del veh&iacute;culo en formato digital, facilitando su acceso y disponibilidad en todo momento.',
+    summary: 'Ten&eacute;s dos opciones claras: obtener la c&eacute;dula digital gratis desde Mi Argentina o avanzar con la gesti&oacute;n de la c&eacute;dula f&iacute;sica con nuestro acompa&ntilde;amiento.',
     highlights: [
       {
         icon: '&#x1F4F1;',
-        label: 'Formato actual',
-        value: 'Documentaci&oacute;n digital'
+        label: 'Opci&oacute;n gratis',
+        value: 'Mi Argentina'
       },
       {
         icon: '&#x1F4C4;',
-        label: 'Tr&aacute;mites disponibles',
-        value: 'C&eacute;dula y t&iacute;tulo'
+        label: 'Opci&oacute;n paga',
+        value: 'C&eacute;dula f&iacute;sica'
       },
       {
-        icon: '&#x1F6AA;',
-        label: 'Dato necesario',
-        value: 'Dominio o patente'
+        icon: '&#x1F4B0;',
+        label: 'Gesti&oacute;n completa',
+        value: '$150.000'
       },
       {
         icon: '&#x2705;',
-        label: 'Uso clave',
-        value: 'Circular legalmente'
+        label: 'Validez',
+        value: 'Digital y f&iacute;sica'
       }
     ],
-    detailSections: [
+    optionTabsIntro: 'Eleg&iacute; si quer&eacute;s resolverlo gratis desde tu celular o avanzar con la gesti&oacute;n de la c&eacute;dula f&iacute;sica.',
+    pathOptions: [
       {
-        title: '&#x1F4F1; C&eacute;dula del automotor',
-        text: 'La c&eacute;dula acredita la habilitaci&oacute;n para circular con el veh&iacute;culo.',
-        items: [
-          'Tenerla siempre disponible en la app <a href="https://www.argentina.gob.ar/aplicaciones/mi-argentina" target="_blank" rel="noopener" class="gestoria-service-link">Mi Argentina</a>.',
-          'Solicitar la reposici&oacute;n de c&eacute;dula en caso de extrav&iacute;o o necesidad.'
+        id: 'cedula-gratis',
+        buttonLabel: 'C&eacute;dula digital',
+        title: 'Gratis desde Mi Argentina',
+        summary: 'Si ya cont&aacute;s con la documentaci&oacute;n vigente, pod&eacute;s ver tu c&eacute;dula digital gratis desde Mi Argentina y usarla con la misma validez que la versi&oacute;n f&iacute;sica.',
+        highlights: [
+          { icon: '&#x1F4B8;', label: 'Costo', value: 'Sin costo adicional' },
+          { icon: '&#x1F4F1;', label: 'Canal', value: 'App Mi Argentina' },
+          { icon: '&#x1F512;', label: 'Validez', value: 'Igual que la f&iacute;sica' },
+          { icon: '&#x1F522;', label: 'Control', value: 'QR cada 24 h' }
         ],
-        note: 'Es un documento indispensable para circular legalmente.'
-      },
-      {
-        title: '&#x1F4D1; T&iacute;tulo del automotor',
-        text: 'El t&iacute;tulo acredita la titularidad del veh&iacute;culo.',
-        items: [
-          'Solicitar duplicado de t&iacute;tulo.',
-          'Validar el t&iacute;tulo digital todas las veces que sea necesario, con los c&oacute;digos correspondientes.',
-          'Realizar la digitalizaci&oacute;n del t&iacute;tulo si cont&aacute;s con un t&iacute;tulo antiguo en papel.'
+        sections: [
+          {
+            title: '&#x1F4CC; &iquest;De qu&eacute; se trata?',
+            text: 'La c&eacute;dula digital es la versi&oacute;n que ves en Mi Argentina y tiene la misma validez que la f&iacute;sica para circular dentro del pa&iacute;s.',
+            items: [
+              'Se muestra directamente en tu cuenta personal.',
+              'Tiene c&oacute;digo QR para control.',
+              'No tiene costo adicional.'
+            ],
+            note: 'Es la opci&oacute;n m&aacute;s simple cuando ya ten&eacute;s la documentaci&oacute;n vigente.'
+          },
+          {
+            title: '&#x1F4DD; Paso a paso gratis',
+            items: [
+              'Descarg&aacute; la app Mi Argentina.',
+              'Cre&aacute; tu cuenta y valid&aacute; tu identidad.',
+              'Entr&aacute; en el apartado Mis veh&iacute;culos.',
+              'Abr&iacute; la c&eacute;dula digital vigente del dominio.',
+              'Mostrala desde el celular cuando la necesites.',
+              'Si la app te pide validaci&oacute;n adicional, complet&aacute; ese paso para habilitar su visualizaci&oacute;n.'
+            ],
+            listStyle: 'checks'
+          },
+          {
+            title: '&#x1F4CB; &iquest;Qu&eacute; necesit&aacute;s?',
+            items: [
+              'Tener una c&eacute;dula del automotor vigente.',
+              'Cuenta en Mi Argentina con identidad validada.',
+              'Celular con la app instalada.'
+            ]
+          },
+          {
+            title: '&#x2705; &iquest;Qu&eacute; validez tiene?',
+            items: [
+              'La c&eacute;dula digital tiene la misma validez que la f&iacute;sica para circular dentro del pa&iacute;s.',
+              'El c&oacute;digo QR se actualiza cada 24 horas.',
+              'No tiene costo adicional.',
+              'Se visualiza en la cuenta personal del usuario.'
+            ]
+          },
+          {
+            title: '&#x1F3A5; Video paso a paso',
+            text: 'Te dejamos este video para que el proceso se entienda mejor y sea m&aacute;s simple de seguir.',
+            videoEmbedUrl: 'https://www.youtube-nocookie.com/embed/Jz7Lk3dcM8w?start=20&rel=0',
+            videoTitle: 'Como obtener la cedula digital en Mi Argentina',
+            videoCaption: 'Video integrado en la opci&oacute;n gratuita para que el cliente vea el procedimiento de una forma m&aacute;s visual.'
+          }
+        ],
+        actions: [
+          {
+            label: 'Abrir Mi Argentina',
+            href: 'https://www.argentina.gob.ar/aplicaciones/mi-argentina',
+            variant: 'dark'
+          },
+          {
+            label: 'Ver c&eacute;dulas digitales',
+            href: 'https://www.argentina.gob.ar/miargentina/servicios/cedulas-de-tu-vehiculo-digital',
+            variant: 'soft'
+          }
         ]
       },
       {
-        title: '&#x1F4DD; &iquest;Qu&eacute; necesit&aacute;s para realizar estos tr&aacute;mites?',
-        items: [
-          'DNI del titular.',
-          'Datos del veh&iacute;culo, como dominio o patente.',
-          'En algunos casos, c&oacute;digos de validaci&oacute;n del t&iacute;tulo digital.',
-          'Informaci&oacute;n adicional seg&uacute;n el tipo de tr&aacute;mite, como reposici&oacute;n, duplicado o digitalizaci&oacute;n.'
-        ]
-      },
-      {
-        title: '&#x26A0;&#xFE0F; Importante',
-        tone: 'warning',
-        items: [
-          'Circular sin inconvenientes.',
-          'Realizar transferencias.',
-          'Evitar problemas legales o administrativos.'
+        id: 'cedula-fisica',
+        buttonLabel: 'C&eacute;dula f&iacute;sica',
+        title: 'C&eacute;dula f&iacute;sica con gesti&oacute;n',
+        summary: 'Si necesit&aacute;s la c&eacute;dula f&iacute;sica, hacemos el tr&aacute;mite completo con formulario y escriban&iacute;a para que no tengas que resolverlo solo.',
+        highlights: [
+          { icon: '&#x1F50E;', label: 'Ideal si', value: 'Perdiste o da&ntilde;aste la c&eacute;dula' },
+          { icon: '&#x23F1;&#xFE0F;', label: 'Tiempo', value: '24 horas aprox.' },
+          { icon: '&#x1F4C4;', label: 'Tr&aacute;mite', value: 'C&eacute;dula f&iacute;sica' },
+          { icon: '&#x1F4B0;', label: 'Precio', value: '$150.000' }
         ],
-        note: 'Contar con la documentaci&oacute;n actualizada es fundamental.'
+        sections: [
+          {
+            title: '&#x1F4CC; &iquest;Qu&eacute; gestionamos?',
+            items: [
+              'La gesti&oacute;n completa de la c&eacute;dula f&iacute;sica.',
+              'Formulario correspondiente.',
+              'Escriban&iacute;a.',
+              'Acompa&ntilde;amiento durante todo el proceso.'
+            ]
+          },
+          {
+            title: '&#x1F4DD; &iquest;Qu&eacute; necesit&aacute;s?',
+            items: [
+              'DNI del titular.',
+              'Datos del veh&iacute;culo, como dominio o patente.',
+              'En algunos casos, t&iacute;tulo del automotor.',
+              'Si la c&eacute;dula est&aacute; deteriorada y la ten&eacute;s, conviene presentarla.'
+            ],
+            note: 'Si hace falta algo m&aacute;s seg&uacute;n tu caso, te lo indicamos antes de avanzar.'
+          },
+          {
+            title: '&#x1F6E0;&#xFE0F; &iquest;C&oacute;mo es el proceso?',
+            items: [
+              'Revisamos tu caso y la documentaci&oacute;n disponible.',
+              'Preparamos el formulario y coordinamos la escriban&iacute;a.',
+              'Se presenta la documentaci&oacute;n correspondiente para completar la gesti&oacute;n.',
+              'Te acompa&ntilde;amos hasta la entrega final de la c&eacute;dula f&iacute;sica.'
+            ],
+            listStyle: 'checks'
+          },
+          {
+            title: '&#x23F1;&#xFE0F; Tiempo estimado',
+            text: 'El tiempo estimado es de 24 horas aproximadamente, aunque puede variar seg&uacute;n el Registro y la documentaci&oacute;n del caso.'
+          },
+          {
+            title: '&#x1F4B0; Costo',
+            prices: [
+              { label: 'Tr&aacute;mite completo con formulario y escriban&iacute;a', value: '$150.000' }
+            ]
+          },
+          {
+            title: '&#x1F4B3; Medios de pago',
+            paymentMethods: [
+              { type: 'mercado-pago', label: 'Mercado Pago' },
+              { type: 'transfer', label: 'Transferencia bancaria' },
+              { type: 'card', label: 'Tarjetas' },
+              { type: 'cash', label: 'Efectivo' }
+            ]
+          },
+          {
+            title: '&#x26A0;&#xFE0F; Importante',
+            tone: 'warning',
+            items: [
+              'Si con la versi&oacute;n digital gratuita ya resolv&eacute;s tu necesidad, esa sigue siendo la opci&oacute;n m&aacute;s r&aacute;pida.',
+              'La gesti&oacute;n f&iacute;sica conviene cuando necesit&aacute;s la c&eacute;dula en soporte material y quer&eacute;s resolverlo con acompa&ntilde;amiento.',
+              'Antes de avanzar, revisamos si tu caso realmente requiere la opci&oacute;n paga.'
+            ]
+          }
+        ],
+        actions: [
+          {
+            label: 'Iniciar tu tr&aacute;mite',
+            href: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20la%20cedula%20fisica%20del%20automotor.',
+            variant: 'dark'
+          }
+        ]
       }
     ],
     ctaLabel: 'Iniciar tu tr&aacute;mite',
@@ -604,8 +718,133 @@ const GESTORIA_SERVICE_DETAILS = {
       }
     ],
     ctaLabel: 'Agenda asesoramiento',
-    ctaAnimatedHand: true,
     ctaHref: 'https://wa.me/543743668039?text=Hola,%20necesito%20asesoramiento%20para%20saber%20que%20tramite%20del%20automotor%20corresponde%20en%20mi%20caso.'
+  },
+  'boleto-compra-venta': {
+    documentTitle: 'Boleto de compra venta de inmuebles',
+    kicker: '',
+    title: 'Boleto de compra venta de inmuebles',
+    detailClass: 'gestoria-service-detail--informe',
+    summary: 'Redactamos el boleto de compra venta asegurando que las cl&aacute;usulas reflejen con claridad y precisi&oacute;n lo acordado entre comprador y vendedor, para brindar respaldo y tranquilidad en una instancia clave de la operaci&oacute;n.',
+    highlights: [
+      {
+        icon: '&#x1F3E0;',
+        label: 'Operaci&oacute;n',
+        value: 'Compra y venta'
+      },
+      {
+        icon: '&#x1F4DD;',
+        label: 'Documento',
+        value: 'Boleto claro y bien confeccionado'
+      },
+      {
+        icon: '&#x1F4B3;',
+        label: 'Gesti&oacute;n',
+        value: 'Sellado ante Rentas'
+      },
+      {
+        icon: '&#x1F464;',
+        label: 'Asistencia',
+        value: 'Clave fiscal si es necesaria'
+      }
+    ],
+    detailSections: [
+      {
+        title: '&#x1F4DD; &iquest;Qu&eacute; realizamos?',
+        text: 'Nos encargamos de redactar el boleto de compra venta para que el documento exprese correctamente lo pactado por las partes.',
+        items: [
+          'Cl&aacute;usulas claras y ordenadas.',
+          'Redacci&oacute;n fiel de las condiciones acordadas.',
+          'Documento pensado para resguardar a comprador y vendedor.'
+        ]
+      },
+      {
+        title: '&#x1F4CC; &iquest;Qu&eacute; contempla el boleto?',
+        items: [
+          'Forma de pago.',
+          'Plazos acordados.',
+          'Posesi&oacute;n del inmueble.',
+          'Dem&aacute;s aspectos legales relevantes de la operaci&oacute;n.'
+        ]
+      },
+      {
+        title: '&#x1F4C4; Gestiones complementarias',
+        items: [
+          'Gesti&oacute;n del sellado correspondiente ante Rentas, cumpliendo con la normativa vigente.',
+          'Asistencia en la generaci&oacute;n de la clave fiscal del usuario cuando resulta necesaria.'
+        ]
+      },
+      {
+        title: '&#x1F512; Enfoque de trabajo',
+        text: 'Trabajamos de manera organizada y confidencial, acompa&ntilde;ando cada operaci&oacute;n con claridad, respaldo y tranquilidad.'
+      }
+    ],
+    ctaLabel: 'Consultar este servicio',
+    ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20un%20boleto%20de%20compra%20venta%20de%20inmueble.'
+  },
+  'contratos-alquiler': {
+    documentTitle: 'Contratos de alquiler',
+    kicker: '',
+    title: 'Contratos de alquiler',
+    detailClass: 'gestoria-service-detail--informe',
+    summary: 'Realizamos contratos de alquiler adaptados a las nuevas disposiciones vigentes, contemplando las necesidades tanto del propietario como del inquilino y priorizando una redacci&oacute;n clara, segura y bien confeccionada.',
+    highlights: [
+      {
+        icon: '&#x1F4C4;',
+        label: 'Documento',
+        value: 'Contrato claro y seguro'
+      },
+      {
+        icon: '&#x2696;&#xFE0F;',
+        label: 'Normativa',
+        value: 'Disposiciones vigentes'
+      },
+      {
+        icon: '&#x1F465;',
+        label: 'Partes',
+        value: 'Propietario e inquilino'
+      },
+      {
+        icon: '&#x1F9ED;',
+        label: 'Objetivo',
+        value: 'Tranquilidad en la operaci&oacute;n'
+      }
+    ],
+    detailSections: [
+      {
+        title: '&#x1F4DD; &iquest;Qu&eacute; realizamos?',
+        text: 'Redactamos contratos de alquiler adaptados a la normativa vigente y a las necesidades concretas de cada operaci&oacute;n.',
+        items: [
+          'Contrato bien confeccionado.',
+          'Cl&aacute;usulas claras y ordenadas.',
+          'Condiciones definidas con responsabilidad y precisi&oacute;n.'
+        ]
+      },
+      {
+        title: '&#x1F4CC; &iquest;Qu&eacute; contemplamos?',
+        items: [
+          'Necesidades del propietario.',
+          'Necesidades del inquilino.',
+          'Condiciones acordadas por las partes.',
+          'Respaldo documental para avanzar con mayor seguridad.'
+        ]
+      },
+      {
+        title: '&#x1F464; &iquest;Para qui&eacute;n es?',
+        items: [
+          'Propietarios que necesitan formalizar un alquiler con un contrato claro.',
+          'Inquilinos que buscan revisar y firmar un contrato bien redactado.',
+          'Personas que quieren dejar bien definidas las condiciones de la operaci&oacute;n.'
+        ],
+        listStyle: 'checks'
+      },
+      {
+        title: '&#x1F512; Enfoque de trabajo',
+        text: 'Trabajamos con responsabilidad y precisi&oacute;n para brindar tranquilidad y una base documental s&oacute;lida en cada etapa del alquiler.'
+      }
+    ],
+    ctaLabel: 'Consultar este servicio',
+    ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20un%20contrato%20de%20alquiler.'
   }
 };
 
@@ -1379,7 +1618,16 @@ function initGestoriaServicePage() {
   const serviceId = params.get('servicio') || '';
   const service = GESTORIA_SERVICE_DETAILS[serviceId];
   const crumbCurrent = document.getElementById('gestoria-service-crumb-current');
+  const backlink = document.querySelector('.gestoria-service-backlink');
   const canonical = document.querySelector('link[rel="canonical"]');
+  const serviceHome = mount.dataset.serviceHome || 'gestoria.html';
+  const serviceHomeLabel = mount.dataset.serviceHomeLabel || 'Volver a servicios';
+  const canonicalBase = canonical?.href ? canonical.href.split('?')[0] : `${window.location.origin}${window.location.pathname}`;
+
+  if (backlink) {
+    backlink.href = serviceHome;
+    backlink.textContent = serviceHomeLabel;
+  }
 
   if (!service) {
     if (crumbCurrent) crumbCurrent.textContent = 'No encontrado';
@@ -1388,7 +1636,7 @@ function initGestoriaServicePage() {
       <section class="gestoria-service-page-error">
         <h2>Servicio no encontrado</h2>
         <p>El enlace no coincide con un tramite disponible. Volve a la galeria y elegi el servicio que queres revisar.</p>
-        <a href="gestoria.html" class="btn btn-dark">Volver a servicios</a>
+        <a href="${serviceHome}" class="btn btn-dark">${serviceHomeLabel}</a>
       </section>
     `;
     return;
@@ -1396,11 +1644,12 @@ function initGestoriaServicePage() {
 
   if (crumbCurrent) crumbCurrent.innerHTML = service.title;
   document.title = `${service.documentTitle} | Gestoria Sonia`;
-  if (canonical) canonical.href = `https://gestoriasonia.ar/gestoria-servicio.html?servicio=${encodeURIComponent(serviceId)}`;
+  if (canonical) canonical.href = `${canonicalBase}?servicio=${encodeURIComponent(serviceId)}`;
 
   mount.innerHTML = renderGestoriaServiceDetail(service);
   initGestoriaServiceCalculatorReveal(mount);
   initGestoriaPaymentToggles(mount);
+  initGestoriaPathTabs(mount);
 }
 
 function renderGestoriaServiceDetail(service) {
@@ -1422,8 +1671,13 @@ function renderGestoriaServiceDetail(service) {
     `
     : '';
   const detailClassName = `gestoria-service-detail${service.detailClass ? ` ${service.detailClass}` : ''}`;
+  const pathOptionsMarkup = service.pathOptions?.length
+    ? renderGestoriaServicePathOptions(service)
+    : '';
 
-  const sectionsMarkup = service.detailSections?.length
+  const sectionsMarkup = service.pathOptions?.length
+    ? pathOptionsMarkup
+    : service.detailSections?.length
     ? service.detailSections.map(renderGestoriaServiceSection).join('')
     : `
       <div class="gestoria-service-block">
@@ -1445,26 +1699,21 @@ function renderGestoriaServiceDetail(service) {
       </div>
     `;
 
-  const secondaryHasAnimatedHand = Boolean(service.secondaryAnimatedHand);
   const secondaryLabelText = service.secondaryLabel || 'Abrir calculadora';
-  const secondaryLabelMarkup = secondaryHasAnimatedHand
-    ? `<span class="gestoria-service-press-hand" aria-hidden="true">&#x1F449;</span><span class="gestoria-service-cta-copy">${secondaryLabelText}</span>`
-    : secondaryLabelText;
-  const secondaryActionClass = secondaryHasAnimatedHand ? ' gestoria-service-cta--with-hand' : '';
   const calculatorActionMarkup = service.includeCalculator
-    ? `<button type="button" class="btn btn-dark${secondaryActionClass}" data-transfer-calculator-toggle aria-expanded="false" aria-controls="service-transfer-calculator">${secondaryLabelMarkup}</button>`
-    : (service.secondaryHref ? `<a href="${service.secondaryHref}" class="btn btn-dark${secondaryActionClass}">${secondaryLabelMarkup}</a>` : '');
-  const ctaHasAnimatedHand = Boolean(service.ctaAnimatedHand || service.ctaLabel === 'Iniciar tu tr&aacute;mite');
-  const ctaLabelMarkup = ctaHasAnimatedHand
-    ? `<span class="gestoria-service-press-hand" aria-hidden="true">&#x1F449;</span><span class="gestoria-service-cta-copy">${service.ctaLabel}</span>`
-    : service.ctaLabel;
+    ? `<button type="button" class="btn btn-dark" data-transfer-calculator-toggle aria-expanded="false" aria-controls="service-transfer-calculator">${secondaryLabelText}</button>`
+    : (service.secondaryHref ? `<a href="${service.secondaryHref}" class="btn btn-dark">${secondaryLabelText}</a>` : '');
+  const appointmentActionMarkup = renderGestoriaAppointmentAction(service);
 
-  const ctaMarkup = `
-    <div class="gestoria-service-actions">
-      ${calculatorActionMarkup}
-      <a href="${service.ctaHref}" target="_blank" rel="noopener" class="btn btn-dark${service.secondaryHref ? '' : ' gestoria-service-cta'}${ctaHasAnimatedHand ? ' gestoria-service-cta--with-hand' : ''}">${ctaLabelMarkup}</a>
-    </div>
-  `;
+  const ctaMarkup = service.pathOptions?.length
+    ? ''
+    : `
+      <div class="gestoria-service-actions">
+        ${calculatorActionMarkup}
+        <a href="${service.ctaHref}" target="_blank" rel="noopener" class="btn btn-dark${service.secondaryHref ? '' : ' gestoria-service-cta'}">${service.ctaLabel}</a>
+        ${appointmentActionMarkup}
+      </div>
+    `;
 
   const detailCopy = `
     <div class="gestoria-service-detail-copy">
@@ -1515,6 +1764,49 @@ function initGestoriaServiceCalculatorReveal(scope) {
   });
 }
 
+function initGestoriaPathTabs(scope) {
+  const tabButtons = Array.from(scope.querySelectorAll('[data-gestoria-path-tab]'));
+  if (!tabButtons.length) return;
+
+  const panels = Array.from(scope.querySelectorAll('[data-gestoria-path-panel]'));
+  const setActiveTab = tabId => {
+    tabButtons.forEach(button => {
+      const isActive = button.dataset.gestoriaPathTab === tabId;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-selected', String(isActive));
+      button.setAttribute('tabindex', isActive ? '0' : '-1');
+    });
+
+    panels.forEach(panel => {
+      panel.hidden = panel.dataset.gestoriaPathPanel !== tabId;
+    });
+  };
+
+  const tabIds = new Set(tabButtons.map(button => button.dataset.gestoriaPathTab || ''));
+  const hashTabId = (window.location.hash || '').replace('#', '');
+  const initialTabId = tabIds.has(hashTabId) ? hashTabId : (tabButtons[0]?.dataset.gestoriaPathTab || '');
+  if (initialTabId) {
+    setActiveTab(initialTabId);
+  }
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      const tabId = button.dataset.gestoriaPathTab || '';
+      if (!tabId) return;
+      setActiveTab(tabId);
+      window.history.replaceState(null, '', `#${tabId}`);
+    });
+  });
+
+  window.addEventListener('hashchange', () => {
+    const nextTabId = (window.location.hash || '').replace('#', '');
+    if (tabIds.has(nextTabId)) {
+      setActiveTab(nextTabId);
+    }
+  });
+}
+
 function initGestoriaPaymentToggles(scope) {
   const toggleButtons = Array.from(scope.querySelectorAll('[data-payment-toggle]'));
   if (!toggleButtons.length) return;
@@ -1559,6 +1851,87 @@ function initGestoriaPaymentToggles(scope) {
   });
 }
 
+function renderGestoriaServicePathOptions(service) {
+  const introMarkup = service.optionTabsIntro
+    ? `<p class="gestoria-path-intro">${service.optionTabsIntro}</p>`
+    : '';
+
+  const tabButtonsMarkup = service.pathOptions.map((option, index) => `
+    <a
+      href="#${option.id}"
+      class="gestoria-path-tab${index === 0 ? ' is-active' : ''}"
+      data-gestoria-path-tab="${option.id}"
+      role="tab"
+      aria-selected="${index === 0 ? 'true' : 'false'}"
+      tabindex="${index === 0 ? '0' : '-1'}"
+    >
+      ${option.buttonLabel}
+    </a>
+  `).join('');
+
+  const panelsMarkup = service.pathOptions.map((option, index) => {
+    const highlightsMarkup = option.highlights?.length
+      ? `
+        <div class="gestoria-service-highlight-grid gestoria-path-panel-highlights">
+          ${option.highlights.map(item => `
+            <div class="gestoria-service-highlight-card">
+              <span class="gestoria-service-highlight-icon" aria-hidden="true">${item.icon}</span>
+              <span class="gestoria-service-highlight-label">${item.label}</span>
+              <strong class="gestoria-service-highlight-value">${item.value}</strong>
+            </div>
+          `).join('')}
+        </div>
+      `
+      : '';
+
+    const actionsMarkup = option.actions?.length
+      ? `
+        <div class="gestoria-path-actions">
+          ${option.actions.map(action => {
+            const variantClass = action.variant === 'soft' ? ' gestoria-path-link--soft' : ' gestoria-path-link--dark';
+            return `<a href="${action.href}" target="_blank" rel="noopener" class="btn${variantClass}">${action.label}</a>`;
+          }).join('')}
+          ${renderGestoriaAppointmentAction(service)}
+        </div>
+      `
+      : `
+        <div class="gestoria-path-actions">
+          ${renderGestoriaAppointmentAction(service)}
+        </div>
+      `;
+
+    return `
+      <section id="${option.id}" class="gestoria-path-panel" data-gestoria-path-panel="${option.id}" role="tabpanel"${index === 0 ? '' : ' hidden'}>
+        <div class="gestoria-path-panel-copy">
+          <h4>${option.title}</h4>
+          <p>${option.summary}</p>
+        </div>
+        ${highlightsMarkup}
+        ${option.sections?.map(renderGestoriaServiceSection).join('') || ''}
+        ${actionsMarkup}
+      </section>
+    `;
+  }).join('');
+
+  return `
+    <div class="gestoria-path-shell">
+      ${introMarkup}
+      <div class="gestoria-path-tablist" role="tablist" aria-label="Opciones del servicio ${service.title}">
+        ${tabButtonsMarkup}
+      </div>
+      <div class="gestoria-path-panels">
+        ${panelsMarkup}
+      </div>
+    </div>
+  `;
+}
+
+function renderGestoriaAppointmentAction(service) {
+  const appointmentHref = service.scheduleHref || GESTORIA_APPOINTMENT_PAGE;
+  const appointmentLabel = service.scheduleLabel || GESTORIA_APPOINTMENT_LABEL;
+  return `<a href="${appointmentHref}" class="btn btn-secondary gestoria-service-schedule-btn">${appointmentLabel}</a>`;
+}
+
 function renderGestoriaServiceSection(section) {
   const toneClass = section.tone ? ` gestoria-service-block--${section.tone}` : '';
   const isPaymentAccordion = Boolean(section.paymentMethods?.length);
@@ -1601,6 +1974,23 @@ function renderGestoriaServiceSection(section) {
       </ul>
     `
     : '';
+  const videoMarkup = section.videoEmbedUrl
+    ? `
+      <div class="gestoria-service-video">
+        <div class="gestoria-service-video-frame">
+          <iframe
+            src="${section.videoEmbedUrl}"
+            title="${section.videoTitle || 'Video'}"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+        </div>
+        ${section.videoCaption ? `<p class="gestoria-service-video-caption">${section.videoCaption}</p>` : ''}
+      </div>
+    `
+    : '';
   const titleMarkup = isPaymentAccordion
     ? `
       <button type="button" class="gestoria-service-block-toggle" data-payment-toggle aria-expanded="false">
@@ -1622,6 +2012,7 @@ function renderGestoriaServiceSection(section) {
         ${noteMarkup}
         ${pricesMarkup}
         ${paymentMarkup}
+        ${videoMarkup}
       </div>
     </div>
   `;
