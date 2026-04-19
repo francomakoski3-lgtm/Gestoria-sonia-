@@ -10,6 +10,7 @@
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
   <!-- SEO:END -->
   <link rel="stylesheet" href="css/admin.css?v=1">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18100857997"></script>
   <script>
@@ -424,6 +425,18 @@
             </table>
           </article>
 
+          <!-- Mapa de calor -->
+          <article class="admin-card admin-card--full">
+            <div class="card-head">
+              <div>
+                <span class="eyebrow">Geolocalización<span class="jp-tag" aria-hidden="true">地図</span></span>
+                <h2>Mapa de visitas</h2>
+              </div>
+            </div>
+            <div id="geo-map" class="geo-map"></div>
+            <p class="geo-map-hint">Las nuevas visitas aparecen en el mapa automáticamente.</p>
+          </article>
+
           <!-- Actividad reciente -->
           <article class="admin-card">
             <div class="card-head">
@@ -444,6 +457,8 @@
 
   <div class="toast" id="toast" hidden></div>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
   <script src="js/admin.js?v=1"></script>
 </body>
 </html>

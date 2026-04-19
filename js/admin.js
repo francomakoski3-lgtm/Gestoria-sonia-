@@ -826,24 +826,70 @@ function showToast(message, isError = false) {
 
 // ── Analytics / Rendimiento ────────────────────────────────
 let analyticsLoaded = false;
+let geoMap = null;
+let heatLayer = null;
 
 function initRendimientoTab() {
-  // Carga datos la primera vez que se activa el tab
   const rendimientoBtn = document.querySelector('[data-tab-target="rendimiento"]');
   if (!rendimientoBtn) return;
   rendimientoBtn.addEventListener('click', () => {
     if (!analyticsLoaded) loadAnalytics();
+    // Leaflet necesita que el contenedor sea visible antes de invalidar tamaño
+    setTimeout(() => geoMap?.invalidateSize(), 50);
   });
 }
 
 async function loadAnalytics() {
   try {
-    const data = await api('/api/admin/analytics');
+    const [data, geoData] = await Promise.all([
+      api('/api/admin/analytics'),
+      api('/api/admin/geo-points')
+    ]);
     analyticsLoaded = true;
     renderAnalytics(data);
+    initGeoMap(geoData.points || []);
   } catch {
     showToast('No se pudieron cargar las métricas.', true);
   }
+}
+
+function initGeoMap(points) {
+  const mapEl = document.getElementById('geo-map');
+  if (!mapEl || !window.L) return;
+
+  if (!geoMap) {
+    geoMap = L.map('geo-map', { zoomControl: true, scrollWheelZoom: false }).setView([20, 0], 2);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(geoMap);
+  }
+
+  if (heatLayer) heatLayer.remove();
+
+  if (points.length === 0) {
+    // Sin datos aún — muestra marcador en Argentina
+    L.circleMarker([-27, -55], {
+      radius: 6, color: '#00ff9d', fillColor: '#00ff9d', fillOpacity: 0.6, weight: 1
+    }).bindTooltip('Jardín América, Misiones', { permanent: false }).addTo(geoMap);
+    return;
+  }
+
+  const maxWeight = Math.max(...points.map(p => p.weight), 1);
+  const heatPoints = points.map(p => [p.lat, p.lon, p.weight / maxWeight]);
+
+  heatLayer = L.heatLayer(heatPoints, {
+    radius: 35,
+    blur: 25,
+    maxZoom: 17,
+    gradient: { 0.2: '#00d4ff', 0.5: '#00ff9d', 0.8: '#bf5af2', 1.0: '#ff3b3b' }
+  }).addTo(geoMap);
+
+  // Ajusta vista para mostrar todos los puntos
+  const bounds = L.latLngBounds(points.map(p => [p.lat, p.lon]));
+  geoMap.fitBounds(bounds.pad(0.3));
 }
 
 function renderAnalytics(data) {

@@ -130,6 +130,7 @@ db.exec('PRAGMA foreign_keys = ON;');
 db.exec('PRAGMA journal_mode = WAL;');
 
 initDatabase();
+migrateDatabase();
 ensureDefaultAdmin();
 seedListings();
 
@@ -241,6 +242,8 @@ function initDatabase() {
       country TEXT,
       city TEXT,
       region TEXT,
+      lat REAL,
+      lon REAL,
       user_agent TEXT,
       referrer TEXT,
       created_at TEXT NOT NULL
@@ -271,6 +274,11 @@ function initDatabase() {
       updated_at TEXT NOT NULL
     );
   `);
+}
+
+function migrateDatabase() {
+  try { runStatement('ALTER TABLE page_views ADD COLUMN lat REAL'); } catch {}
+  try { runStatement('ALTER TABLE page_views ADD COLUMN lon REAL'); } catch {}
 }
 
 function ensureDefaultAdmin() {
@@ -555,9 +563,9 @@ async function handleApi(req, res, url) {
     const now = nowIso();
     const geo = await getGeoForIp(ip);
     runStatement(
-      `INSERT INTO page_views (page, ip, country, city, region, user_agent, referrer, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      page, ip, geo.country, geo.city, geo.region, userAgent, referrer, now
+      `INSERT INTO page_views (page, ip, country, city, region, lat, lon, user_agent, referrer, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      page, ip, geo.country, geo.city, geo.region, geo.lat, geo.lon, userAgent, referrer, now
     );
     sendJson(res, 200, { ok: true });
     return;
@@ -618,6 +626,18 @@ async function handleApi(req, res, url) {
   if (req.method === 'GET' && pathname === '/api/reviews') {
     const result = await getGoogleReviews();
     sendJson(res, 200, result);
+    return;
+  }
+
+  if (req.method === 'GET' && pathname === '/api/admin/geo-points') {
+    requireAuth(req);
+    const points = allRows(
+      `SELECT lat, lon, COUNT(*) AS weight
+       FROM page_views
+       WHERE lat IS NOT NULL AND lon IS NOT NULL
+       GROUP BY ROUND(lat, 2), ROUND(lon, 2)`
+    );
+    sendJson(res, 200, { points });
     return;
   }
 
@@ -1523,21 +1543,23 @@ function getClientIp(req) {
 }
 
 async function getGeoForIp(ip) {
-  const empty = { country: null, city: null, region: null };
+  const empty = { country: null, city: null, region: null, lat: null, lon: null };
   if (!ip || ip === '::1' || ip === '127.0.0.1') return empty;
 
   const cached = geoCache.get(ip);
   if (cached && Date.now() - cached.cachedAt < GEO_CACHE_TTL_MS) {
-    return { country: cached.country, city: cached.city, region: cached.region };
+    return { country: cached.country, city: cached.city, region: cached.region, lat: cached.lat, lon: cached.lon };
   }
 
   try {
-    const res = await fetch(`http://ip-api.com/json/${ip}?fields=country,city,regionName&lang=es`);
+    const res = await fetch(`http://ip-api.com/json/${ip}?fields=country,city,regionName,lat,lon&lang=es`);
     const data = await res.json();
     const geo = {
       country: data.country || null,
       city: data.city || null,
       region: data.regionName || null,
+      lat: data.lat || null,
+      lon: data.lon || null,
       cachedAt: Date.now()
     };
     geoCache.set(ip, geo);
