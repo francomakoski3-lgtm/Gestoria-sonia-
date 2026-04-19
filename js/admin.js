@@ -838,7 +838,7 @@ function initRendimientoTab() {
 
 async function loadAnalytics() {
   try {
-    const data = await apiFetch('/api/admin/analytics');
+    const data = await api('/api/admin/analytics');
     analyticsLoaded = true;
     renderAnalytics(data);
   } catch {

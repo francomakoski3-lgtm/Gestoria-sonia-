@@ -4255,6 +4255,36 @@ button { cursor: pointer; font-family: var(--font); }
   background: var(--red-dark);
 }
 
+/* ── Decoración japonesa ───────────────────────────────────── */
+.jp-eyebrow {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: rgba(180, 40, 20, 0.45);
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+.section-dark .jp-eyebrow {
+  color: rgba(255, 255, 255, 0.18);
+}
+.jp-hero-wm {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: clamp(110px, 17vw, 210px);
+  font-weight: 900;
+  color: rgba(23, 19, 17, 0.055);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  letter-spacing: -4px;
+}
+@media (max-width: 768px) {
+  .jp-hero-wm { display: none; }
+}
+
 /* ── Responsive ────────────────────────────────────────────── */
 @media (max-width: 1480px) {
   .navbar {

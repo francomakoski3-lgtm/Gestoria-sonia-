@@ -871,6 +871,33 @@ button:not(:disabled),
   .analytics-grid    { grid-template-columns: 1fr; }
 }
 
+/* ── Decoración japonesa cyberpunk ─────────────────────────── */
+[data-tab-panel="rendimiento"] .jp-sub {
+  display: block;
+  font-family: var(--cp-font);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--cp-cyan);
+  opacity: 0.45;
+  margin-top: 3px;
+}
+[data-tab-panel="rendimiento"] .jp-tag {
+  font-family: var(--cp-font);
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  color: var(--cp-green);
+  opacity: 0.55;
+  margin-left: 7px;
+}
+.analytics-header-jp {
+  font-family: var(--cp-font);
+  font-size: 10px;
+  color: var(--cp-cyan);
+  opacity: 0.3;
+  letter-spacing: 0.22em;
+  margin-left: 10px;
+}
+
 /* ── Modo cyberpunk global (solo tab Rendimiento) ──────────── */
 body,
 .dashboard-topbar,
