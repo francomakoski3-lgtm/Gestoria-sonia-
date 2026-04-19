@@ -16,3 +16,12 @@
   Header set Pragma "no-cache"
   Header set Expires "0"
 </FilesMatch>
+
+# Evitar la indexacion de paneles privados y artefactos internos
+<FilesMatch "^(admin|gracias-reserva|cotizacion-transferencia-resultado)\.html$">
+  Header set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet"
+</FilesMatch>
+
+<FilesMatch "^review_.*\.html$">
+  Header set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet"
+</FilesMatch>
