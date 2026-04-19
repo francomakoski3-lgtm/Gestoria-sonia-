@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAutoCatalogControls();
   bindEvents();
   restoreSession();
+  initRendimientoTab();
 });
 
 function cacheElements() {
@@ -745,6 +746,8 @@ function activateTab(tabName, reset = false) {
     panel.classList.toggle('is-active', panel.dataset.tabPanel === tabName);
   });
 
+  document.body.classList.toggle('cp-mode', tabName === 'rendimiento');
+
   if (reset && tabName === 'autos') resetAutoForm();
   if (reset && tabName === 'inmuebles') resetPropertyForm();
 }
@@ -819,4 +822,99 @@ function showToast(message, isError = false) {
   showToast.timeoutId = window.setTimeout(() => {
     elements.toast.hidden = true;
   }, 3600);
+}
+
+// ── Analytics / Rendimiento ────────────────────────────────
+let analyticsLoaded = false;
+
+function initRendimientoTab() {
+  // Carga datos la primera vez que se activa el tab
+  const rendimientoBtn = document.querySelector('[data-tab-target="rendimiento"]');
+  if (!rendimientoBtn) return;
+  rendimientoBtn.addEventListener('click', () => {
+    if (!analyticsLoaded) loadAnalytics();
+  });
+}
+
+async function loadAnalytics() {
+  try {
+    const data = await apiFetch('/api/admin/analytics');
+    analyticsLoaded = true;
+    renderAnalytics(data);
+  } catch {
+    showToast('No se pudieron cargar las métricas.', true);
+  }
+}
+
+function renderAnalytics(data) {
+  const { summary, topPages, topEvents, topCountries, recentViews } = data;
+
+  // Resumen
+  document.getElementById('an-total').textContent = summary.totalViews.toLocaleString('es-AR');
+  document.getElementById('an-30d').textContent = summary.views30Days.toLocaleString('es-AR');
+  document.getElementById('an-unique').textContent = summary.uniqueIps.toLocaleString('es-AR');
+  document.getElementById('an-unique-30d').textContent = summary.uniqueIps30Days.toLocaleString('es-AR');
+
+  // Páginas más visitadas
+  const maxPage = topPages[0]?.visits || 1;
+  renderTable('an-top-pages', topPages, row => `
+    <td>
+      <div class="analytics-bar-wrap">
+        <div class="analytics-bar" style="width:${Math.round((row.visits / maxPage) * 120)}px"></div>
+        <span>${escapeHtml(row.page)}</span>
+      </div>
+    </td>
+    <td class="analytics-count">${row.visits}</td>
+  `, 'Sin datos aún.');
+
+  // Botones más clickeados
+  const maxEvent = topEvents[0]?.total || 1;
+  renderTable('an-top-events', topEvents, row => `
+    <td><span class="analytics-tag">${escapeHtml(row.event_name)}</span></td>
+    <td>${escapeHtml(row.element || '—')}</td>
+    <td class="analytics-count">${row.total}</td>
+  `, 'Sin clics registrados aún.');
+
+  // Países
+  const maxCountry = topCountries[0]?.visits || 1;
+  renderTable('an-top-countries', topCountries, row => `
+    <td>
+      <div class="analytics-bar-wrap">
+        <div class="analytics-bar" style="width:${Math.round((row.visits / maxCountry) * 100)}px"></div>
+        <span>${escapeHtml(row.country || 'Desconocido')}</span>
+      </div>
+    </td>
+    <td class="analytics-count">${row.visits}</td>
+  `, 'Sin datos de ubicación aún.');
+
+  // Actividad reciente
+  renderTable('an-recent', recentViews, row => `
+    <td>${escapeHtml(row.page)}</td>
+    <td>${escapeHtml(row.country || '—')}</td>
+    <td>${escapeHtml(row.city || '—')}</td>
+    <td style="white-space:nowrap;font-size:12px;color:#999">${formatRelativeTime(row.created_at)}</td>
+  `, 'Sin visitas registradas.');
+}
+
+function renderTable(id, rows, rowFn, emptyMsg) {
+  const table = document.getElementById(id);
+  if (!table) return;
+  const tbody = table.querySelector('tbody');
+  if (!rows || rows.length === 0) {
+    const cols = table.querySelector('thead tr')?.children.length || 2;
+    tbody.innerHTML = `<tr><td colspan="${cols}" class="analytics-empty">${emptyMsg}</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = rows.map(row => `<tr>${rowFn(row)}</tr>`).join('');
+}
+
+function formatRelativeTime(isoString) {
+  if (!isoString) return '—';
+  const diff = Date.now() - new Date(isoString).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'ahora';
+  if (mins < 60) return `hace ${mins} min`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `hace ${hrs} h`;
+  return `hace ${Math.floor(hrs / 24)} d`;
 }

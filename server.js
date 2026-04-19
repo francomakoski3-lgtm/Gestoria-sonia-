@@ -546,6 +546,75 @@ async function handleApi(req, res, url) {
     }
   }
 
+  if (req.method === 'POST' && pathname === '/api/analytics/pageview') {
+    const ip = getClientIp(req);
+    const body = await readJsonBody(req);
+    const page = readNullableString(body.page) || '/';
+    const referrer = readNullableString(body.referrer);
+    const userAgent = readNullableString(req.headers['user-agent']);
+    const now = nowIso();
+    const geo = await getGeoForIp(ip);
+    runStatement(
+      `INSERT INTO page_views (page, ip, country, city, region, user_agent, referrer, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      page, ip, geo.country, geo.city, geo.region, userAgent, referrer, now
+    );
+    sendJson(res, 200, { ok: true });
+    return;
+  }
+
+  if (req.method === 'POST' && pathname === '/api/analytics/event') {
+    const ip = getClientIp(req);
+    const body = await readJsonBody(req);
+    const eventName = readNullableString(body.event) || 'click';
+    const element = readNullableString(body.element);
+    const page = readNullableString(body.page) || '/';
+    runStatement(
+      `INSERT INTO analytics_events (event_name, element, page, ip, created_at)
+       VALUES (?, ?, ?, ?, ?)`,
+      eventName, element, page, ip, nowIso()
+    );
+    sendJson(res, 200, { ok: true });
+    return;
+  }
+
+  if (req.method === 'GET' && pathname === '/api/admin/analytics') {
+    requireAuth(req);
+
+    const since30 = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+
+    const summary = {
+      totalViews: getRow('SELECT COUNT(*) AS n FROM page_views').n,
+      views30Days: getRow('SELECT COUNT(*) AS n FROM page_views WHERE created_at >= ?', since30).n,
+      uniqueIps: getRow('SELECT COUNT(DISTINCT ip) AS n FROM page_views').n,
+      uniqueIps30Days: getRow('SELECT COUNT(DISTINCT ip) AS n FROM page_views WHERE created_at >= ?', since30).n,
+    };
+
+    const topPages = allRows(
+      `SELECT page, COUNT(*) AS visits FROM page_views
+       GROUP BY page ORDER BY visits DESC LIMIT 10`
+    );
+
+    const topEvents = allRows(
+      `SELECT event_name, element, COUNT(*) AS total FROM analytics_events
+       GROUP BY event_name, element ORDER BY total DESC LIMIT 10`
+    );
+
+    const topCountries = allRows(
+      `SELECT country, COUNT(*) AS visits FROM page_views
+       WHERE country IS NOT NULL AND country != ''
+       GROUP BY country ORDER BY visits DESC LIMIT 10`
+    );
+
+    const recentViews = allRows(
+      `SELECT page, ip, country, city, user_agent, created_at
+       FROM page_views ORDER BY id DESC LIMIT 50`
+    );
+
+    sendJson(res, 200, { summary, topPages, topEvents, topCountries, recentViews });
+    return;
+  }
+
   if (req.method === 'GET' && pathname === '/api/reviews') {
     const result = await getGoogleReviews();
     sendJson(res, 200, result);
@@ -1447,6 +1516,37 @@ function slugify(value) {
     .replace(/^-+|-+$/g, '')
     .toLowerCase();
 }
+function getClientIp(req) {
+  const forwarded = req.headers['x-forwarded-for'];
+  if (forwarded) return forwarded.split(',')[0].trim();
+  return req.socket.remoteAddress || null;
+}
+
+async function getGeoForIp(ip) {
+  const empty = { country: null, city: null, region: null };
+  if (!ip || ip === '::1' || ip === '127.0.0.1') return empty;
+
+  const cached = geoCache.get(ip);
+  if (cached && Date.now() - cached.cachedAt < GEO_CACHE_TTL_MS) {
+    return { country: cached.country, city: cached.city, region: cached.region };
+  }
+
+  try {
+    const res = await fetch(`http://ip-api.com/json/${ip}?fields=country,city,regionName&lang=es`);
+    const data = await res.json();
+    const geo = {
+      country: data.country || null,
+      city: data.city || null,
+      region: data.regionName || null,
+      cachedAt: Date.now()
+    };
+    geoCache.set(ip, geo);
+    return geo;
+  } catch {
+    return empty;
+  }
+}
+
 async function getGoogleReviews() {
   if (!GOOGLE_PLACES_API_KEY) {
     return { fallback: true };

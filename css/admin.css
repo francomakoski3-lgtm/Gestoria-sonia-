@@ -600,3 +600,396 @@ button:not(:disabled),
     height: 190px;
   }
 }
+
+/* ── Rendimiento / Cyberpunk ──────────────────────────────── */
+:root {
+  --cp-bg:      #080c10;
+  --cp-surface: #0d1117;
+  --cp-border:  #00ff9d33;
+  --cp-green:   #00ff9d;
+  --cp-cyan:    #00d4ff;
+  --cp-purple:  #bf5af2;
+  --cp-red:     #ff3b3b;
+  --cp-dim:     #3a4a3a;
+  --cp-text:    #c8ffd4;
+  --cp-muted:   #4a6e55;
+  --cp-font:    'Courier New', 'Consolas', monospace;
+}
+
+[data-tab-panel="rendimiento"] {
+  background: var(--cp-bg);
+  border-radius: 18px;
+  padding: 28px;
+  margin-top: 0;
+  background-image:
+    linear-gradient(rgba(0,255,157,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,157,0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-tab-panel="rendimiento"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,255,157,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Header del panel */
+.analytics-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.analytics-header-title {
+  font-family: var(--cp-font);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cp-green);
+  text-shadow: 0 0 8px var(--cp-green);
+}
+
+.analytics-header-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cp-green);
+  box-shadow: 0 0 8px var(--cp-green), 0 0 20px var(--cp-green);
+  animation: cp-pulse 2s ease-in-out infinite;
+}
+
+@keyframes cp-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* Stat cards */
+.analytics-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.analytics-stat-card {
+  background: var(--cp-surface);
+  border: 1px solid var(--cp-border);
+  border-radius: 12px;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.analytics-stat-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cp-green), transparent);
+  opacity: 0.6;
+}
+
+.analytics-stat-card:hover {
+  border-color: var(--cp-green);
+  box-shadow: 0 0 20px rgba(0,255,157,0.12), inset 0 0 20px rgba(0,255,157,0.03);
+}
+
+.analytics-stat-label {
+  font-family: var(--cp-font);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cp-muted);
+}
+
+.analytics-stat-value {
+  font-family: var(--cp-font);
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--cp-green);
+  text-shadow: 0 0 20px rgba(0,255,157,0.6);
+  line-height: 1;
+}
+
+/* Grid de tablas */
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Cards de tabla */
+[data-tab-panel="rendimiento"] .admin-card {
+  background: var(--cp-surface);
+  border: 1px solid var(--cp-border);
+  border-radius: 12px;
+  box-shadow: none;
+  backdrop-filter: none;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-tab-panel="rendimiento"] .admin-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cp-cyan), transparent);
+  opacity: 0.5;
+}
+
+[data-tab-panel="rendimiento"] .admin-card:hover {
+  border-color: rgba(0,212,255,0.4);
+  box-shadow: 0 0 24px rgba(0,212,255,0.08);
+}
+
+[data-tab-panel="rendimiento"] .card-head {
+  border-bottom: 1px solid var(--cp-border);
+  padding-bottom: 14px;
+  margin-bottom: 0;
+}
+
+[data-tab-panel="rendimiento"] .eyebrow {
+  font-family: var(--cp-font);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--cp-cyan);
+  text-shadow: 0 0 8px var(--cp-cyan);
+  text-transform: uppercase;
+}
+
+[data-tab-panel="rendimiento"] .card-head h2 {
+  font-family: var(--cp-font);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cp-text);
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+
+/* Tablas */
+.analytics-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--cp-font);
+  font-size: 12px;
+  margin-top: 0;
+}
+
+.analytics-table thead th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cp-muted);
+  border-bottom: 1px solid var(--cp-border);
+}
+
+.analytics-table tbody td {
+  padding: 9px 14px;
+  border-bottom: 1px solid rgba(0,255,157,0.06);
+  color: var(--cp-text);
+  vertical-align: middle;
+  font-size: 12px;
+}
+
+.analytics-table tbody tr:last-child td { border-bottom: none; }
+
+.analytics-table tbody tr:hover td {
+  background: rgba(0,255,157,0.04);
+  color: #fff;
+}
+
+.analytics-count {
+  font-weight: 700;
+  text-align: right;
+  white-space: nowrap;
+  color: var(--cp-green) !important;
+  text-shadow: 0 0 8px rgba(0,255,157,0.5);
+}
+
+.analytics-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.analytics-bar {
+  height: 4px;
+  border-radius: 0;
+  background: linear-gradient(90deg, var(--cp-green), var(--cp-cyan));
+  box-shadow: 0 0 6px rgba(0,255,157,0.6);
+  min-width: 4px;
+}
+
+.analytics-empty {
+  color: var(--cp-muted);
+  font-family: var(--cp-font);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  padding: 20px 14px;
+}
+
+.analytics-empty::before { content: '> '; color: var(--cp-green); }
+
+.analytics-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-family: var(--cp-font);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  background: rgba(191,90,242,0.15);
+  color: var(--cp-purple);
+  border: 1px solid rgba(191,90,242,0.3);
+  text-shadow: 0 0 6px var(--cp-purple);
+}
+
+.analytics-tag[data-event="whatsapp_click"] {
+  background: rgba(0,255,157,0.1);
+  color: var(--cp-green);
+  border-color: rgba(0,255,157,0.3);
+  text-shadow: 0 0 6px var(--cp-green);
+}
+
+@media (max-width: 900px) {
+  .analytics-summary { grid-template-columns: 1fr 1fr; }
+  .analytics-grid    { grid-template-columns: 1fr; }
+}
+
+/* ── Modo cyberpunk global (solo tab Rendimiento) ──────────── */
+body,
+.dashboard-topbar,
+.tabs-bar,
+.stat-card,
+.user-chip,
+.admin-card,
+.tab-button {
+  transition:
+    background 0.4s ease,
+    background-color 0.4s ease,
+    border-color 0.4s ease,
+    color 0.35s ease,
+    box-shadow 0.4s ease;
+}
+
+body.cp-mode {
+  background: #080c10 !important;
+  background-image:
+    linear-gradient(rgba(0,255,157,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,157,0.035) 1px, transparent 1px) !important;
+  background-size: 40px 40px !important;
+  color: var(--cp-text) !important;
+}
+
+/* Topbar */
+body.cp-mode .dashboard-topbar h1 {
+  color: var(--cp-green);
+  text-shadow: 0 0 16px rgba(0,255,157,0.5);
+  font-family: var(--cp-font);
+  letter-spacing: 0.06em;
+}
+
+body.cp-mode .dashboard-topbar p {
+  color: var(--cp-muted);
+  font-family: var(--cp-font);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
+body.cp-mode .user-chip {
+  background: var(--cp-surface);
+  border-color: var(--cp-border);
+  color: var(--cp-green);
+  font-family: var(--cp-font);
+  box-shadow: 0 0 12px rgba(0,255,157,0.1);
+}
+
+body.cp-mode .user-chip::before { content: '> '; opacity: 0.5; }
+
+/* Botón logout */
+body.cp-mode #logout-button {
+  background: transparent;
+  border: 1px solid rgba(255,59,59,0.4);
+  color: var(--cp-red);
+  font-family: var(--cp-font);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  box-shadow: 0 0 10px rgba(255,59,59,0.15);
+}
+body.cp-mode #logout-button:hover {
+  background: rgba(255,59,59,0.1);
+  box-shadow: 0 0 18px rgba(255,59,59,0.3);
+}
+
+/* Stats cards del topbar */
+body.cp-mode .stat-card {
+  background: var(--cp-surface);
+  border: 1px solid var(--cp-border);
+  box-shadow: 0 0 16px rgba(0,255,157,0.06);
+  border-radius: 12px;
+}
+
+body.cp-mode .stat-card span {
+  font-family: var(--cp-font);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--cp-muted);
+}
+
+body.cp-mode .stat-card strong {
+  font-family: var(--cp-font);
+  color: var(--cp-cyan);
+  text-shadow: 0 0 16px rgba(0,212,255,0.6);
+}
+
+/* Tab bar */
+body.cp-mode .tabs-bar {
+  background: var(--cp-surface);
+  border-color: var(--cp-border);
+  box-shadow: 0 0 20px rgba(0,255,157,0.06);
+}
+
+body.cp-mode .tab-button {
+  font-family: var(--cp-font);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--cp-muted);
+  text-transform: uppercase;
+  border-radius: 6px;
+}
+
+body.cp-mode .tab-button:hover {
+  color: var(--cp-green);
+}
+
+body.cp-mode .tab-button.is-active {
+  background: rgba(0,255,157,0.12);
+  color: var(--cp-green);
+  box-shadow: 0 0 12px rgba(0,255,157,0.2), inset 0 0 8px rgba(0,255,157,0.05);
+  border: 1px solid rgba(0,255,157,0.3);
+  text-shadow: 0 0 8px rgba(0,255,157,0.6);
+}
+
+/* Scrollbar */
+body.cp-mode ::-webkit-scrollbar { width: 6px; }
+body.cp-mode ::-webkit-scrollbar-track { background: var(--cp-bg); }
+body.cp-mode ::-webkit-scrollbar-thumb {
+  background: var(--cp-green);
+  box-shadow: 0 0 6px var(--cp-green);
+  border-radius: 3px;
+}

@@ -84,6 +84,7 @@
         <button type="button" class="tab-button is-active" data-tab-target="autos">Autos</button>
         <button type="button" class="tab-button" data-tab-target="inmuebles">Inmuebles</button>
         <button type="button" class="tab-button" data-tab-target="cuenta">Cuenta</button>
+        <button type="button" class="tab-button" data-tab-target="rendimiento">Rendimiento</button>
       </nav>
 
       <section class="tab-panel is-active" data-tab-panel="autos">
@@ -343,6 +344,92 @@
             <button type="submit" class="btn btn-primary">Actualizar contrasena</button>
           </form>
         </article>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="rendimiento">
+        <!-- Header cyberpunk -->
+        <div class="analytics-header">
+          <div class="analytics-header-dot"></div>
+          <span class="analytics-header-title">// sistema de monitoreo &mdash; gestoria_sonia.ar</span>
+        </div>
+
+        <!-- Resumen -->
+        <div class="analytics-summary" id="analytics-summary">
+          <div class="analytics-stat-card">
+            <span class="analytics-stat-label">Visitas totales</span>
+            <strong class="analytics-stat-value" id="an-total">—</strong>
+          </div>
+          <div class="analytics-stat-card">
+            <span class="analytics-stat-label">Últimos 30 días</span>
+            <strong class="analytics-stat-value" id="an-30d">—</strong>
+          </div>
+          <div class="analytics-stat-card">
+            <span class="analytics-stat-label">Visitantes únicos</span>
+            <strong class="analytics-stat-value" id="an-unique">—</strong>
+          </div>
+          <div class="analytics-stat-card">
+            <span class="analytics-stat-label">Únicos (30 días)</span>
+            <strong class="analytics-stat-value" id="an-unique-30d">—</strong>
+          </div>
+        </div>
+
+        <div class="analytics-grid">
+          <!-- Páginas más visitadas -->
+          <article class="admin-card">
+            <div class="card-head">
+              <div>
+                <span class="eyebrow">Páginas</span>
+                <h2>Más visitadas</h2>
+              </div>
+            </div>
+            <table class="analytics-table" id="an-top-pages">
+              <thead><tr><th>Página</th><th>Visitas</th></tr></thead>
+              <tbody><tr><td colspan="2" class="analytics-empty">Cargando…</td></tr></tbody>
+            </table>
+          </article>
+
+          <!-- Botones más clickeados -->
+          <article class="admin-card">
+            <div class="card-head">
+              <div>
+                <span class="eyebrow">Interacciones</span>
+                <h2>Botones más usados</h2>
+              </div>
+            </div>
+            <table class="analytics-table" id="an-top-events">
+              <thead><tr><th>Acción</th><th>Elemento</th><th>Clics</th></tr></thead>
+              <tbody><tr><td colspan="3" class="analytics-empty">Cargando…</td></tr></tbody>
+            </table>
+          </article>
+
+          <!-- Países -->
+          <article class="admin-card">
+            <div class="card-head">
+              <div>
+                <span class="eyebrow">Origen</span>
+                <h2>Países de los visitantes</h2>
+              </div>
+            </div>
+            <table class="analytics-table" id="an-top-countries">
+              <thead><tr><th>País</th><th>Visitas</th></tr></thead>
+              <tbody><tr><td colspan="2" class="analytics-empty">Cargando…</td></tr></tbody>
+            </table>
+          </article>
+
+          <!-- Actividad reciente -->
+          <article class="admin-card">
+            <div class="card-head">
+              <div>
+                <span class="eyebrow">Actividad</span>
+                <h2>Visitas recientes</h2>
+              </div>
+            </div>
+            <table class="analytics-table" id="an-recent">
+              <thead><tr><th>Página</th><th>País</th><th>Ciudad</th><th>Hora</th></tr></thead>
+              <tbody><tr><td colspan="4" class="analytics-empty">Cargando…</td></tr></tbody>
+            </table>
+          </article>
+        </div>
       </section>
     </section>
   </div>

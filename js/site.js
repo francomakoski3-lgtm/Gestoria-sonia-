@@ -614,6 +614,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   initContactForm();
   initGestoriaServiceGallery();
   initGestoriaServicePage();
+  initAnalyticsTracking();
 
   await Promise.all([
     initHomeDestacados(),
@@ -1825,4 +1826,35 @@ function initContactForm() {
     window.open(waLink(text), '_blank');
     submitButton?.classList.remove('is-loading');
   });
+}
+
+function initAnalyticsTracking() {
+  // Pageview
+  fetch('/api/analytics/pageview', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      page: window.location.pathname,
+      referrer: document.referrer || null
+    })
+  }).catch(() => {});
+
+  // Click tracking en botones y links importantes
+  document.addEventListener('click', event => {
+    const target = event.target.closest('.btn, [href*="wa.me"], .nav-links a, .nav-icon-btn, .service-card');
+    if (!target) return;
+
+    const label = (target.querySelector('h3')?.textContent || target.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 100);
+    const isWhatsapp = target.href?.includes('wa.me');
+
+    fetch('/api/analytics/event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event: isWhatsapp ? 'whatsapp_click' : 'button_click',
+        element: label,
+        page: window.location.pathname
+      })
+    }).catch(() => {});
+  }, { passive: true });
 }
