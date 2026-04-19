@@ -24,8 +24,8 @@ const geoCache = new Map(); // ip -> { country, city, region, cachedAt }
 const GEO_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 días
 const SESSION_DAYS = 30;
 const MAX_BODY_SIZE = 30 * 1024 * 1024;
-const DEFAULT_ADMIN_USER = process.env.ADMIN_USERNAME || 'franco';
-const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'francothebest';
+const DEFAULT_ADMIN_USER = process.env.ADMIN_USERNAME || 'admin';
+const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin1234';
 
 // Rate limiting — protección contra fuerza bruta en el login
 const loginAttempts = new Map(); // ip -> { count, resetAt }
@@ -282,54 +282,11 @@ function migrateDatabase() {
 }
 
 function ensureDefaultAdmin() {
+  const existing = getRow('SELECT id FROM users LIMIT 1');
+  if (existing) return;
+
   const now = nowIso();
-  const totalUsers = getRow('SELECT COUNT(*) AS total FROM users').total;
-  const preferredUser = getRow('SELECT id FROM users WHERE username = ?', DEFAULT_ADMIN_USER);
-
-  if (preferredUser) return;
-
   const password = createPasswordHash(DEFAULT_ADMIN_PASSWORD);
-  const legacyAdmin = getRow('SELECT id FROM users WHERE username = ?', 'admin');
-
-  if (totalUsers === 0) {
-    runStatement(
-      `
-        INSERT INTO users (username, password_hash, password_salt, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?)
-      `,
-      DEFAULT_ADMIN_USER,
-      password.hash,
-      password.salt,
-      now,
-      now
-    );
-
-    console.log('Usuario administrador inicial creado.');
-    console.log(`Usuario: ${DEFAULT_ADMIN_USER}`);
-    console.log('Clave: definida por variable de entorno ADMIN_PASSWORD (o el valor por defecto).');
-    return;
-  }
-
-  if (totalUsers === 1 && legacyAdmin) {
-    runStatement(
-      `
-        UPDATE users
-        SET username = ?, password_hash = ?, password_salt = ?, updated_at = ?
-        WHERE id = ?
-      `,
-      DEFAULT_ADMIN_USER,
-      password.hash,
-      password.salt,
-      now,
-      legacyAdmin.id
-    );
-    runStatement('DELETE FROM sessions WHERE user_id = ?', legacyAdmin.id);
-
-    console.log('Usuario administrador migrado al nuevo acceso por defecto.');
-    console.log(`Usuario: ${DEFAULT_ADMIN_USER}`);
-    console.log('Clave: definida por variable de entorno ADMIN_PASSWORD (o el valor por defecto).');
-    return;
-  }
 
   runStatement(
     `
@@ -343,9 +300,10 @@ function ensureDefaultAdmin() {
     now
   );
 
-  console.log('Usuario administrador adicional creado.');
+  console.log('Usuario administrador inicial creado.');
   console.log(`Usuario: ${DEFAULT_ADMIN_USER}`);
   console.log('Clave: definida por variable de entorno ADMIN_PASSWORD (o el valor por defecto).');
+  console.log('Cambia la clave desde el panel despues del primer acceso.');
 }
 
 function seedListings() {
