@@ -606,8 +606,284 @@ const GESTORIA_SERVICE_DETAILS = {
     ctaLabel: 'Agenda asesoramiento',
     ctaAnimatedHand: true,
     ctaHref: 'https://wa.me/543743668039?text=Hola,%20necesito%20asesoramiento%20para%20saber%20que%20tramite%20del%20automotor%20corresponde%20en%20mi%20caso.'
+  },
+  'boleto-compra-venta': {
+    documentTitle: 'Boleto de compra venta de inmuebles',
+    kicker: '',
+    title: 'Boleto de compra venta de inmuebles',
+    detailClass: 'gestoria-service-detail--informe',
+    summary: 'Redactamos y revisamos boletos de compra venta para dejar por escrito una operacion clara, ordenada y bien respaldada antes de avanzar a la escritura.',
+    highlights: [
+      {
+        icon: '&#x1F3E0;',
+        label: 'Operacion',
+        value: 'Compra y venta'
+      },
+      {
+        icon: '&#x1F4DD;',
+        label: 'Incluye',
+        value: 'Redaccion y revision'
+      },
+      {
+        icon: '&#x1F4C4;',
+        label: 'Apoyo clave',
+        value: 'Sellado y respaldo'
+      },
+      {
+        icon: '&#x2705;',
+        label: 'Objetivo',
+        value: 'Operacion documentada'
+      }
+    ],
+    detailSections: [
+      {
+        title: '&#x1F4CC; &iquest;Que hacemos?',
+        items: [
+          'Redaccion del boleto con los datos de comprador, vendedor e inmueble.',
+          'Revision de condiciones de pago, plazos y entrega.',
+          'Acompanamiento con la documentacion necesaria para firmar con mayor claridad.',
+          'Orientacion sobre el sellado y los pasos siguientes de la operacion.'
+        ]
+      },
+      {
+        title: '&#x1F4DD; Documentacion que suele hacer falta',
+        items: [
+          'DNI de las partes.',
+          'Datos catastrales o identificacion del inmueble.',
+          'Titulo, escritura o documentacion disponible del propietario.',
+          'Condiciones comerciales acordadas: precio, forma de pago y plazos.'
+        ]
+      },
+      {
+        title: '&#x1F464; &iquest;Para quien es?',
+        items: [
+          'Personas que van a comprar o vender un inmueble y necesitan dejar constancia escrita de la operacion con respaldo documental.'
+        ],
+        listStyle: 'checks'
+      },
+      {
+        title: '&#x26A0;&#xFE0F; Importante',
+        tone: 'warning',
+        text: 'El boleto ordena la operacion y protege a las partes, pero debe estar bien redactado y alineado con la documentacion real del inmueble.'
+      },
+      {
+        title: '&#x1F4B3; Medios de pago',
+        paymentMethods: [
+          { type: 'mercado-pago', label: 'Mercado Pago' },
+          { type: 'transfer', label: 'Transferencia bancaria' },
+          { type: 'card', label: 'Tarjetas' },
+          { type: 'cash', label: 'Efectivo' }
+        ]
+      }
+    ],
+    ctaLabel: 'Consultar por WhatsApp',
+    ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20un%20boleto%20de%20compra%20venta%20de%20inmueble.'
+  },
+  'contratos-alquiler': {
+    documentTitle: 'Contratos de alquiler',
+    kicker: '',
+    title: 'Contratos de alquiler',
+    detailClass: 'gestoria-service-detail--informe',
+    summary: 'Preparamos contratos de alquiler con clausulas claras, datos bien definidos y acompanamiento documental para propietarios e inquilinos.',
+    highlights: [
+      {
+        icon: '&#x1F3E1;',
+        label: 'Operacion',
+        value: 'Alquileres'
+      },
+      {
+        icon: '&#x1F4DD;',
+        label: 'Incluye',
+        value: 'Redaccion completa'
+      },
+      {
+        icon: '&#x1F4C5;',
+        label: 'Se define',
+        value: 'Plazo y condiciones'
+      },
+      {
+        icon: '&#x1F91D;',
+        label: 'Objetivo',
+        value: 'Acuerdo claro'
+      }
+    ],
+    detailSections: [
+      {
+        title: '&#x1F4CC; &iquest;Que hacemos?',
+        items: [
+          'Redaccion del contrato de alquiler segun el acuerdo entre las partes.',
+          'Ordenamiento de clausulas sobre plazo, monto, ajuste, deposito y obligaciones.',
+          'Revision de datos del inmueble, locador, locatario y garantes si corresponde.',
+          'Entrega del contrato listo para firma con una estructura clara y prolija.'
+        ]
+      },
+      {
+        title: '&#x1F4DD; Informacion necesaria',
+        items: [
+          'DNI de las partes.',
+          'Datos del inmueble.',
+          'Monto del alquiler y modalidad de pago.',
+          'Plazo del contrato y condiciones especiales acordadas.',
+          'Datos de garantes o respaldos adicionales si el caso lo requiere.'
+        ]
+      },
+      {
+        title: '&#x1F464; &iquest;Para quien es?',
+        items: [
+          'Propietarios e inquilinos que buscan dejar por escrito condiciones claras para evitar confusiones futuras.'
+        ],
+        listStyle: 'checks'
+      },
+      {
+        title: '&#x26A0;&#xFE0F; Importante',
+        tone: 'warning',
+        text: 'Un contrato bien armado ayuda a prevenir conflictos, ordenar obligaciones y dejar definidos los puntos sensibles desde el inicio.'
+      },
+      {
+        title: '&#x1F4B3; Medios de pago',
+        paymentMethods: [
+          { type: 'mercado-pago', label: 'Mercado Pago' },
+          { type: 'transfer', label: 'Transferencia bancaria' },
+          { type: 'card', label: 'Tarjetas' },
+          { type: 'cash', label: 'Efectivo' }
+        ]
+      }
+    ],
+    ctaLabel: 'Consultar por WhatsApp',
+    ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20un%20contrato%20de%20alquiler.'
   }
 };
+
+const SERVICE_PAGE_METADATA = {
+  transferencias: {
+    pagePath: 'transferencia-automotor.html',
+    metaTitle: 'Transferencia automotor en Jardín América | Gestoría Sonia',
+    metaDescription: 'Transferencia de autos y motos en Jardín América, Misiones. Requisitos, costos orientativos y acompañamiento con Gestoría Sonia.',
+    imagePath: 'img/services/transferencia-cover.jpg',
+    serviceHome: 'gestoria.html',
+    serviceHomeLabel: 'Volver a servicios'
+  },
+  'informe-dominio': {
+    pagePath: 'informe-de-dominio.html',
+    metaTitle: 'Informe de dominio automotor | Gestoría Sonia',
+    metaDescription: 'Solicitá informe de dominio histórico o actual para autos y motos con Gestoría Sonia en Jardín América, Misiones.',
+    imagePath: 'img/services/informes-cover.png',
+    serviceHome: 'gestoria.html',
+    serviceHomeLabel: 'Volver a servicios'
+  },
+  'denuncia-venta': {
+    pagePath: 'denuncia-de-venta.html',
+    metaTitle: 'Denuncia de venta del automotor | Gestoría Sonia',
+    metaDescription: 'Realizá la denuncia de venta de tu auto o moto con acompañamiento local en Jardín América, Misiones.',
+    imagePath: 'img/services/denuncia-venta-cover.png',
+    serviceHome: 'gestoria.html',
+    serviceHomeLabel: 'Volver a servicios'
+  },
+  'cedula-titulo': {
+    pagePath: 'cedula-y-titulo-automotor.html',
+    metaTitle: 'Cédula y título del automotor | Gestoría Sonia',
+    metaDescription: 'Gestión de cédula, título, duplicados y documentación digital del automotor en Jardín América, Misiones.',
+    imagePath: 'img/services/cedula-titulo-cover.png',
+    serviceHome: 'gestoria.html',
+    serviceHomeLabel: 'Volver a servicios'
+  },
+  'inscripcion-0km': {
+    pagePath: 'inscripcion-0km.html',
+    metaTitle: 'Inscripción 0 km | Gestoría Sonia',
+    metaDescription: 'Patenta tu auto o moto 0 km con Gestoría Sonia. Inscripción inicial y documentación registral en Jardín América, Misiones.',
+    imagePath: 'img/services/inscripcion-0km-cover.png',
+    serviceHome: 'gestoria.html',
+    serviceHomeLabel: 'Volver a servicios'
+  },
+  'prendas-registrales': {
+    pagePath: 'prendas-y-tramites-registrales.html',
+    metaTitle: 'Prendas y trámites registrales | Gestoría Sonia',
+    metaDescription: 'Cancelaciones, regularizaciones y trámites registrales del automotor con seguimiento local en Jardín América, Misiones.',
+    imagePath: 'img/services/prendas-registrales-cover.png',
+    serviceHome: 'gestoria.html',
+    serviceHomeLabel: 'Volver a servicios'
+  },
+  asesoramiento: {
+    pagePath: 'asesoramiento-automotor.html',
+    metaTitle: 'Asesoramiento de gestoría del automotor | Gestoría Sonia',
+    metaDescription: 'Asesoramiento para compras, ventas y trámites del automotor con atención personalizada en Jardín América, Misiones.',
+    imagePath: 'img/services/asesoramiento-cover.png',
+    serviceHome: 'gestoria.html',
+    serviceHomeLabel: 'Volver a servicios'
+  },
+  'boleto-compra-venta': {
+    pagePath: 'boleto-compra-venta-inmuebles.html',
+    metaTitle: 'Boleto de compra venta de inmuebles | Gestoría Sonia',
+    metaDescription: 'Redacción, revisión y sellado de boletos de compra venta de inmuebles en Jardín América, Misiones.',
+    imagePath: 'img/services/inmuebles-cover.jpg',
+    serviceHome: 'gestoria-inmobiliaria.html',
+    serviceHomeLabel: 'Volver a servicios inmobiliarios'
+  },
+  'contratos-alquiler': {
+    pagePath: 'contratos-de-alquiler.html',
+    metaTitle: 'Contratos de alquiler | Gestoría Sonia',
+    metaDescription: 'Contratos de alquiler con redacción clara, condiciones bien definidas y respaldo documental en Jardín América, Misiones.',
+    imagePath: 'img/services/inmuebles-cover.jpg',
+    serviceHome: 'gestoria-inmobiliaria.html',
+    serviceHomeLabel: 'Volver a servicios inmobiliarios'
+  }
+};
+
+const SITE_ORIGIN = 'https://gestoriasonia.ar';
+const GENERIC_SERVICE_TEMPLATES = new Set([
+  'gestoria-servicio.html',
+  'gestoria-inmobiliaria-servicio.html'
+]);
+
+function decodeHtmlEntities(value) {
+  const textarea = document.createElement('textarea');
+  textarea.innerHTML = value;
+  return textarea.value;
+}
+
+function getCurrentPageFile() {
+  return window.location.pathname.split('/').pop() || 'index.html';
+}
+
+function getResolvedService(serviceId) {
+  if (!serviceId) return null;
+  const service = GESTORIA_SERVICE_DETAILS[serviceId];
+  if (!service) return null;
+  return {
+    ...service,
+    ...(SERVICE_PAGE_METADATA[serviceId] || {})
+  };
+}
+
+function setMetaContent(selector, value) {
+  if (!value) return;
+  const element = document.querySelector(selector);
+  if (element) element.setAttribute('content', value);
+}
+
+function syncServicePageHead(service) {
+  if (!service) return;
+
+  const title = service.metaTitle || `${decodeHtmlEntities(service.documentTitle || service.title)} | Gestoria Sonia`;
+  const description = service.metaDescription || decodeHtmlEntities(service.summary || '');
+  const canonicalUrl = service.pagePath ? `${SITE_ORIGIN}/${service.pagePath}` : null;
+  const imageUrl = service.imagePath ? `${SITE_ORIGIN}/${service.imagePath}` : null;
+  const canonical = document.querySelector('link[rel="canonical"]');
+  const descriptionMeta = document.querySelector('meta[name="description"]');
+
+  document.title = title;
+  if (canonical && canonicalUrl) canonical.href = canonicalUrl;
+  if (descriptionMeta && description) descriptionMeta.setAttribute('content', description);
+
+  setMetaContent('meta[property="og:title"]', title);
+  setMetaContent('meta[property="og:description"]', description);
+  setMetaContent('meta[property="og:url"]', canonicalUrl);
+  setMetaContent('meta[property="og:image"]', imageUrl);
+  setMetaContent('meta[property="og:image:alt"]', title);
+  setMetaContent('meta[name="twitter:title"]', title);
+  setMetaContent('meta[name="twitter:description"]', description);
+  setMetaContent('meta[name="twitter:image"]', imageUrl);
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
   initNavbar();
@@ -1377,28 +1653,50 @@ function initGestoriaServicePage() {
   if (!mount) return;
 
   const params = new URLSearchParams(window.location.search);
-  const serviceId = params.get('servicio') || '';
-  const service = GESTORIA_SERVICE_DETAILS[serviceId];
+  const currentPage = getCurrentPageFile();
+  const requestedServiceId = mount.dataset.serviceId || params.get('servicio') || '';
+  const service = getResolvedService(requestedServiceId);
   const crumbCurrent = document.getElementById('gestoria-service-crumb-current');
-  const canonical = document.querySelector('link[rel="canonical"]');
+  const backLink = document.querySelector('.gestoria-service-backlink');
+  const fallbackHome =
+    mount.dataset.serviceHome ||
+    (currentPage === 'gestoria-inmobiliaria-servicio.html'
+      ? 'gestoria-inmobiliaria.html'
+      : 'gestoria.html');
+  const fallbackHomeLabel =
+    mount.dataset.serviceHomeLabel ||
+    (fallbackHome === 'gestoria-inmobiliaria.html'
+      ? 'Volver a servicios inmobiliarios'
+      : 'Volver a servicios');
+
+  if (service?.pagePath && params.get('servicio') && GENERIC_SERVICE_TEMPLATES.has(currentPage)) {
+    window.location.replace(service.pagePath);
+    return;
+  }
 
   if (!service) {
     if (crumbCurrent) crumbCurrent.textContent = 'No encontrado';
     document.title = 'Servicio no encontrado | Gestoria Sonia';
+    if (backLink) {
+      backLink.href = fallbackHome;
+      backLink.textContent = fallbackHomeLabel;
+    }
     mount.innerHTML = `
       <section class="gestoria-service-page-error">
         <h2>Servicio no encontrado</h2>
         <p>El enlace no coincide con un tramite disponible. Volve a la galeria y elegi el servicio que queres revisar.</p>
-        <a href="gestoria.html" class="btn btn-dark">Volver a servicios</a>
+        <a href="${fallbackHome}" class="btn btn-dark">${fallbackHomeLabel}</a>
       </section>
     `;
     return;
   }
 
+  if (backLink) {
+    backLink.href = service.serviceHome || fallbackHome;
+    backLink.textContent = service.serviceHomeLabel || fallbackHomeLabel;
+  }
   if (crumbCurrent) crumbCurrent.innerHTML = service.title;
-  document.title = `${service.documentTitle} | Gestoria Sonia`;
-  if (canonical) canonical.href = `https://gestoriasonia.ar/gestoria-servicio.html?servicio=${encodeURIComponent(serviceId)}`;
-
+  syncServicePageHead(service);
   mount.innerHTML = renderGestoriaServiceDetail(service);
   initGestoriaServiceCalculatorReveal(mount);
   initGestoriaPaymentToggles(mount);
@@ -1470,7 +1768,7 @@ function renderGestoriaServiceDetail(service) {
   const detailCopy = `
     <div class="gestoria-service-detail-copy">
       ${eyebrowMarkup}
-      <h3>${service.title}</h3>
+      <h1>${service.title}</h1>
       <p class="gestoria-service-description">${service.summary}</p>
       ${includeMarkup}
       ${highlightsMarkup}
@@ -1787,7 +2085,12 @@ function initNavbar() {
     });
   }
 
-  const current = window.location.pathname.split('/').pop() || 'index.html';
+  let current = getCurrentPageFile();
+  const currentServiceMeta = Object.values(SERVICE_PAGE_METADATA).find(service => service.pagePath === current);
+  if (currentServiceMeta?.serviceHome) {
+    current = currentServiceMeta.serviceHome;
+  }
+
   document.querySelectorAll('.nav-links a').forEach(link => {
     const href = link.getAttribute('href');
     if (href === current || (current === '' && href === 'index.html')) {

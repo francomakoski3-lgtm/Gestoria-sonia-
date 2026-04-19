@@ -2708,6 +2708,7 @@ button { cursor: pointer; font-family: var(--font); }
 .gestoria-service-calculator-shell[hidden] {
   display: none !important;
 }
+.gestoria-service-detail h1,
 .gestoria-service-detail h3 {
   font-size: clamp(30px, 4vw, 42px);
   margin-bottom: 16px;
