@@ -3885,7 +3885,7 @@ button { cursor: pointer; font-family: var(--font); }
 }
 .footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
   gap: 40px;
   max-width: 1200px;
   margin: 0 auto 40px;
@@ -4478,7 +4478,7 @@ button { cursor: pointer; font-family: var(--font); }
     align-items: flex-start;
   }
 
-  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr 1fr; }
 
   .filters-bar { padding: 12px 16px; }
   .market-hero-tags { gap: 8px; }
