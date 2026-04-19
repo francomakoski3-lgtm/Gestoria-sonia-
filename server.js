@@ -18,6 +18,10 @@ const GOOGLE_PLACE_ID_ENV = process.env.GOOGLE_PLACE_ID || '';
 // Cache de reseñas en memoria (se renueva cada 24 horas)
 const reviewsCache = { data: null, expiresAt: 0, placeId: GOOGLE_PLACE_ID_ENV };
 const REVIEWS_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+
+// Cache de geolocalización por IP (evita llamadas repetidas a ip-api.com)
+const geoCache = new Map(); // ip -> { country, city, region, cachedAt }
+const GEO_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 días
 const SESSION_DAYS = 30;
 const MAX_BODY_SIZE = 30 * 1024 * 1024;
 const DEFAULT_ADMIN_USER = process.env.ADMIN_USERNAME || 'admin';
@@ -228,6 +232,27 @@ function initDatabase() {
       featured INTEGER NOT NULL DEFAULT 0,
       created_at TEXT NOT NULL,
       updated_at TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS page_views (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      page TEXT NOT NULL,
+      ip TEXT,
+      country TEXT,
+      city TEXT,
+      region TEXT,
+      user_agent TEXT,
+      referrer TEXT,
+      created_at TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS analytics_events (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      event_name TEXT NOT NULL,
+      element TEXT,
+      page TEXT,
+      ip TEXT,
+      created_at TEXT NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS consumer_withdrawal_requests (
