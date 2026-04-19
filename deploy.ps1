@@ -16,7 +16,7 @@ $htmlFiles = Get-ChildItem -Filter "*.html" -File
 foreach ($file in $htmlFiles) {
     $content = Get-Content $file.FullName -Raw -Encoding UTF8
     # Reemplaza cualquier ?v=XXXX en referencias a site.js y styles.css
-    $newContent = $content -replace '(site\.js|styles\.css)\?v=[^\s"'']+', "`$1?v=$version"
+    $newContent = $content -replace '(site\.js|styles\.css|admin\.js|admin\.css)\?v=[^\s"'']+', "`$1?v=$version"
     if ($newContent -ne $content) {
         Set-Content $file.FullName $newContent -Encoding UTF8 -NoNewline
         Write-Host "    Actualizado: $($file.Name)" -ForegroundColor Gray
@@ -25,6 +25,14 @@ foreach ($file in $htmlFiles) {
 
 # ── 3. Git: agregar todo, commitear y pushear ─────────────────
 Write-Host ""
+Write-Host "  Sincronizando SEO tecnico..." -ForegroundColor Cyan
+node .\scripts\sync-seo.js
+
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "  Error al sincronizar el SEO. Se cancela el deploy." -ForegroundColor Red
+    exit $LASTEXITCODE
+}
+
 Write-Host "  Subiendo a GitHub..." -ForegroundColor Cyan
 
 git add -A -- ':!.claude' ':!.git'
