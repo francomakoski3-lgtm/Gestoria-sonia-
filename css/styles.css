@@ -954,32 +954,6 @@ button { cursor: pointer; font-family: var(--font); }
   font-size: 17px;
   margin-bottom: 0;
 }
-.hero-services {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 28px;
-}
-.hero-services a {
-  display: inline-flex;
-  align-items: center;
-  padding: 10px 14px;
-  border: 1px solid rgba(23,20,18,0.12);
-  border-radius: 999px;
-  background: rgba(255,255,255,0.46);
-  color: #2d2723;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-}
-.hero-services a:hover {
-  transform: translateY(-1px);
-  background: rgba(255,255,255,0.72);
-  border-color: rgba(23,20,18,0.22);
-}
-
 /* ── Botones ───────────────────────────────────────────────── */
 .btn {
   display: inline-flex;
@@ -993,7 +967,7 @@ button { cursor: pointer; font-family: var(--font); }
   padding: 14px 28px;
   border-radius: var(--radius);
   border: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease, filter 0.2s ease;
+  transition: all 0.2s;
   cursor: pointer;
 }
 .btn-primary {
@@ -1024,66 +998,6 @@ button { cursor: pointer; font-family: var(--font); }
 }
 .btn-dark:hover { background: var(--gray-800); }
 .btn-sm { padding: 9px 18px; font-size: 12px; }
-
-.btn:not(.is-loading),
-.nav-search,
-.nav-icon-btn,
-.nav-toggle,
-.gestoria-service-inline-trigger,
-.hero-services a,
-.vehicle-type-option span {
-  animation: buttonAutoPressSlow 5s ease-in-out infinite;
-  transform-origin: center;
-  will-change: transform, filter;
-}
-
-.btn:not(.is-loading):hover,
-.btn:not(.is-loading):focus-visible,
-.nav-search:hover,
-.nav-search:focus-visible,
-.nav-icon-btn:hover,
-.nav-icon-btn:focus-visible,
-.nav-toggle:hover,
-.nav-toggle:focus-visible,
-.gestoria-service-inline-trigger:hover,
-.gestoria-service-inline-trigger:focus-visible,
-.hero-services a:hover,
-.hero-services a:focus-visible,
-.vehicle-type-option:hover span,
-.vehicle-type-option:focus-within span {
-  animation: none;
-}
-
-@keyframes buttonAutoPressSlow {
-  0%, 84%, 100% {
-    transform: translateY(0) scale(1);
-    filter: brightness(1);
-  }
-  88% {
-    transform: translateY(1px) scale(0.992);
-    filter: brightness(0.985);
-  }
-  92% {
-    transform: translateY(2px) scale(0.978);
-    filter: brightness(0.95);
-  }
-  96% {
-    transform: translateY(1px) scale(0.99);
-    filter: brightness(0.98);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .btn:not(.is-loading),
-  .nav-search,
-  .nav-icon-btn,
-  .nav-toggle,
-  .gestoria-service-inline-trigger,
-  .hero-services a,
-  .vehicle-type-option span {
-    animation: none;
-  }
-}
 
 /* ── Sección genérica ──────────────────────────────────────── */
 .section {
@@ -1354,24 +1268,64 @@ button { cursor: pointer; font-family: var(--font); }
 .service-card-badge {
   pointer-events: none;
 }
-.gestoria-inmobiliaria-sale-cover,
-.gestoria-inmobiliaria-rental-cover {
-  display: flex;
+.inmobiliaria-services-grid {
+  align-items: stretch;
+}
+.inmobiliaria-service-card .service-card-img {
+  min-height: 220px;
+}
+.inmobiliaria-cover-kicker {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: 8px 14px;
+  margin-bottom: 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.28);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
 }
-.gestoria-inmobiliaria-sale-cover {
-  background:
-    linear-gradient(180deg, rgba(10,8,7,0.18) 0%, rgba(10,8,7,0.42) 100%),
-    radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
-    linear-gradient(135deg, #ccb895 0%, #ae9570 52%, #8f7453 100%);
+.inmobiliaria-cover-note {
+  display: block;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: rgba(255,255,255,0.9);
 }
-.gestoria-inmobiliaria-rental-cover {
-  background:
-    linear-gradient(180deg, rgba(10,8,7,0.18) 0%, rgba(10,8,7,0.42) 100%),
-    radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
-    linear-gradient(135deg, #97afc2 0%, #738da1 52%, #566b7c 100%);
+.inmobiliaria-service-card .service-card-body h3 {
+  margin-bottom: 12px;
+}
+.inmobiliaria-service-card .service-card-body p {
+  margin-bottom: 18px;
+  max-width: none;
+}
+.inmobiliaria-service-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+}
+.inmobiliaria-service-list li {
+  position: relative;
+  padding-left: 20px;
+  color: rgba(23,20,18,0.78);
+  font-size: 14px;
+  line-height: 1.65;
+}
+.inmobiliaria-service-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--red);
+  box-shadow: 0 0 0 4px rgba(var(--accent-rgb),0.12);
 }
 
 /* ── Por qué elegirnos ─────────────────────────────────────── */
@@ -1475,6 +1429,165 @@ button { cursor: pointer; font-family: var(--font); }
   color: var(--red);
 }
 .btn-white:hover { background: var(--gray-100); }
+
+.reviews-home {
+  background: linear-gradient(180deg, #fffdfb 0%, #f6efe7 100%);
+}
+
+.reviews-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 28px;
+  max-width: 1180px;
+  margin: 0 auto;
+  align-items: stretch;
+}
+
+.reviews-summary {
+  position: relative;
+  overflow: hidden;
+  padding: 34px;
+  border-radius: 30px;
+  background: var(--white);
+  border: 1px solid rgba(var(--accent-rgb),0.14);
+  box-shadow: 0 24px 48px rgba(41,30,22,0.08);
+}
+
+.reviews-summary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(var(--accent-rgb),0.95) 0%, rgba(var(--accent-rgb),0.12) 58%, rgba(var(--accent-rgb),0) 100%);
+}
+
+.reviews-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  margin-bottom: 18px;
+  background: rgba(var(--accent-rgb),0.1);
+  color: var(--red-dark);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.reviews-summary h2 {
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  margin-bottom: 14px;
+  color: var(--black);
+}
+
+.reviews-summary > p {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--gray-500);
+  max-width: 34ch;
+}
+
+.reviews-score {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 28px 0 24px;
+  padding: 22px 24px;
+  border-radius: 24px;
+  border: 1px solid rgba(var(--accent-rgb),0.16);
+  background: linear-gradient(180deg, rgba(255,251,246,1) 0%, rgba(248,242,234,0.92) 100%);
+}
+
+.reviews-score strong {
+  font-size: clamp(42px, 5vw, 66px);
+  line-height: 1;
+  letter-spacing: -0.06em;
+  color: var(--black);
+}
+
+.reviews-score-meta {
+  display: grid;
+  gap: 8px;
+}
+
+.reviews-stars {
+  font-size: 20px;
+  letter-spacing: 3px;
+  color: var(--accent);
+}
+
+.reviews-score-meta span:last-child {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray-800);
+}
+
+.reviews-note {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--gray-400);
+}
+
+.reviews-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.review-card {
+  padding: 26px 24px;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.84);
+  border: 1px solid rgba(var(--accent-rgb),0.12);
+  box-shadow: 0 18px 34px rgba(41,30,22,0.06);
+}
+
+.review-card-kicker {
+  display: inline-block;
+  margin-bottom: 16px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.review-card h3 {
+  font-size: clamp(24px, 2.4vw, 34px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin-bottom: 12px;
+  color: var(--black);
+}
+
+.review-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--gray-500);
+}
+
+/* Reviews sección full-width */
+.reviews-shell--full {
+  grid-template-columns: 1fr;
+  max-width: 860px;
+}
+
+/* Elfsight wrapper */
+.reviews-elfsight-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 300px;
+}
 
 /* ── Filtros ───────────────────────────────────────────────── */
 .filters-bar {
@@ -2611,102 +2724,6 @@ button { cursor: pointer; font-family: var(--font); }
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-bottom: 18px;
 }
-.gestoria-path-shell {
-  display: grid;
-  gap: 18px;
-}
-.gestoria-path-intro {
-  margin: 4px 0 0;
-  font-size: 14px;
-  line-height: 1.65;
-  color: var(--gray-800);
-}
-.gestoria-path-tablist {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-.gestoria-path-tab {
-  min-height: 56px;
-  padding: 14px 18px;
-  border-radius: 18px;
-  border: 1px solid rgba(17,17,17,0.1);
-  background: rgba(255,255,255,0.72);
-  color: var(--black);
-  font: inherit;
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-}
-.gestoria-path-tab:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
-}
-.gestoria-path-tab.is-active {
-  background: var(--black);
-  color: var(--white);
-  border-color: var(--black);
-  box-shadow: 0 14px 28px rgba(17,17,17,0.16);
-}
-.gestoria-path-panels {
-  display: grid;
-}
-.gestoria-path-panel {
-  display: grid;
-  gap: 14px;
-  padding: 20px;
-  border-radius: 24px;
-  border: 1px solid rgba(17,17,17,0.08);
-  background: linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.9) 100%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
-}
-.gestoria-path-panel[hidden] {
-  display: none !important;
-}
-.gestoria-path-panel-copy {
-  display: grid;
-  gap: 8px;
-}
-.gestoria-path-panel-copy h4 {
-  margin: 0;
-  font-size: clamp(22px, 3vw, 30px);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  color: var(--black);
-}
-.gestoria-path-panel-copy p {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.7;
-  color: var(--gray-800);
-}
-.gestoria-path-panel-highlights {
-  margin-bottom: 0;
-}
-.gestoria-path-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 4px;
-}
-.gestoria-path-link--dark {
-  background: var(--black);
-  color: var(--white);
-}
-.gestoria-path-link--dark:hover {
-  background: var(--gray-800);
-}
-.gestoria-path-link--soft {
-  background: rgba(255,255,255,0.88);
-  color: var(--black);
-  border: 1px solid rgba(17,17,17,0.1);
-}
-.gestoria-path-link--soft:hover {
-  background: rgba(255,255,255,1);
-}
 .gestoria-service-highlight-card {
   padding: 18px;
   border-radius: 20px;
@@ -2790,31 +2807,6 @@ button { cursor: pointer; font-family: var(--font); }
 .gestoria-service-block-content {
   display: grid;
   gap: 14px;
-}
-.gestoria-service-video {
-  display: grid;
-  gap: 10px;
-}
-.gestoria-service-video-frame {
-  position: relative;
-  overflow: hidden;
-  border-radius: 18px;
-  background: #000000;
-  aspect-ratio: 16 / 9;
-  box-shadow: var(--shadow-sm);
-}
-.gestoria-service-video-frame iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-.gestoria-service-video-caption {
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.6;
-  color: var(--gray-500);
 }
 .gestoria-service-block-content--accordion {
   max-height: 0;
@@ -3023,16 +3015,14 @@ button { cursor: pointer; font-family: var(--font); }
   flex-wrap: wrap;
   gap: 12px;
 }
+.gestoria-service-press-hand {
+  font-size: 18px;
+  line-height: 1;
+  animation: gestoriaPressTap 2.4s ease-in-out infinite;
+}
 .gestoria-service-actions .btn {
   min-height: 46px;
   justify-content: center;
-}
-.gestoria-service-schedule-btn {
-  border-color: rgba(var(--accent-rgb),0.18);
-  background: rgba(255,255,255,0.82);
-}
-.gestoria-service-schedule-btn:hover {
-  background: rgba(255,255,255,0.96);
 }
 .gestoria-transfer-form {
   height: 100%;
@@ -3066,50 +3056,26 @@ button { cursor: pointer; font-family: var(--font); }
   justify-content: center;
   margin-top: auto;
 }
-.calendly-page-section {
-  padding-top: 28px;
+.gestoria-service-cta--with-hand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
-.calendly-shell {
-  display: grid;
-  gap: 22px;
-  padding: 26px;
-  border-radius: 28px;
-  border: 1px solid rgba(var(--accent-rgb),0.18);
-  background: linear-gradient(145deg, #fffaf6 0%, #fffdfb 46%, #f3eadf 100%);
-  box-shadow: 0 26px 50px rgba(28,18,12,0.08);
+.gestoria-service-cta-copy {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
 }
-.calendly-shell-copy {
-  max-width: 760px;
-}
-.calendly-shell-copy h1 {
-  font-size: clamp(32px, 4vw, 48px);
-  line-height: 0.98;
-  letter-spacing: -0.04em;
-  margin-bottom: 14px;
-}
-.calendly-shell-copy p {
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.7;
-  color: var(--gray-800);
-}
-.calendly-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.calendly-frame-wrap {
-  overflow: hidden;
-  border-radius: 24px;
-  border: 1px solid rgba(17,17,17,0.08);
-  background: rgba(255,255,255,0.96);
-  box-shadow: var(--shadow-sm);
-}
-.calendly-frame {
-  width: 100%;
-  min-height: 820px;
-  border: 0;
-  display: block;
+@keyframes gestoriaPressTap {
+  0%, 100% {
+    transform: translateX(0) scale(1);
+  }
+  35% {
+    transform: translateX(3px) scale(0.92);
+  }
+  65% {
+    transform: translateX(1px) scale(1.04);
+  }
 }
 @media (max-width: 1180px) {
   .gestoria-services-grid {
@@ -3829,17 +3795,45 @@ button { cursor: pointer; font-family: var(--font); }
   margin-bottom: 20px;
   color: var(--black);
 }
-.contact-form--calendar {
+.contact-form--message {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.contact-calendar-cta {
-  width: 100%;
-  justify-content: center;
+.contact-form-lead {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--gray-500);
+  margin-bottom: 4px;
 }
 .contact-form form {
   margin-top: 24px;
+  display: grid;
+  gap: 16px;
+}
+.contact-form .form-group {
+  margin-bottom: 0;
+}
+.contact-form .form-group input,
+.contact-form .form-group textarea {
+  border-radius: 18px;
+  border-color: rgba(23,19,17,0.12);
+  background: linear-gradient(180deg, #fffdfb 0%, #faf6f1 100%);
+  padding: 14px 16px;
+}
+.contact-form .form-group input::placeholder,
+.contact-form .form-group textarea::placeholder {
+  color: #9d8c7d;
+}
+.contact-form .form-group textarea {
+  min-height: 148px;
+}
+.contact-submit-btn {
+  width: 100%;
+  justify-content: center;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-radius: 18px;
 }
 .form-group {
   margin-bottom: 16px;
@@ -4421,18 +4415,6 @@ button { cursor: pointer; font-family: var(--font); }
   .gestoria-service-actions .btn {
     width: 100%;
   }
-  .gestoria-path-actions {
-    flex-direction: column;
-  }
-  .gestoria-path-actions .btn {
-    width: 100%;
-  }
-  .calendly-actions {
-    flex-direction: column;
-  }
-  .calendly-actions .btn {
-    width: 100%;
-  }
   .gestoria-service-card-btn h3,
   .gestoria-service-detail h3,
   .gestoria-service-detail-empty h3 {
@@ -4482,7 +4464,19 @@ button { cursor: pointer; font-family: var(--font); }
     text-align: left;
   }
 
+  .reviews-shell,
   .contact-grid { grid-template-columns: 1fr; }
+
+  .reviews-summary,
+  .review-card {
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  .reviews-score {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
   .footer-grid { grid-template-columns: 1fr 1fr; }
 
@@ -4925,21 +4919,6 @@ button { cursor: pointer; font-family: var(--font); }
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
-  .gestoria-path-tablist {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  .gestoria-path-tab,
-  .gestoria-path-panel {
-    border-radius: 16px;
-  }
-  .calendly-shell,
-  .calendly-frame-wrap {
-    border-radius: 18px;
-  }
-  .calendly-frame {
-    min-height: 720px;
-  }
   .gestoria-service-group-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
@@ -5076,268 +5055,9 @@ button { cursor: pointer; font-family: var(--font); }
   .seguro-cotizador-price {
     font-size: 34px;
   }
-.service-card-brand {
-  width: 100%;
-  border-radius: 16px;
-  justify-content: center;
-  }
-}
-
-.seguros-catalog-section {
-  background: linear-gradient(180deg, rgba(247,243,238,0.72) 0%, #ffffff 100%);
-}
-.seguros-catalog-grid {
-  max-width: 1240px;
-  margin: 0 auto;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 380px));
-  justify-content: center;
-  gap: 18px;
-}
-.seguro-carrier-card {
-  min-height: 100%;
-}
-.seguros-liderar-section {
-  background: linear-gradient(180deg, rgba(245,241,235,0.9) 0%, rgba(255,255,255,1) 100%);
-}
-.seguros-window {
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 36px;
-  border-radius: 32px;
-  border: 1px solid rgba(23,19,17,0.08);
-  background: rgba(255,255,255,0.94);
-  box-shadow: 0 28px 56px rgba(18,14,10,0.08);
-}
-.seguros-window-header {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 24px;
-  align-items: start;
-}
-.seguros-window-brand {
-  display: flex;
-  align-items: flex-start;
-  gap: 22px;
-}
-.seguros-window-logo {
-  width: 220px;
-  min-height: 142px;
-  padding: 22px;
-  border-radius: 24px;
-  border: 1px solid rgba(93,47,132,0.12);
-  background: linear-gradient(180deg, #ffffff 0%, #f5f0fa 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.seguros-window-logo img {
-  display: block;
-  width: min(100%, 180px);
-  height: auto;
-}
-.seguros-window-copy {
-  max-width: 720px;
-}
-.seguros-window-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  min-height: 30px;
-  padding: 0 12px;
-  border-radius: 999px;
-  background: rgba(23,19,17,0.06);
-  color: #3d352d;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.seguros-window-copy h2 {
-  font-size: clamp(30px, 4vw, 44px);
-  font-weight: 900;
-  color: #171412;
-  letter-spacing: -1px;
-  line-height: 0.98;
-  margin-bottom: 14px;
-}
-.seguros-window-copy p {
-  font-size: 16px;
-  line-height: 1.7;
-  color: rgba(23,20,18,0.72);
-  margin-bottom: 0;
-}
-.seguros-window-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-self: flex-start;
-  justify-content: flex-end;
-}
-.seguros-window-block {
-  margin-top: 40px;
-  padding-top: 40px;
-  border-top: 1px solid rgba(23,19,17,0.08);
-}
-.seguros-window-block-header {
-  text-align: left;
-  max-width: none;
-  margin-bottom: 28px;
-}
-.seguros-window-block-header h3 {
-  font-size: clamp(24px, 3vw, 34px);
-  font-weight: 900;
-  color: #171412;
-  text-transform: none;
-  letter-spacing: -0.6px;
-  margin-bottom: 10px;
-}
-.seguros-window-block-header p {
-  max-width: 760px;
-  margin: 0;
-}
-.seguros-window-services-grid,
-.seguros-window .liderar-summary-grid,
-.seguros-window .servicios-grid,
-.seguros-window .gestoria-step-grid,
-.seguros-window .seguros-faq-list {
-  max-width: none;
-}
-.seguros-window-callout {
-  position: relative;
-  overflow: hidden;
-  border-radius: 28px;
-  padding: 32px;
-  background: linear-gradient(135deg, #191512 0%, #26211d 55%, #171311 100%);
-}
-.seguros-window-callout::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 18% 20%, rgba(var(--accent-rgb),0.22) 0%, rgba(var(--accent-rgb),0) 24%),
-    radial-gradient(circle at 82% 18%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 18%);
-  pointer-events: none;
-}
-.seguros-window-callout > * {
-  position: relative;
-  z-index: 1;
-}
-.seguros-window-callout-tag {
-  display: inline-flex;
-  align-items: center;
-  min-height: 30px;
-  padding: 0 12px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.76);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.seguros-window-callout h3 {
-  font-size: clamp(26px, 3vw, 38px);
-  font-weight: 900;
-  color: var(--white);
-  text-transform: none;
-  letter-spacing: -0.8px;
-  margin-bottom: 12px;
-}
-.seguros-window-callout p {
-  max-width: 760px;
-  color: rgba(255,255,255,0.72);
-  line-height: 1.7;
-  margin-bottom: 24px;
-}
-.seguros-window-callout-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.seguros-faq-list {
-  display: grid;
-  gap: 16px;
-}
-.seguros-faq-item {
-  background: var(--white);
-  border: 1px solid var(--gray-200);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  padding: 20px;
-}
-.seguros-faq-item summary {
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-.seguros-faq-item summary::-webkit-details-marker {
-  display: none;
-}
-.seguros-faq-item p {
-  font-size: 14px;
-  color: var(--gray-500);
-  line-height: 1.6;
-  margin-top: 12px;
-}
-.seguros-faq-toggle {
-  font-size: 20px;
-  color: var(--red);
-  transition: transform 0.2s ease;
-}
-.seguros-faq-item[open] .seguros-faq-toggle {
-  transform: rotate(45deg);
-}
-.seguros-window-cta {
-  border-radius: 28px;
-}
-
-@media (max-width: 980px) {
-  .seguros-window {
-    padding: 26px;
-    border-radius: 26px;
-  }
-  .seguros-window-header {
-    grid-template-columns: 1fr;
-  }
-  .seguros-window-brand {
-    flex-direction: column;
-  }
-  .seguros-window-logo {
+  .service-card-brand {
     width: 100%;
-    max-width: 320px;
-  }
-  .seguros-window-actions {
-    justify-content: flex-start;
-  }
-}
-
-@media (max-width: 600px) {
-  .seguros-window {
-    padding: 20px;
-    border-radius: 22px;
-  }
-  .seguros-catalog-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .seguros-window-copy h2 {
-    font-size: 30px;
-  }
-  .seguros-window-actions,
-  .seguros-window-callout-actions {
-    flex-direction: column;
-  }
-  .seguros-window-actions .btn,
-  .seguros-window-callout-actions .btn {
-    width: 100%;
+    border-radius: 16px;
     justify-content: center;
   }
 }

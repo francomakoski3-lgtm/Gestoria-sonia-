@@ -12,6 +12,12 @@ const UPLOADS_DIR = path.join(ROOT_DIR, 'uploads');
 const PORT = Number.parseInt(process.env.PORT || '3000', 10);
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const COOKIE_NAME = 'gs_admin_session';
+const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY || '';
+const GOOGLE_PLACE_ID_ENV = process.env.GOOGLE_PLACE_ID || '';
+
+// Cache de reseñas en memoria (se renueva cada 24 horas)
+const reviewsCache = { data: null, expiresAt: 0, placeId: GOOGLE_PLACE_ID_ENV };
+const REVIEWS_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 const SESSION_DAYS = 30;
 const MAX_BODY_SIZE = 30 * 1024 * 1024;
 const DEFAULT_ADMIN_USER = process.env.ADMIN_USERNAME || 'admin';
@@ -223,6 +229,22 @@ function initDatabase() {
       created_at TEXT NOT NULL,
       updated_at TEXT NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS consumer_withdrawal_requests (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      code TEXT NOT NULL UNIQUE,
+      full_name TEXT NOT NULL,
+      contact_email TEXT,
+      contact_phone TEXT,
+      service_name TEXT NOT NULL,
+      contract_date TEXT NOT NULL,
+      details TEXT,
+      origin_channel TEXT NOT NULL,
+      page_url TEXT,
+      status TEXT NOT NULL DEFAULT 'received',
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
   `);
 }
 
@@ -396,6 +418,19 @@ async function handleApi(req, res, url) {
     return;
   }
 
+  if (req.method === 'GET' && pathname === '/api/admin/consumer-withdrawals') {
+    requireAuth(req);
+    sendJson(res, 200, { items: listConsumerWithdrawalRequests() });
+    return;
+  }
+
+  if (req.method === 'POST' && pathname === '/api/consumer/withdrawals') {
+    const body = await readJsonBody(req);
+    const request = createConsumerWithdrawalRequest(normalizeConsumerWithdrawalInput(body));
+    sendJson(res, 201, { request });
+    return;
+  }
+
   if (pathname === '/api/autos' && req.method === 'GET') {
     sendJson(res, 200, { items: listAutos() });
     return;
@@ -486,6 +521,12 @@ async function handleApi(req, res, url) {
     }
   }
 
+  if (req.method === 'GET' && pathname === '/api/reviews') {
+    const result = await getGoogleReviews();
+    sendJson(res, 200, result);
+    return;
+  }
+
   throw createHttpError(404, 'Ruta no encontrada.', true);
 }
 
@@ -548,6 +589,15 @@ function listProperties() {
     FROM properties
     ORDER BY featured DESC, updated_at DESC, id DESC
   `).map(mapPropertyRow);
+}
+
+function listConsumerWithdrawalRequests() {
+  return allRows(`
+    SELECT *
+    FROM consumer_withdrawal_requests
+    ORDER BY created_at DESC, id DESC
+    LIMIT 200
+  `).map(mapConsumerWithdrawalRow);
 }
 
 function getAutoRow(id) {
@@ -714,6 +764,53 @@ function insertProperty(input) {
   return getPropertyById(Number(result.lastInsertRowid));
 }
 
+function createConsumerWithdrawalRequest(input) {
+  const now = nowIso();
+  const code = buildConsumerWithdrawalCode();
+
+  runStatement(
+    `
+      INSERT INTO consumer_withdrawal_requests (
+        code,
+        full_name,
+        contact_email,
+        contact_phone,
+        service_name,
+        contract_date,
+        details,
+        origin_channel,
+        page_url,
+        status,
+        created_at,
+        updated_at
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'received', ?, ?)
+    `,
+    code,
+    input.fullName,
+    input.contactEmail,
+    input.contactPhone,
+    input.serviceName,
+    input.contractDate,
+    input.details,
+    input.originChannel,
+    input.pageUrl,
+    now,
+    now
+  );
+
+  console.log(`[Arrepentimiento] ${code} - ${input.fullName} - ${input.serviceName}`);
+
+  return {
+    code,
+    fullName: input.fullName,
+    serviceName: input.serviceName,
+    contractDate: input.contractDate,
+    status: 'received',
+    createdAt: now
+  };
+}
+
 function updateProperty(id, input) {
   runStatement(
     `
@@ -871,6 +968,62 @@ function normalizePropertyInput(payload, existingRow) {
   return property;
 }
 
+function normalizeConsumerWithdrawalInput(payload) {
+  const fullName = readString(payload.fullName);
+  const serviceName = readString(payload.serviceName);
+  const contractDate = readString(payload.contractDate);
+  const details = readNullableString(payload.details);
+  const originChannel = readString(payload.originChannel) || 'web';
+  const pageUrl = readNullableString(payload.pageUrl);
+  const acceptedPrivacy = toBoolean(payload.acceptedPrivacy);
+
+  const contactEmailRaw = readNullableString(payload.contactEmail);
+  const contactEmail = contactEmailRaw ? contactEmailRaw.toLowerCase() : null;
+  const contactPhone = readNullableString(payload.contactPhone);
+
+  if (!fullName) {
+    throw createHttpError(400, 'Ingresa tu nombre y apellido.', true);
+  }
+  if (fullName.length > 120) {
+    throw createHttpError(400, 'El nombre informado es demasiado largo.', true);
+  }
+  if (!serviceName) {
+    throw createHttpError(400, 'Indica el servicio o contratacion que queres revocar.', true);
+  }
+  if (serviceName.length > 160) {
+    throw createHttpError(400, 'El detalle del servicio es demasiado largo.', true);
+  }
+  if (!contractDate || !isValidIsoDate(contractDate)) {
+    throw createHttpError(400, 'Ingresa una fecha valida de contratacion.', true);
+  }
+  if (!contactEmail && !contactPhone) {
+    throw createHttpError(400, 'Ingresa un correo electronico o telefono de contacto.', true);
+  }
+  if (contactEmail && !isValidEmail(contactEmail)) {
+    throw createHttpError(400, 'Ingresa un correo electronico valido.', true);
+  }
+  if (contactPhone && contactPhone.length > 40) {
+    throw createHttpError(400, 'El telefono informado es demasiado largo.', true);
+  }
+  if (details && details.length > 1500) {
+    throw createHttpError(400, 'La descripcion supera el limite permitido.', true);
+  }
+  if (!acceptedPrivacy) {
+    throw createHttpError(400, 'Debes aceptar la politica de privacidad para continuar.', true);
+  }
+
+  return {
+    fullName,
+    contactEmail,
+    contactPhone,
+    serviceName,
+    contractDate,
+    details,
+    originChannel,
+    pageUrl
+  };
+}
+
 function mapAutoRow(row) {
   return {
     id: row.id,
@@ -927,6 +1080,24 @@ function mapPropertyRow(row) {
     galleryImages: parseJsonArray(row.gallery_json),
     highlights: parseJsonArray(row.highlights_json),
     featured: Boolean(row.featured),
+    createdAt: row.created_at,
+    updatedAt: row.updated_at
+  };
+}
+
+function mapConsumerWithdrawalRow(row) {
+  return {
+    id: row.id,
+    code: row.code,
+    fullName: row.full_name,
+    contactEmail: row.contact_email,
+    contactPhone: row.contact_phone,
+    serviceName: row.service_name,
+    contractDate: row.contract_date,
+    details: row.details,
+    originChannel: row.origin_channel,
+    pageUrl: row.page_url,
+    status: row.status,
     createdAt: row.created_at,
     updatedAt: row.updated_at
   };
@@ -1146,6 +1317,36 @@ function toBoolean(value) {
   return value === true || value === 1 || value === '1' || value === 'true' || value === 'on';
 }
 
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function isValidIsoDate(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+
+  const parsed = new Date(`${value}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime())) return false;
+
+  const [year, month, day] = value.split('-').map(Number);
+  return (
+    parsed.getUTCFullYear() === year &&
+    parsed.getUTCMonth() + 1 === month &&
+    parsed.getUTCDate() === day
+  );
+}
+
+function buildConsumerWithdrawalCode() {
+  const date = new Date();
+  const stamp = [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, '0'),
+    String(date.getDate()).padStart(2, '0')
+  ].join('');
+  const suffix = crypto.randomInt(1000, 9999);
+
+  return `ARREP-${stamp}-${suffix}`;
+}
+
 function parseJsonArray(value) {
   if (!value) return [];
 
@@ -1221,6 +1422,68 @@ function slugify(value) {
     .replace(/^-+|-+$/g, '')
     .toLowerCase();
 }
+async function getGoogleReviews() {
+  if (!GOOGLE_PLACES_API_KEY) {
+    return { fallback: true };
+  }
+
+  if (reviewsCache.data && Date.now() < reviewsCache.expiresAt) {
+    return reviewsCache.data;
+  }
+
+  try {
+    if (!reviewsCache.placeId) {
+      const searchRes = await fetch('https://places.googleapis.com/v1/places:searchText', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': GOOGLE_PLACES_API_KEY,
+          'X-Goog-FieldMask': 'places.id'
+        },
+        body: JSON.stringify({ textQuery: 'GESTORÍA Sonia Altamirano Jardín América Misiones' })
+      });
+      const searchData = await searchRes.json();
+      const placeId = searchData?.places?.[0]?.id;
+      if (!placeId) return { fallback: true };
+      reviewsCache.placeId = placeId;
+    }
+
+    const detailRes = await fetch(
+      `https://places.googleapis.com/v1/places/${reviewsCache.placeId}`,
+      {
+        headers: {
+          'X-Goog-Api-Key': GOOGLE_PLACES_API_KEY,
+          'X-Goog-FieldMask': 'id,rating,userRatingsTotal,reviews'
+        }
+      }
+    );
+    const detail = await detailRes.json();
+
+    const reviews = (detail.reviews || []).map(r => ({
+      author: r.authorAttribution?.displayName || 'Cliente',
+      photoUrl: r.authorAttribution?.photoUri || null,
+      rating: r.rating || 5,
+      text: r.text?.text || '',
+      relativeTime: r.relativePublishTimeDescription || ''
+    }));
+
+    const result = {
+      rating: detail.rating || null,
+      totalRatings: detail.userRatingsTotal || null,
+      reviews,
+      fetchedAt: new Date().toISOString()
+    };
+
+    reviewsCache.data = result;
+    reviewsCache.expiresAt = Date.now() + REVIEWS_CACHE_TTL_MS;
+
+    return result;
+  } catch (err) {
+    console.error('[reviews] Error al obtener reseñas de Google:', err.message);
+    return { fallback: true };
+  }
+}
+
 function ensureDir(target) {
   if (!fs.existsSync(target)) {
     fs.mkdirSync(target, { recursive: true });
