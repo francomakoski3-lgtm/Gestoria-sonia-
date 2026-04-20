@@ -161,7 +161,7 @@ const STATIC_PAGE_CONFIG = {
     description:
       'Gestoría Sonia en Jardín América, Misiones: gestoría del automotor, gestoría inmobiliaria, seguros y mercado de autos e inmuebles en un solo lugar.',
     canonical: `${SITE_URL}/`,
-    imagePath: '/img/team/sonia-jose.jpeg',
+    imagePath: '/img/site-icon.png',
     sitemap: true,
   },
   'agendar-cita.html': {
