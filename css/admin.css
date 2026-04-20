@@ -912,6 +912,76 @@ button:not(:disabled),
   border: 1px solid rgba(0,255,157,0.15);
 }
 
+/* ── Rendimiento: compacto en móvil (iPhone) ─────────────── */
+@media (max-width: 600px) {
+
+  /* Panel general */
+  [data-tab-panel="rendimiento"] {
+    padding: 14px 12px;
+    border-radius: 12px;
+  }
+
+  /* Header */
+  .analytics-header        { gap: 8px; margin-bottom: 14px; }
+  .analytics-header-dot    { width: 6px; height: 6px; }
+  .analytics-header-title  { font-size: 9px; letter-spacing: 0.14em; }
+  .analytics-header-jp     { display: none; }
+
+  /* Stat cards: 2x2 compacto */
+  .analytics-summary {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .analytics-stat-card {
+    padding: 12px 12px 10px;
+    gap: 6px;
+    border-radius: 10px;
+  }
+  .analytics-stat-label  { font-size: 8px; letter-spacing: 0.1em; }
+  .analytics-stat-value  { font-size: 22px; }
+  .jp-sub                { font-size: 8px; margin-top: 1px; }
+
+  /* Grid de tablas: 1 columna, gap chico */
+  .analytics-grid { gap: 10px; }
+
+  /* Cards de tabla */
+  [data-tab-panel="rendimiento"] .admin-card {
+    border-radius: 10px;
+  }
+  [data-tab-panel="rendimiento"] .card-head {
+    padding: 12px 12px 10px;
+    padding-bottom: 10px;
+    margin-bottom: 0;
+  }
+  [data-tab-panel="rendimiento"] .card-head h2 {
+    font-size: 11px;
+    margin-top: 3px;
+  }
+
+  /* Tablas */
+  .analytics-table         { font-size: 11px; }
+  .analytics-table thead th {
+    font-size: 8px;
+    padding: 8px 10px;
+    letter-spacing: 0.12em;
+  }
+  .analytics-table tbody td {
+    font-size: 11px;
+    padding: 7px 10px;
+  }
+  .analytics-empty {
+    font-size: 10px;
+    padding: 14px 10px;
+  }
+  .analytics-tag           { font-size: 9px; padding: 2px 6px; }
+  .analytics-bar-wrap      { gap: 6px; }
+  .analytics-bar           { height: 3px; }
+
+  /* Mapa */
+  .geo-map                 { height: 260px; }
+}
+
 .geo-map .leaflet-tile-pane {
   filter: saturate(0.4) brightness(0.7);
 }

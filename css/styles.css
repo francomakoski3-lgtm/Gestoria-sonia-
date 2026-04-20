@@ -5093,3 +5093,77 @@ button { cursor: pointer; font-family: var(--font); }
   }
 }
 
+/* ── Optimización iPhone / móvil compacto ───────────────────── */
+@media (max-width: 600px) {
+
+  /* Secciones: espaciado vertical más ajustado */
+  .section              { padding: 36px 16px; }
+  .section-header       { margin-bottom: 26px; }
+  .section-header h2    { font-size: 20px; }
+  .section-header p     { font-size: 13.5px; }
+
+  /* Hero principal — más compacto */
+  .hero,
+  .home-hero            { min-height: 260px; }
+  .hero-content         { padding: 32px 20px; }
+  .hero h1              { font-size: 28px; line-height: 1.08; }
+  .home-hero h1         { letter-spacing: -0.8px; }
+  .hero-tag             { font-size: 11px; padding: 6px 14px; margin-bottom: 14px; }
+
+  /* Hero páginas interiores */
+  .interior-hero        { min-height: 290px; }
+  .page-hero            { padding: 26px 16px; }
+  .page-hero h1         { font-size: 26px; }
+
+  /* Tarjetas de servicio (home) */
+  .service-card-img     { height: 160px; }
+  .service-card-body    { padding: 16px; }
+  .service-card-body h3 { font-size: 14px; margin-bottom: 5px; }
+  .service-card-body p  { font-size: 13px; }
+  .services-grid        { gap: 16px; }
+
+  /* "¿Por qué elegirnos?" — 2 columnas compactas */
+  .features-grid        { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .feature-item         { padding: 16px 13px; }
+  .feature-icon         { width: 40px; height: 40px; margin-bottom: 12px; }
+  .feature-icon svg     { width: 20px; height: 20px; }
+  .feature-item h4      { font-size: 12px; margin-bottom: 6px; }
+  .feature-item p       { font-size: 12px; line-height: 1.5; }
+
+  /* Quiénes somos — texto más compacto */
+  .quienes-texto h3     { font-size: 22px; margin-bottom: 16px; }
+  .quienes-texto p      { font-size: 13.5px; line-height: 1.7; margin-bottom: 10px; }
+  .quienes-credential   { padding: 14px 16px; margin-top: 18px; border-radius: 16px; }
+  .quienes-badges       { gap: 8px; margin-top: 18px; }
+  .quienes-badge        { font-size: 12px; padding: 8px 12px; gap: 6px; }
+  .quienes-badge svg    { width: 15px; height: 15px; }
+
+  /* CTA Banner */
+  .cta-banner           { padding: 36px 20px; }
+  .cta-banner h2        { font-size: 20px; }
+  .cta-banner p         { font-size: 14px; }
+
+  /* Footer más compacto */
+  .footer               { padding: 32px 18px 18px; }
+  .footer-grid          { gap: 22px; }
+  .footer-col h5        { margin-bottom: 10px; }
+  .footer-col a         { font-size: 12.5px; margin-bottom: 8px; }
+  .footer-bottom        { padding-top: 18px; }
+  .footer-bottom p      { font-size: 11px; }
+
+  /* Contacto */
+  .contact-info h3,
+  .contact-form h3      { font-size: 22px; }
+  .contact-intro        { font-size: 13.5px; }
+
+  /* Botones */
+  .btn                  { font-size: 13px; padding: 11px 20px; }
+  .btn-sm               { font-size: 11.5px; padding: 8px 14px; }
+
+  /* Mercado: cards un poco menos altas */
+  .market-card-media    { height: 190px; }
+  .market-card-body     { padding: 14px; }
+  .market-card-body h3  { font-size: 15px; }
+  .market-card-price    { font-size: 19px; }
+}
+
