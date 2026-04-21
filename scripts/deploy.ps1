@@ -1,10 +1,11 @@
 # ============================================================
 #  deploy.ps1 — Script de deploy para Gestoria Sonia
 #  Uso: click derecho → "Ejecutar con PowerShell"
-#        o desde terminal: .\deploy.ps1
+#        o desde terminal: .\scripts\deploy.ps1
 # ============================================================
 
-Set-Location $PSScriptRoot
+# Ir a la raiz del proyecto (carpeta padre de scripts/)
+Set-Location (Split-Path $PSScriptRoot)
 
 # ── 1. Generar versión única con fecha y hora ─────────────────
 $version = Get-Date -Format "yyyyMMdd-HHmm"

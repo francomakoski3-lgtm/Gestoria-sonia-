@@ -1,6 +1,6 @@
 @echo off
 title Gestoria Sonia - Subir cambios al sitio
-cd /d "%~dp0"
+cd /d "%~dp0.."
 
 echo.
 echo ============================================
