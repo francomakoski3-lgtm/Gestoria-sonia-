@@ -8,16 +8,16 @@ const cache = {
 
 const GESTORIA_SERVICE_DETAILS = {
   transferencias: {
-    documentTitle: 'Transferencias',
+    documentTitle: 'Transferencia automotor en Argentina',
     kicker: '',
-    title: 'Transferencias',
+    title: 'Transferencia automotor en Argentina',
     detailClass: 'gestoria-service-detail--informe',
-    summary: 'Gestionamos la transferencia de autos y motos para que el tr&aacute;mite sea m&aacute;s simple, claro y seguro. Te ayudamos a conocer la documentaci&oacute;n necesaria, los costos aproximados y el paso a paso para realizar la transferencia correctamente.',
+    summary: 'Gestionamos la transferencia de autos y motos en toda Argentina para que el tr&aacute;mite sea m&aacute;s simple, claro y seguro. Te ayudamos a revisar la documentaci&oacute;n necesaria, los costos aproximados y el paso a paso para realizar la transferencia correctamente.',
     highlights: [
       {
         icon: '&#x23F1;&#xFE0F;',
         label: 'Tiempo estimado',
-        value: '1 a 3 d&iacute;as'
+        value: '1 d&iacute;a h&aacute;bil'
       },
       {
         icon: '&#x1F697;',
@@ -72,12 +72,11 @@ const GESTORIA_SERVICE_DETAILS = {
       }
     ],
     ctaLabel: 'Consultar por WhatsApp',
-    ctaAnimatedHand: true,
     ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20una%20transferencia%20de%20auto%20o%20moto.',
-    secondaryLabel: 'Abrir calculadora',
-    secondaryAnimatedHand: true,
+    secondaryLabel: 'Cotizar tr&aacute;mite',
     secondaryHref: 'cotizar-transferencia.html',
-    includeCalculator: true
+    secondaryTargetBlank: true,
+    includeCalculator: false
   },
   'informe-dominio': {
     documentTitle: 'Informe de dominio',
@@ -1750,9 +1749,10 @@ function renderGestoriaServiceDetail(service) {
     ? `<span class="gestoria-service-press-hand" aria-hidden="true">&#x1F449;</span><span class="gestoria-service-cta-copy">${secondaryLabelText}</span>`
     : secondaryLabelText;
   const secondaryActionClass = secondaryHasAnimatedHand ? ' gestoria-service-cta--with-hand' : '';
+  const secondaryLinkAttrs = service.secondaryTargetBlank ? ' target="_blank" rel="noopener"' : '';
   const calculatorActionMarkup = service.includeCalculator
     ? `<button type="button" class="btn btn-dark${secondaryActionClass}" data-transfer-calculator-toggle aria-expanded="false" aria-controls="service-transfer-calculator">${secondaryLabelMarkup}</button>`
-    : (service.secondaryHref ? `<a href="${service.secondaryHref}" class="btn btn-dark${secondaryActionClass}">${secondaryLabelMarkup}</a>` : '');
+    : (service.secondaryHref ? `<a href="${service.secondaryHref}"${secondaryLinkAttrs} class="btn btn-dark${secondaryActionClass}">${secondaryLabelMarkup}</a>` : '');
   const ctaHasAnimatedHand = Boolean(service.ctaAnimatedHand || service.ctaLabel === 'Iniciar tu tr&aacute;mite');
   const ctaLabelMarkup = ctaHasAnimatedHand
     ? `<span class="gestoria-service-press-hand" aria-hidden="true">&#x1F449;</span><span class="gestoria-service-cta-copy">${service.ctaLabel}</span>`
