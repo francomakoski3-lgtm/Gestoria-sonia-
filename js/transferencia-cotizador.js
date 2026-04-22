@@ -426,6 +426,11 @@ document.addEventListener('DOMContentLoaded', () => {
     isSubmitting = true;
     setSubmitLoadingState(true);
 
+    // Google Ads: Formulario enviado
+    if (typeof gtag === 'function') {
+      gtag('event', 'conversion', { 'send_to': 'AW-18100857997/wTOLCMunu6AcEI3ZlLdD' });
+    }
+
     window.setTimeout(() => {
       window.sessionStorage.setItem(TRANSFERENCIA_RESULT_STORAGE_KEY, JSON.stringify(payload));
       window.location.href = TRANSFERENCIA_RESULT_PAGE;

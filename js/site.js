@@ -2128,6 +2128,11 @@ function initContactForm() {
     submitButton?.classList.add('is-loading');
     window.open(waLink(text), '_blank');
     submitButton?.classList.remove('is-loading');
+
+    // Google Ads: Formulario enviado
+    if (typeof gtag === 'function') {
+      gtag('event', 'conversion', { 'send_to': 'AW-18100857997/wTOLCMunu6AcEI3ZlLdD' });
+    }
   });
 }
 
@@ -2159,5 +2164,10 @@ function initAnalyticsTracking() {
         page: window.location.pathname
       })
     }).catch(() => {});
+
+    // Google Ads: Clic en WhatsApp
+    if (isWhatsapp && typeof gtag === 'function') {
+      gtag('event', 'conversion', { 'send_to': 'AW-18100857997/57PkCMWnu6AcEI3ZlLdD' });
+    }
   }, { passive: true });
 }
