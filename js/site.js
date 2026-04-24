@@ -15,29 +15,27 @@ const GESTORIA_SERVICE_DETAILS = {
     summary: 'Gestionamos la transferencia de autos y motos en toda Argentina para que el tr&aacute;mite sea m&aacute;s simple, claro y seguro. Te ayudamos a revisar la documentaci&oacute;n necesaria, los costos aproximados y el paso a paso para realizar la transferencia correctamente.',
     highlights: [
       {
-        icon: '&#x23F1;&#xFE0F;',
+        iconImg: 'img/services/Clock.png',
+        iconAlt: 'Reloj',
         label: 'Tiempo estimado',
         value: '1 d&iacute;a h&aacute;bil'
       },
       {
-        icon: '&#x1F697;',
-        label: 'Veh&iacute;culos',
-        value: 'Auto y moto'
+        iconImg: 'img/services/Misiones.png',
+        iconAlt: 'Provincia de Misiones',
+        label: 'Especializaci&oacute;n',
+        value: 'Provincia de Misiones'
       },
       {
-        icon: '&#x1F4DD;',
-        label: 'Dato clave',
-        value: 'F 08 y verificaci&oacute;n'
-      },
-      {
-        icon: '&#x1F522;',
+        iconImg: 'img/services/Calculadora.png',
+        iconAlt: 'Calculadora',
         label: 'Estimado',
         value: 'Calculadora online'
       }
     ],
     detailSections: [
       {
-        title: '&#x1F4DD; &iquest;Qu&eacute; necesito?',
+        title: '&iquest;Qu&eacute; necesito?',
         items: [
           'T&iacute;tulo.',
           'C&eacute;dula.',
@@ -47,35 +45,34 @@ const GESTORIA_SERVICE_DETAILS = {
         ]
       },
       {
-        title: '&#x1F464; &iquest;Para qui&eacute;n es?',
-        items: [
-          'Personas que compran o venden un auto o una moto y necesitan hacer la transferencia con acompa&ntilde;amiento y una cotizaci&oacute;n clara.'
-        ],
-        listStyle: 'checks'
-      },
-      {
-        title: '&#x23F1;&#xFE0F; Tiempo estimado del tr&aacute;mite',
+        title: 'Tiempo estimado del tr&aacute;mite',
         text: 'Aproximadamente 1 d&iacute;a h&aacute;bil normalmente. Seg&uacute;n el caso, el tr&aacute;mite puede demorar hasta 3 d&iacute;as.'
       },
       {
-        title: '&#x1F4B0; Costo',
+        title: 'Costo',
         text: 'El valor puede variar seg&uacute;n el veh&iacute;culo, la documentaci&oacute;n presentada y los gastos registrales del tr&aacute;mite.'
       },
       {
-        title: '&#x1F4B3; Medios de pago',
-        paymentMethods: [
-          { type: 'mercado-pago', label: 'Mercado Pago' },
-          { type: 'transfer', label: 'Transferencia bancaria' },
-          { type: 'card', label: 'Tarjetas' },
-          { type: 'cash', label: 'Efectivo' }
+        title: 'Medios de pago',
+        paymentLogos: [
+          'img/payment/payment-1.png',
+          'img/payment/payment-mastercard.png',
+          'img/payment/payment-visa.png',
+          'img/payment/payment-american-express.png',
+          'img/payment/payment-naranja.png',
+          'img/payment/payment-pagofacil.png',
+          'img/payment/payment-rapipago.png',
+          'img/payment/payment-2.png',
+          'img/payment/payment-5.png'
         ]
       }
     ],
     ctaLabel: 'Consultar por WhatsApp',
     ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20una%20transferencia%20de%20auto%20o%20moto.',
-    secondaryLabel: 'Cotizar tr&aacute;mite',
+    secondaryLabel: 'Iniciar tr&aacute;mite',
     secondaryHref: 'cotizar-transferencia.html',
     secondaryTargetBlank: true,
+    hidePrimaryCta: true,
     includeCalculator: false
   },
   'informe-dominio': {
@@ -1711,7 +1708,7 @@ function renderGestoriaServiceDetail(service) {
       <div class="gestoria-service-highlight-grid">
         ${service.highlights.map(item => `
           <div class="gestoria-service-highlight-card">
-            <span class="gestoria-service-highlight-icon" aria-hidden="true">${item.icon}</span>
+            ${renderGestoriaServiceHighlightIcon(item)}
             <span class="gestoria-service-highlight-label">${item.label}</span>
             <strong class="gestoria-service-highlight-value">${item.value}</strong>
           </div>
@@ -1761,7 +1758,7 @@ function renderGestoriaServiceDetail(service) {
   const ctaMarkup = `
     <div class="gestoria-service-actions">
       ${calculatorActionMarkup}
-      <a href="${service.ctaHref}" target="_blank" rel="noopener" class="btn btn-dark${service.secondaryHref ? '' : ' gestoria-service-cta'}${ctaHasAnimatedHand ? ' gestoria-service-cta--with-hand' : ''}">${ctaLabelMarkup}</a>
+      ${service.hidePrimaryCta ? '' : `<a href="${service.ctaHref}" target="_blank" rel="noopener" class="btn btn-dark${service.secondaryHref ? '' : ' gestoria-service-cta'}${ctaHasAnimatedHand ? ' gestoria-service-cta--with-hand' : ''}">${ctaLabelMarkup}</a>`}
     </div>
   `;
 
@@ -1789,6 +1786,18 @@ function renderGestoriaServiceDetail(service) {
       </div>
     </article>
   `;
+}
+
+function renderGestoriaServiceHighlightIcon(item) {
+  if (item.iconImg) {
+    return `
+      <span class="gestoria-service-highlight-icon gestoria-service-highlight-icon--image" aria-hidden="true">
+        <img src="${item.iconImg}" alt="${item.iconAlt || ''}" loading="lazy">
+      </span>
+    `;
+  }
+
+  return `<span class="gestoria-service-highlight-icon" aria-hidden="true">${item.icon || ''}</span>`;
 }
 
 function initGestoriaServiceCalculatorReveal(scope) {
@@ -1860,7 +1869,7 @@ function initGestoriaPaymentToggles(scope) {
 
 function renderGestoriaServiceSection(section) {
   const toneClass = section.tone ? ` gestoria-service-block--${section.tone}` : '';
-  const isPaymentAccordion = Boolean(section.paymentMethods?.length);
+  const isPaymentAccordion = Boolean(section.paymentMethods?.length || section.paymentLogos?.length);
   const textMarkup = section.text ? `<p>${section.text}</p>` : '';
   const itemsMarkup = section.items?.length ? renderGestoriaServiceList(section.items, section.listStyle) : '';
   const noteMarkup = section.note ? `<p class="gestoria-service-note">${section.note}</p>` : '';
@@ -1888,7 +1897,15 @@ function renderGestoriaServiceSection(section) {
       </div>
     `
     : '';
-  const paymentMarkup = section.paymentMethods?.length
+  const paymentMarkup = section.paymentLogos?.length
+    ? `
+      <div class="gestoria-payment-logo-grid" aria-label="Medios de pago aceptados">
+        ${section.paymentLogos.map(src => `
+          <img src="${src}" class="gestoria-payment-logo" alt="Medio de pago" loading="lazy">
+        `).join('')}
+      </div>
+    `
+    : section.paymentMethods?.length
     ? `
       <ul class="gestoria-payment-list">
         ${section.paymentMethods.map(method => `

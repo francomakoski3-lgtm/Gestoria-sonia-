@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const misionesInputs = Array.from(form.querySelectorAll('input[name="misionesResidence"]'));
   const buyerSignatureInputs = Array.from(form.querySelectorAll('input[name="buyerSignatureRange"]'));
   const priceInput = document.getElementById('transfer-price');
+  const clientWhatsappInput = document.getElementById('client-whatsapp');
   const ageSelect = document.getElementById('transfer-age');
   const buyerSignatureDateInput = document.getElementById('buyer-signature-date');
   const buyerSignatureDateGroup = document.getElementById('buyer-signature-date-group');
@@ -110,6 +111,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function getBuyerSignatureRange() {
     return buyerSignatureInputs.find(input => input.checked)?.value || '';
+  }
+
+  function getClientWhatsapp() {
+    return clientWhatsappInput ? clientWhatsappInput.value.trim() : '';
+  }
+
+  function normalizeWhatsappNumber(value) {
+    if (!value) return '';
+
+    const digits = value.replace(/\D/g, '');
+    if (!digits) return '';
+
+    const withoutLeadingZeros = digits.replace(/^0+/, '');
+    if (withoutLeadingZeros.startsWith('54')) return withoutLeadingZeros;
+    if (withoutLeadingZeros.length === 10) return `54${withoutLeadingZeros}`;
+
+    return withoutLeadingZeros;
   }
 
   function setActiveOption(inputs) {
@@ -259,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function buildWhatsappLink(data) {
     const lines = [
-      'Hola, quiero pedir una cotizacion exacta de transferencia.',
+      'Hola, te compartimos la cotizacion estimada de transferencia de Gestoria Sonia.',
       `Tipo: ${data.typeLabel}`,
       `Titular nuevo con domicilio en Misiones: ${data.misionesLabel}`,
       `Precio de compra informado: ${data.priceFormatted}`,
@@ -281,17 +299,22 @@ document.addEventListener('DOMContentLoaded', () => {
         lines.push(data.selladoNote);
       }
 
-      lines.push(`Total estimado web: ${data.totalFormatted}.`);
+      lines.push(
+        `Total estimado web: ${data.totalFormatted}.`,
+        'La cotizacion es orientativa y el valor exacto se confirma al revisar la documentacion.'
+      );
     } else {
-      lines.push('Titular nuevo sin domicilio en Misiones. Solicito cotizacion exacta por WhatsApp.');
+      lines.push('Como el titular nuevo no tiene domicilio en Misiones, necesitamos confirmar la cotizacion exacta revisando la documentacion.');
     }
 
-    return `https://wa.me/${TRANSFERENCIA_WA_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
+    const targetNumber = normalizeWhatsappNumber(data.clientWhatsapp) || TRANSFERENCIA_WA_NUMBER;
+    return `https://wa.me/${targetNumber}?text=${encodeURIComponent(lines.join('\n'))}`;
   }
 
-  function hasCompleteData(misionesResidence, price, sellerAgeKey, buyerSignatureRange, buyerSignatureDate) {
+  function hasCompleteData(misionesResidence, price, sellerAgeKey, buyerSignatureRange, buyerSignatureDate, clientWhatsapp) {
     if (!misionesResidence) return false;
     if (!Number.isFinite(price) || price <= 0) return false;
+    if (clientWhatsappInput && !clientWhatsapp) return false;
     if (!sellerAgeKey) return false;
     if (!buyerSignatureRange) return false;
     if (buyerSignatureRange === 'gt15' && !buyerSignatureDate) return false;
@@ -304,6 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const misionesResidence = getMisionesResidence();
     const misionesLabel = getMisionesLabel(misionesResidence);
     const price = Number(priceInput.value);
+    const clientWhatsapp = getClientWhatsapp();
     const sellerAgeKey = ageSelect.value;
     const ageLabel = getAgeLabel(sellerAgeKey);
     const buyerSignatureRange = getBuyerSignatureRange();
@@ -314,7 +338,8 @@ document.addEventListener('DOMContentLoaded', () => {
       price,
       sellerAgeKey,
       buyerSignatureRange,
-      buyerSignatureDate
+      buyerSignatureDate,
+      clientWhatsapp
     );
 
     if (!completeData) {
@@ -326,6 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
       misionesLabel,
       price,
       priceFormatted: moneyFormatter.format(price),
+      clientWhatsapp,
       ageLabel,
       buyerSignatureLabel,
       buyerSignatureRange,
@@ -339,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
         includeBreakdown: false,
         resultCopy: 'Como el titular nuevo no tiene domicilio en Misiones, la cotizacion exacta se confirma por WhatsApp.',
         disclaimer: 'La cotizacion exacta final se confirma por WhatsApp.',
-        whatsappLabel: 'Pedir cotizacion exacta por WhatsApp',
+        whatsappLabel: 'Enviar cotizacion al cliente por WhatsApp',
         registryRateLabel: formatPercent(registryRate),
         serviceFeeFormatted: moneyFormatter.format(FIXED_SERVICE_FEE),
         registryAmountFormatted: moneyFormatter.format(ZERO_AMOUNT),
@@ -370,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
       includeBreakdown: true,
       resultCopy: 'Revisa el detalle y continua por WhatsApp si queres la cotizacion exacta.',
       disclaimer: 'Este detalle usa un fijo de honorarios y calcula registro y sellado sobre el valor informado. La cotizacion exacta final siempre se confirma por WhatsApp.',
-      whatsappLabel: 'Pedir cotizacion exacta por WhatsApp',
+      whatsappLabel: 'Enviar cotizacion al cliente por WhatsApp',
       registryRateLabel: formatPercent(registryRate),
       serviceFeeFormatted: moneyFormatter.format(FIXED_SERVICE_FEE),
       registryAmountFormatted: moneyFormatter.format(registryAmount),

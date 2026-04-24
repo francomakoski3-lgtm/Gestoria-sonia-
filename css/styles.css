@@ -2733,7 +2733,7 @@ button { cursor: pointer; font-family: var(--font); }
 .gestoria-service-highlight-grid {
   display: grid;
   gap: 12px;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   margin-bottom: 18px;
 }
 .gestoria-service-highlight-card {
@@ -2745,10 +2745,25 @@ button { cursor: pointer; font-family: var(--font); }
   box-shadow: 0 18px 34px rgba(22,14,10,0.12);
 }
 .gestoria-service-highlight-icon {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
   margin-bottom: 12px;
   font-size: 24px;
   line-height: 1;
+}
+.gestoria-service-highlight-icon--image {
+  border-radius: 11px;
+  background: rgba(255,255,255,0.92);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.55);
+}
+.gestoria-service-highlight-icon--image img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 .gestoria-service-highlight-label {
   display: block;
@@ -2756,7 +2771,9 @@ button { cursor: pointer; font-family: var(--font); }
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.08em;
+  line-height: 1.25;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
   color: rgba(255,255,255,0.7);
 }
 .gestoria-service-highlight-value {
@@ -3064,6 +3081,20 @@ button { cursor: pointer; font-family: var(--font); }
   display: block;
   width: 32px;
   height: auto;
+}
+.gestoria-payment-logo-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+.gestoria-payment-logo {
+  display: block;
+  width: auto;
+  height: 24px;
+  object-fit: contain;
 }
 .gestoria-payment-label {
   font-size: 12px;
@@ -4652,9 +4683,8 @@ button { cursor: pointer; font-family: var(--font); }
 
 .quienes-foto-wrap img {
   width: 100%;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-  object-position: top;
+  height: auto;
+  display: block;
   border-radius: var(--radius);
   box-shadow: var(--shadow-md);
 }
@@ -5055,6 +5085,10 @@ button { cursor: pointer; font-family: var(--font); }
   .gestoria-service-highlight-icon {
     margin-bottom: 10px;
     font-size: 20px;
+  }
+  .gestoria-service-highlight-icon--image img {
+    width: 22px;
+    height: 22px;
   }
   .gestoria-service-highlight-label,
   .gestoria-service-group-card h5 {

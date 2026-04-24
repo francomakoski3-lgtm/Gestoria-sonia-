@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const summaryType = document.getElementById('summary-type');
   const summaryMisiones = document.getElementById('summary-misiones');
   const summaryPrice = document.getElementById('summary-price');
+  const summaryClientWhatsapp = document.getElementById('summary-client-whatsapp');
   const summaryAge = document.getElementById('summary-age');
   const summaryBuyerSignature = document.getElementById('summary-buyer-signature');
   const breakdown = document.getElementById('transferencia-breakdown');
@@ -20,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const whatsappButton = document.getElementById('transferencia-whatsapp');
   const resetLink = document.getElementById('transferencia-reset-link');
 
-  function setWhatsappState(enabled, href = '', label = 'Pedir cotizacion exacta por WhatsApp') {
+  function setWhatsappState(enabled, href = '', label = 'Enviar cotizacion al cliente por WhatsApp') {
     whatsappButton.classList.toggle('is-disabled', !enabled);
     whatsappButton.setAttribute('aria-disabled', String(!enabled));
     whatsappButton.textContent = label;
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     summaryType.textContent = '-';
     summaryMisiones.textContent = '-';
     summaryPrice.textContent = '-';
+    if (summaryClientWhatsapp) summaryClientWhatsapp.textContent = '-';
     summaryAge.textContent = '-';
     summaryBuyerSignature.textContent = '-';
     breakdown.hidden = true;
@@ -49,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     summaryType.textContent = payload.typeLabel || '-';
     summaryMisiones.textContent = payload.misionesLabel || '-';
     summaryPrice.textContent = payload.priceFormatted || '-';
+    if (summaryClientWhatsapp) summaryClientWhatsapp.textContent = payload.clientWhatsapp || '-';
     summaryAge.textContent = payload.ageLabel || '-';
     summaryBuyerSignature.textContent = payload.buyerSignatureLabel || '-';
     disclaimer.textContent = payload.disclaimer || '';
@@ -67,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
       breakdown.hidden = true;
     }
 
-    setWhatsappState(true, payload.whatsappHref || '', payload.whatsappLabel || 'Pedir cotizacion exacta por WhatsApp');
+    setWhatsappState(true, payload.whatsappHref || '', payload.whatsappLabel || 'Enviar cotizacion al cliente por WhatsApp');
   }
 
   if (resetLink) {
