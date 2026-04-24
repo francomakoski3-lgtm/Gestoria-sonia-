@@ -83,7 +83,7 @@
   }
   </script>
   <!-- SEO:END -->
-  <link rel="stylesheet" href="css/styles.css?v=20260422-0752">
+  <link rel="stylesheet" href="css/styles.css?v=20260424-2359">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18100857997"></script>
   <script>
@@ -142,13 +142,25 @@
       <form id="transferencia-form" novalidate>
         <div class="form-group">
           <div class="vehicle-type-switch" role="radiogroup" aria-label="Tipo de veh&iacute;culo">
-            <label class="vehicle-type-option is-active">
+            <label class="vehicle-type-option vehicle-type-option--vehicle vehicle-type-option--car is-active">
               <input type="radio" name="vehicleType" value="auto" checked>
-              <span>Auto</span>
+              <span>
+                <span class="vehicle-type-icon-wrap" aria-hidden="true">
+                  <img class="vehicle-type-icon vehicle-type-icon--default" src="img/services/coche.svg?v=20260424-2110" alt="">
+                  <img class="vehicle-type-icon vehicle-type-icon--active" src="img/services/coche-active.svg?v=20260424-2110" alt="">
+                </span>
+                <span class="vehicle-type-label">Auto</span>
+              </span>
             </label>
-            <label class="vehicle-type-option">
+            <label class="vehicle-type-option vehicle-type-option--vehicle vehicle-type-option--moto">
               <input type="radio" name="vehicleType" value="moto">
-              <span>Moto</span>
+              <span>
+                <span class="vehicle-type-icon-wrap" aria-hidden="true">
+                  <img class="vehicle-type-icon vehicle-type-icon--default" src="img/services/moto.svg?v=20260424-2110" alt="">
+                  <img class="vehicle-type-icon vehicle-type-icon--active" src="img/services/moto-active.svg?v=20260424-2110" alt="">
+                </span>
+                <span class="vehicle-type-label">Moto</span>
+              </span>
             </label>
           </div>
         </div>
@@ -162,7 +174,7 @@
             </label>
             <label class="vehicle-type-option">
               <input type="radio" name="misionesResidence" value="no">
-              <span>No</span>
+              <span>Otra provincia</span>
             </label>
           </div>
         </div>
@@ -173,12 +185,12 @@
         </div>
 
         <div class="form-group">
-          <label for="client-whatsapp">N&uacute;mero de WhatsApp del cliente</label>
+          <label for="client-whatsapp">N&uacute;mero de WhatsApp</label>
           <input type="tel" id="client-whatsapp" name="clientWhatsapp" inputmode="tel" autocomplete="tel" placeholder="Ej: +54 9 3743 123456" pattern="[0-9+() -]{8,24}" required>
         </div>
 
         <div class="form-group">
-          <label for="transfer-age">&iquest;Hace cu&aacute;nto se certific&oacute; la firma del vendedor?</label>
+          <label for="transfer-age">&iquest;Hace cu&aacute;nto se certific&oacute; la firma del <span class="text-underline">vendedor</span>?</label>
           <select id="transfer-age" name="ageBracket" required>
             <option value="lt90" selected>Menos de 90 d&iacute;as</option>
             <option value="90d1y">M&aacute;s de 90 d&iacute;as y hasta 1 a&ntilde;o</option>
@@ -190,50 +202,23 @@
         </div>
 
         <div class="form-group">
-          <label>&iquest;Hace cu&aacute;nto se certific&oacute; la firma del comprador?</label>
-          <div class="vehicle-type-switch" role="radiogroup" aria-label="Tiempo desde la certificaci&oacute;n de la firma del comprador">
-            <label class="vehicle-type-option is-active">
-              <input type="radio" name="buyerSignatureRange" value="lt15" checked>
-              <span>Menos de 15 d&iacute;as h&aacute;biles</span>
-            </label>
-            <label class="vehicle-type-option">
-              <input type="radio" name="buyerSignatureRange" value="gt15">
-              <span>M&aacute;s de 15 d&iacute;as h&aacute;biles</span>
-            </label>
-          </div>
+          <label>&iquest;Hace cu&aacute;nto se certific&oacute; la firma del <span class="text-underline">comprador</span>?</label>
+          <select id="buyer-signature-range" name="buyerSignatureRange" required>
+            <option value="lt15" selected>Menos de 15 d&iacute;as h&aacute;biles</option>
+            <option value="gt15">M&aacute;s de 15 d&iacute;as h&aacute;biles</option>
+          </select>
         </div>
 
         <div class="form-group conditional-field" id="buyer-signature-date-group" hidden>
-          <label for="buyer-signature-date">Fecha de certificaci&oacute;n de la firma del comprador</label>
+          <label for="buyer-signature-date">Fecha de certificaci&oacute;n de la firma del <span class="text-underline">comprador</span></label>
           <input type="date" id="buyer-signature-date" name="buyerSignatureDate">
           <p class="form-helper" id="buyer-signature-date-help">Seleccion&aacute; la fecha para calcular los d&iacute;as h&aacute;biles aproximados.</p>
         </div>
 
-        <button type="submit" class="btn btn-dark" id="transferencia-submit-btn">Calcular estimador</button>
+        <button type="submit" class="btn btn-dark" id="transferencia-submit-btn">Cotizar transferencia</button>
+        <p class="form-helper transferencia-form-status" id="transferencia-form-status" role="status" aria-live="polite"></p>
       </form>
     </div>
-  </div>
-</section>
-
-<section class="section section-gray">
-  <div class="section-header">
-    <h2>Qu&eacute; hace este cotizador</h2>
-    <p>Te ordena la consulta para que el mensaje llegue completo y se pueda responder m&aacute;s r&aacute;pido.</p>
-  </div>
-
-  <div class="consultas-grid">
-    <article class="consulta-card">
-      <h4>Separa autos y motos</h4>
-      <p>Te permite indicar r&aacute;pido si la transferencia corresponde a un auto o a una moto.</p>
-    </article>
-    <article class="consulta-card">
-      <h4>Toma domicilio y precio de compra</h4>
-      <p>Calcula el rango sobre el valor que vos cargues y deja el estimador autom&aacute;tico activo solo cuando el titular nuevo tiene domicilio en Misiones.</p>
-    </article>
-    <article class="consulta-card">
-      <h4>Prepara el mensaje para WhatsApp</h4>
-      <p>Cuando termin&aacute;s, el bot&oacute;n arma la consulta con todos los datos y el rango estimado para pedir el valor exacto.</p>
-    </article>
   </div>
 </section>
 
@@ -292,7 +277,7 @@
   <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
 </a>
 
-<script src="js/site.js?v=20260422-0752"></script>
+<script src="js/site.js?v=20260424-2359"></script>
 <script src="js/transferencia-calculator-core.js"></script>
 <script src="js/transferencia-cotizador.js"></script>
 </body>

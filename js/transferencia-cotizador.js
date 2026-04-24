@@ -1,6 +1,7 @@
 const TRANSFERENCIA_WA_NUMBER = '543743668039';
 const TRANSFERENCIA_RESULT_STORAGE_KEY = 'transferenciaQuoteResult';
 const TRANSFERENCIA_RESULT_PAGE = 'cotizacion-transferencia-resultado.html';
+const TRANSFERENCIA_QUOTE_API_ENDPOINT = '/api/transferencia/quote';
 const FIXED_SERVICE_FEE = 150000;
 const STAMP_RATE = 0.03;
 const ZERO_AMOUNT = 0;
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const submitButton = document.getElementById('transferencia-submit-btn');
   const vehicleInputs = Array.from(form.querySelectorAll('input[name="vehicleType"]'));
   const misionesInputs = Array.from(form.querySelectorAll('input[name="misionesResidence"]'));
+  const buyerSignatureSelect = document.getElementById('buyer-signature-range');
   const buyerSignatureInputs = Array.from(form.querySelectorAll('input[name="buyerSignatureRange"]'));
   const priceInput = document.getElementById('transfer-price');
   const clientWhatsappInput = document.getElementById('client-whatsapp');
@@ -48,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const buyerSignatureDateInput = document.getElementById('buyer-signature-date');
   const buyerSignatureDateGroup = document.getElementById('buyer-signature-date-group');
   const buyerSignatureDateHelp = document.getElementById('buyer-signature-date-help');
+  const formStatus = document.getElementById('transferencia-form-status');
 
   const moneyFormatter = new Intl.NumberFormat('es-AR', {
     style: 'currency',
@@ -61,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     year: 'numeric'
   });
 
-  const submitButtonDefaultLabel = submitButton ? submitButton.textContent.trim() : 'Calcular estimador';
+  const submitButtonDefaultLabel = submitButton ? submitButton.textContent.trim() : 'Cotizar transferencia';
   let isSubmitting = false;
 
   buyerSignatureDateInput.max = formatDateForInput(new Date());
@@ -110,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function getBuyerSignatureRange() {
+    if (buyerSignatureSelect) return buyerSignatureSelect.value || '';
     return buyerSignatureInputs.find(input => input.checked)?.value || '';
   }
 
@@ -124,8 +128,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!digits) return '';
 
     const withoutLeadingZeros = digits.replace(/^0+/, '');
+    if (withoutLeadingZeros.startsWith('549')) return withoutLeadingZeros;
+    if (withoutLeadingZeros.startsWith('54') && withoutLeadingZeros.length === 12) {
+      return `549${withoutLeadingZeros.slice(2)}`;
+    }
+    if (withoutLeadingZeros.startsWith('9') && withoutLeadingZeros.length === 11) {
+      return `54${withoutLeadingZeros}`;
+    }
+    if (withoutLeadingZeros.length === 10) return `549${withoutLeadingZeros}`;
     if (withoutLeadingZeros.startsWith('54')) return withoutLeadingZeros;
-    if (withoutLeadingZeros.length === 10) return `54${withoutLeadingZeros}`;
 
     return withoutLeadingZeros;
   }
@@ -144,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function getMisionesLabel(value) {
     if (value === 'si') return 'Si';
-    if (value === 'no') return 'No';
+    if (value === 'no') return 'Otra provincia';
     return '-';
   }
 
@@ -272,7 +283,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!submitButton) return;
     submitButton.classList.toggle('is-loading', isLoading);
     submitButton.disabled = isLoading;
-    submitButton.textContent = isLoading ? 'Calculando' : submitButtonDefaultLabel;
+    submitButton.textContent = isLoading ? 'Calculando y enviando' : submitButtonDefaultLabel;
+  }
+
+  function setFormStatus(message, isError = false) {
+    if (!formStatus) return;
+    formStatus.textContent = message || '';
+    formStatus.classList.toggle('is-error', Boolean(isError));
   }
 
   function buildWhatsappLink(data) {
@@ -309,6 +326,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const targetNumber = normalizeWhatsappNumber(data.clientWhatsapp) || TRANSFERENCIA_WA_NUMBER;
     return `https://wa.me/${targetNumber}?text=${encodeURIComponent(lines.join('\n'))}`;
+  }
+
+  async function sendQuoteRequest(payload) {
+    const response = await fetch(TRANSFERENCIA_QUOTE_API_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(data.error || 'No se pudo enviar la cotizacion por WhatsApp.');
+    }
+
+    return data;
   }
 
   function hasCompleteData(misionesResidence, price, sellerAgeKey, buyerSignatureRange, buyerSignatureDate, clientWhatsapp) {
@@ -425,12 +458,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  buyerSignatureInputs.forEach(input => {
-    input.addEventListener('change', () => {
-      setActiveOption(buyerSignatureInputs);
-      updateBuyerSignatureDateField();
+  if (buyerSignatureSelect) {
+    buyerSignatureSelect.addEventListener('change', updateBuyerSignatureDateField);
+  } else {
+    buyerSignatureInputs.forEach(input => {
+      input.addEventListener('change', () => {
+        setActiveOption(buyerSignatureInputs);
+        updateBuyerSignatureDateField();
+      });
     });
-  });
+  }
 
   buyerSignatureDateInput.addEventListener('input', updateBuyerSignatureDateField);
 
@@ -451,20 +488,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     isSubmitting = true;
     setSubmitLoadingState(true);
+    setFormStatus('Estamos calculando la cotizacion y preparando el mensaje al cliente.');
 
     // Google Ads: Formulario enviado
     if (typeof gtag === 'function') {
       gtag('event', 'conversion', { 'send_to': 'AW-18100857997/wTOLCMunu6AcEI3ZlLdD' });
     }
 
-    window.setTimeout(() => {
-      window.sessionStorage.setItem(TRANSFERENCIA_RESULT_STORAGE_KEY, JSON.stringify(payload));
+    sendQuoteRequest(payload)
+      .catch(error => ({
+        delivery: {
+          status: 'pending_configuration',
+          message: error.message || 'No se pudo conectar con el envio automatico de WhatsApp.'
+        }
+      }))
+      .then(result => {
+        const delivery = result.delivery || {};
+        const nextPayload = {
+          ...payload,
+          whatsappDelivery: delivery
+        };
+
+        window.sessionStorage.setItem(TRANSFERENCIA_RESULT_STORAGE_KEY, JSON.stringify(nextPayload));
       window.location.href = TRANSFERENCIA_RESULT_PAGE;
-    }, 1000);
+      });
   });
 
   setActiveOption(vehicleInputs);
   setActiveOption(misionesInputs);
-  setActiveOption(buyerSignatureInputs);
+  if (buyerSignatureInputs.length) setActiveOption(buyerSignatureInputs);
   updateBuyerSignatureDateField();
 });

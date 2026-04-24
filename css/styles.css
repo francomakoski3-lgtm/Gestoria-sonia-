@@ -39,6 +39,10 @@ body {
 a { text-decoration: none; color: inherit; }
 img { display: block; max-width: 100%; }
 ul { list-style: none; }
+.text-underline {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 button { cursor: pointer; font-family: var(--font); }
 
 /* ── Navbar ────────────────────────────────────────────────── */
@@ -997,6 +1001,23 @@ button { cursor: pointer; font-family: var(--font); }
   color: var(--white);
 }
 .btn-dark:hover { background: var(--gray-800); }
+.btn-service-start {
+  min-height: 52px;
+  padding: 14px 32px;
+  border: 1px solid #2E7D33;
+  border-radius: 999px;
+  background: #2E7D33;
+  border-color: #2E7D33;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  justify-content: center;
+}
+.btn-service-start:hover {
+  background: #25662a;
+  border-color: #25662a;
+}
 .btn-sm { padding: 9px 18px; font-size: 12px; }
 
 /* ── Sección genérica ──────────────────────────────────────── */
@@ -1133,7 +1154,7 @@ button { cursor: pointer; font-family: var(--font); }
   background:
     linear-gradient(180deg, rgba(10,8,7,0.18) 0%, rgba(10,8,7,0.42) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/transferencia-cover.jpg');
+    url('../img/services/transferencia-cover.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -3494,7 +3515,7 @@ button { cursor: pointer; font-family: var(--font); }
   width: 100%;
 }
 .transferencia-result-page {
-  max-width: 780px;
+  max-width: 1120px;
   margin: 0 auto;
   display: grid;
   gap: 22px;
@@ -3514,6 +3535,15 @@ button { cursor: pointer; font-family: var(--font); }
 }
 .transferencia-result-card--full {
   max-width: 100%;
+}
+.transferencia-result-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.85fr);
+  gap: 22px 24px;
+  align-items: flex-start;
+}
+.transferencia-result-body > .quote-estimator-notice {
+  margin-top: 0;
 }
 .transferencia-card-tag {
   display: inline-block;
@@ -3583,7 +3613,7 @@ button { cursor: pointer; font-family: var(--font); }
   opacity: 0;
   pointer-events: none;
 }
-.vehicle-type-option span {
+.vehicle-type-option > span {
   width: 100%;
   display: inline-flex;
   align-items: center;
@@ -3597,11 +3627,44 @@ button { cursor: pointer; font-family: var(--font); }
   font-weight: 800;
   transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
-.vehicle-type-option.is-active span {
+.vehicle-type-option.is-active > span {
   background: #171311;
   border-color: #171311;
   color: var(--white);
   transform: translateY(-1px);
+}
+.vehicle-type-option--vehicle > span {
+  flex-direction: column;
+  gap: 8px;
+  min-height: 106px;
+  padding: 16px 14px;
+}
+.vehicle-type-icon-wrap {
+  position: relative;
+  display: block;
+  width: min(118px, 100%);
+  height: 54px;
+}
+.vehicle-type-option--moto .vehicle-type-icon-wrap {
+  width: 82px;
+}
+.vehicle-type-icon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.2s ease;
+}
+.vehicle-type-icon--active,
+.vehicle-type-option.is-active .vehicle-type-icon--default {
+  opacity: 0;
+}
+.vehicle-type-option.is-active .vehicle-type-icon--active {
+  opacity: 1;
+}
+.vehicle-type-label {
+  line-height: 1;
 }
 .quote-estimate-box {
   background: none;
@@ -3758,20 +3821,95 @@ button { cursor: pointer; font-family: var(--font); }
   color: var(--gray-500);
   margin-bottom: 20px;
 }
+.quote-estimator-notice {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
+  gap: 28px;
+  align-items: flex-start;
+  margin-top: 26px;
+  padding: 32px;
+  border: 2px solid #f3c879;
+  border-radius: 10px;
+  background: #fff1dc;
+  color: #4a4847;
+}
+.quote-estimator-notice__icon {
+  display: grid;
+  place-items: center;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: #f4b13f;
+  color: var(--white);
+  font-size: 56px;
+  font-weight: 900;
+  line-height: 1;
+}
+.quote-estimator-notice__content {
+  display: grid;
+  gap: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.quote-estimator-notice__content p {
+  margin: 0;
+}
+.quote-estimator-notice__content strong {
+  color: #343638;
+  font-weight: 900;
+}
+.quote-estimator-notice__content ul {
+  list-style: disc;
+  margin: 0;
+  padding-left: 30px;
+}
+.quote-estimator-notice__content li {
+  margin: 4px 0;
+  padding-left: 4px;
+}
 .quote-whatsapp-btn {
   width: 100%;
   justify-content: center;
   text-align: center;
+}
+#transferencia-submit-btn {
+  display: flex;
+  width: fit-content;
+  min-height: 52px;
+  margin: 0 auto;
+  padding: 14px 32px;
+  border: 1px solid #2E7D33;
+  border-radius: 999px;
+  background: #2E7D33;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  align-items: center;
+  justify-content: center;
+}
+#transferencia-submit-btn:hover {
+  background: #25662a;
+  border-color: #25662a;
 }
 .quote-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
 }
+.quote-actions--result {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+}
 .quote-actions .btn {
   flex: 1 1 240px;
   justify-content: center;
   text-align: center;
+}
+.quote-actions--result .btn {
+  flex: 0 0 auto;
+  width: fit-content;
 }
 .quote-actions .quote-whatsapp-btn {
   width: auto;
@@ -3779,6 +3917,17 @@ button { cursor: pointer; font-family: var(--font); }
 .quote-whatsapp-btn.is-disabled {
   opacity: 0.55;
   pointer-events: none;
+}
+.transferencia-form-status {
+  min-height: 18px;
+  text-align: center;
+}
+.transferencia-form-status.is-error,
+.quote-delivery-status.is-error {
+  color: var(--red-dark);
+}
+.quote-delivery-status.is-success {
+  color: #25662a;
 }
 .btn.is-loading {
   position: relative;
@@ -4581,16 +4730,26 @@ button { cursor: pointer; font-family: var(--font); }
   .vehicle-type-switch {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .vehicle-type-option span {
+  .vehicle-type-option > span {
     padding: 12px 10px;
     min-height: 58px;
     font-size: 13px;
     line-height: 1.3;
     text-align: center;
   }
+  .vehicle-type-option--vehicle > span {
+    min-height: 94px;
+    padding: 12px 10px;
+  }
+  .vehicle-type-icon-wrap {
+    height: 48px;
+  }
   .transferencia-form-card,
   .transferencia-result-card {
     padding: 24px;
+  }
+  .transferencia-result-body {
+    grid-template-columns: 1fr;
   }
   .transferencia-form-card h3,
   .transferencia-result-card h3 {
@@ -4598,20 +4757,40 @@ button { cursor: pointer; font-family: var(--font); }
   }
   .quote-summary-list div,
   .quote-rate-list div {
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
   }
+  .quote-summary-list dt,
+  .quote-rate-list span,
+  .quote-breakdown-row span,
+  .quote-breakdown-total span {
+    flex: 1 1 auto;
+  }
   .quote-summary-list dd {
-    text-align: left;
+    text-align: right;
   }
   .quote-breakdown-row,
   .quote-breakdown-total {
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
   }
   .quote-breakdown-row strong,
   .quote-breakdown-total strong {
-    text-align: left;
+    flex: 0 0 auto;
+    text-align: right;
+  }
+  .quote-estimator-notice {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 22px;
+  }
+  .quote-estimator-notice__icon {
+    width: 62px;
+    height: 62px;
+    font-size: 44px;
+  }
+  .quote-estimator-notice__content {
+    font-size: 13px;
   }
 
   .reviews-shell,
@@ -5189,10 +5368,16 @@ button { cursor: pointer; font-family: var(--font); }
   .hero-btns .btn { width: 100%; justify-content: center; }
   .hero-actions { flex-direction: column; }
   .hero-actions .btn { width: 100%; justify-content: center; }
-  .vehicle-type-option span {
+  .vehicle-type-option > span {
     padding: 11px 8px;
     min-height: 56px;
     font-size: 12px;
+  }
+  .vehicle-type-option--vehicle > span {
+    min-height: 88px;
+  }
+  .vehicle-type-icon-wrap {
+    height: 44px;
   }
   .liderar-brand-card,
   .liderar-summary-card {

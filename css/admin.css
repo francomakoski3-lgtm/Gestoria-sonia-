@@ -1115,3 +1115,353 @@ body.cp-mode ::-webkit-scrollbar-thumb {
   box-shadow: 0 0 6px var(--cp-green);
   border-radius: 3px;
 }
+
+/* ════════════════════════════════════════════
+   PESTAÑA INFORMACIÓN
+   ════════════════════════════════════════════ */
+
+.info-tab-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Bloque contenedor ───────────────────── */
+.info-block {
+  background: var(--surface);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(28, 36, 29, 0.06);
+}
+
+/* ── Header del bloque ───────────────────── */
+.info-block-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid var(--stroke);
+  background: linear-gradient(135deg, rgba(180, 74, 47, 0.04) 0%, transparent 60%);
+}
+
+.info-block-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.info-block-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0 0 3px;
+  color: var(--text);
+}
+
+.info-block-subtitle {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Cuerpo del bloque ───────────────────── */
+.info-block-body {
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Grupo de setting ────────────────────── */
+.info-setting-group {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: 24px;
+  row-gap: 10px;
+  align-items: start;
+}
+
+.info-setting-label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.info-setting-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.info-setting-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 54ch;
+}
+
+.info-setting-control {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  grid-row: 1;
+  grid-column: 2;
+}
+
+/* ── Input de email ──────────────────────── */
+.info-email-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.info-input-icon {
+  position: absolute;
+  left: 13px;
+  color: var(--muted);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.info-email-input {
+  height: 44px;
+  width: 260px;
+  padding: 0 14px 0 38px;
+  border: 1.5px solid var(--stroke-strong);
+  border-radius: 12px;
+  background: var(--bg-soft);
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.info-email-input::placeholder {
+  color: #a9b3a8;
+}
+
+.info-email-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(180, 74, 47, 0.12);
+}
+
+/* ── Botón guardar ───────────────────────── */
+.btn-info-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 44px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.18s, opacity 0.18s, transform 0.12s;
+}
+
+.btn-info-save:hover:not(:disabled) {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+}
+
+.btn-info-save:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── Hint / nota ─────────────────────────── */
+.info-setting-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  grid-column: 1 / -1;
+  margin-top: -4px;
+}
+
+/* ── Divisor ─────────────────────────────── */
+.info-divider {
+  border: none;
+  border-top: 1px solid var(--stroke);
+  margin: 0;
+}
+
+/* ── Fila de estado ──────────────────────── */
+.info-status-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.info-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.info-status-badge--pending {
+  background: rgba(180, 130, 0, 0.1);
+  color: #8a6200;
+  border: 1px solid rgba(180, 130, 0, 0.2);
+}
+
+.info-status-badge--active {
+  background: rgba(31, 106, 77, 0.1);
+  color: var(--green);
+  border: 1px solid rgba(31, 106, 77, 0.2);
+}
+
+.info-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+.info-status-note {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ── Coming soon placeholder ─────────────── */
+.info-coming-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 32px;
+  border: 1.5px dashed var(--stroke-strong);
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  text-align: center;
+}
+
+.info-coming-soon p {
+  font-size: 13px;
+  margin: 0;
+}
+
+/* ── Responsive ──────────────────────────── */
+@media (max-width: 700px) {
+  .info-setting-group {
+    grid-template-columns: 1fr;
+  }
+  .info-setting-control {
+    grid-row: auto;
+    grid-column: auto;
+    flex-wrap: wrap;
+  }
+  .info-email-input {
+    width: 100%;
+  }
+  .info-block-header {
+    padding: 18px 20px 16px;
+  }
+  .info-block-body {
+    padding: 18px 20px;
+  }
+}
+
+/* ── Modo cyberpunk ──────────────────────── */
+body.cp-mode .info-block {
+  background: var(--cp-surface);
+  border-color: var(--cp-border);
+  box-shadow: 0 0 20px rgba(0,255,157,0.06);
+}
+
+body.cp-mode .info-block-header {
+  border-color: var(--cp-border);
+  background: linear-gradient(135deg, rgba(0,255,157,0.04) 0%, transparent 60%);
+}
+
+body.cp-mode .info-block-icon {
+  background: rgba(0,255,157,0.1);
+  color: var(--cp-green);
+  border: 1px solid rgba(0,255,157,0.2);
+}
+
+body.cp-mode .info-block-title {
+  font-family: var(--cp-font);
+  color: var(--cp-green);
+  text-shadow: 0 0 10px rgba(0,255,157,0.4);
+}
+
+body.cp-mode .info-block-subtitle,
+body.cp-mode .info-setting-desc,
+body.cp-mode .info-setting-note,
+body.cp-mode .info-status-note {
+  color: var(--cp-muted);
+  font-family: var(--cp-font);
+}
+
+body.cp-mode .info-setting-name {
+  font-family: var(--cp-font);
+  color: var(--cp-cyan);
+}
+
+body.cp-mode .info-email-input {
+  background: rgba(0,255,157,0.04);
+  border-color: var(--cp-border);
+  color: var(--cp-green);
+  font-family: var(--cp-font);
+}
+
+body.cp-mode .info-email-input:focus {
+  border-color: var(--cp-green);
+  box-shadow: 0 0 0 3px rgba(0,255,157,0.12);
+}
+
+body.cp-mode .btn-info-save {
+  background: transparent;
+  border: 1px solid rgba(0,255,157,0.4);
+  color: var(--cp-green);
+  font-family: var(--cp-font);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  box-shadow: 0 0 10px rgba(0,255,157,0.15);
+}
+
+body.cp-mode .btn-info-save:hover:not(:disabled) {
+  background: rgba(0,255,157,0.1);
+  box-shadow: 0 0 18px rgba(0,255,157,0.3);
+}
+
+body.cp-mode .info-divider {
+  border-color: var(--cp-border);
+}
+
+body.cp-mode .info-status-badge--pending {
+  background: rgba(191,90,242,0.1);
+  color: var(--cp-purple);
+  border-color: rgba(191,90,242,0.3);
+}
+
+body.cp-mode .info-status-dot {
+  box-shadow: 0 0 6px currentColor;
+}
+
+body.cp-mode .info-coming-soon {
+  border-color: var(--cp-border);
+  color: var(--cp-muted);
+  font-family: var(--cp-font);
+}

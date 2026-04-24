@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   bindEvents();
   restoreSession();
   initRendimientoTab();
+  initInfoTab();
 });
 
 function cacheElements() {
@@ -963,4 +964,41 @@ function formatRelativeTime(isoString) {
   const hrs = Math.floor(mins / 60);
   if (hrs < 24) return `hace ${hrs} h`;
   return `hace ${Math.floor(hrs / 24)} d`;
+}
+
+/* ═══════════════════════════════════════════
+   PESTAÑA INFORMACIÓN — lógica UI
+   ═══════════════════════════════════════════ */
+function initInfoTab() {
+  const emailInput = document.getElementById('cotizador-email');
+  const saveBtn    = document.getElementById('cotizador-email-save');
+  if (!emailInput || !saveBtn) return;
+
+  // Habilitar el botón cuando el campo tiene contenido
+  emailInput.addEventListener('input', () => {
+    saveBtn.disabled = emailInput.value.trim() === '';
+  });
+
+  // Al guardar (solo gráfico por ahora): muestra feedback visual
+  saveBtn.addEventListener('click', () => {
+    const email = emailInput.value.trim();
+    if (!email) return;
+
+    // Feedback visual temporal
+    const original = saveBtn.innerHTML;
+    saveBtn.innerHTML = `
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 6 9 17l-5-5"/>
+      </svg>
+      Guardado
+    `;
+    saveBtn.style.background = 'var(--green)';
+    saveBtn.disabled = true;
+
+    window.setTimeout(() => {
+      saveBtn.innerHTML = original;
+      saveBtn.style.background = '';
+      saveBtn.disabled = false;
+    }, 2200);
+  });
 }

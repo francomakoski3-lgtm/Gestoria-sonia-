@@ -3,3 +3,5 @@ data/*.db-shm
 data/*.db-wal
 uploads/*
 !uploads/.gitkeep
+
+gmail-env-hostinger.txt

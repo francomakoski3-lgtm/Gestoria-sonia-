@@ -1,4 +1,5 @@
 const TRANSFERENCIA_RESULT_STORAGE_KEY = 'transferenciaQuoteResult';
+const TRANSFERENCIA_WA_NUMBER = '543743668039';
 
 document.addEventListener('DOMContentLoaded', () => {
   const resultCopy = document.getElementById('transferencia-result-copy');
@@ -18,10 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const breakdownPenalty = document.getElementById('breakdown-penalty');
   const breakdownTotal = document.getElementById('breakdown-total');
   const disclaimer = document.getElementById('transferencia-disclaimer');
+  const whatsappStatus = document.getElementById('transferencia-whatsapp-status');
   const whatsappButton = document.getElementById('transferencia-whatsapp');
   const resetLink = document.getElementById('transferencia-reset-link');
 
-  function setWhatsappState(enabled, href = '', label = 'Enviar cotizacion al cliente por WhatsApp') {
+  function setWhatsappState(enabled, href = `https://wa.me/${TRANSFERENCIA_WA_NUMBER}`, label = 'Iniciar tr\u00e1mite') {
+    if (!whatsappButton) return;
+
     whatsappButton.classList.toggle('is-disabled', !enabled);
     whatsappButton.setAttribute('aria-disabled', String(!enabled));
     whatsappButton.textContent = label;
@@ -42,8 +46,83 @@ document.addEventListener('DOMContentLoaded', () => {
     summaryAge.textContent = '-';
     summaryBuyerSignature.textContent = '-';
     breakdown.hidden = true;
-    disclaimer.textContent = 'Volve al formulario para hacer otra cotizacion.';
+    if (disclaimer) disclaimer.textContent = 'Volve al formulario para hacer otra cotizacion.';
+    if (whatsappStatus) {
+      whatsappStatus.textContent = '';
+      whatsappStatus.classList.remove('is-success', 'is-error');
+    }
     setWhatsappState(false);
+  }
+
+  function renderWhatsappDeliveryStatus(delivery) {
+    if (!whatsappStatus) return;
+
+    whatsappStatus.classList.remove('is-success', 'is-error');
+
+    if (!delivery) {
+      whatsappStatus.textContent = 'La cotizacion quedo calculada, pero no hay estado del envio por WhatsApp.';
+      whatsappStatus.classList.add('is-error');
+      return;
+    }
+
+    if (delivery.status === 'sent') {
+      whatsappStatus.textContent = 'La cotizacion fue enviada al WhatsApp del cliente desde el numero de la empresa.';
+      whatsappStatus.classList.add('is-success');
+      return;
+    }
+
+    if (delivery.status === 'pending_configuration') {
+      whatsappStatus.textContent = 'La cotizacion quedo lista. Falta conectar la API de WhatsApp para activar el envio automatico.';
+      whatsappStatus.classList.add('is-error');
+      return;
+    }
+
+    whatsappStatus.textContent = delivery.message || 'No se pudo confirmar el envio por WhatsApp.';
+    whatsappStatus.classList.add('is-error');
+  }
+
+  function buildProcedureWhatsappHref(payload) {
+    const lines = [
+      'Hola, quiero iniciar el tramite de transferencia con esta cotizacion.',
+      '',
+      `Tipo: ${payload.typeLabel || '-'}`,
+      `Domicilio en Misiones: ${payload.misionesLabel || '-'}`,
+      `Precio de compra: ${payload.priceFormatted || '-'}`,
+      `WhatsApp: ${payload.clientWhatsapp || '-'}`,
+      `Firma del vendedor: ${payload.ageLabel || '-'}`,
+      `Firma del comprador: ${payload.buyerSignatureLabel || '-'}`
+    ];
+
+    if (payload.includeBreakdown) {
+      lines.push(
+        '',
+        'Detalle de la cotizacion:',
+        `Formulario + Escribania + Honorarios: ${payload.serviceFeeFormatted || '-'}`,
+        `Registro: ${payload.registryAmountFormatted || '-'}`,
+        `Sellado: ${payload.stampedTotalFormatted || '-'}`,
+        `Liquidacion de sellos: ${payload.stampsFormatted || '-'}`,
+        `Intereses: ${payload.interestFormatted || '-'}`,
+        `Multas: ${payload.penaltyFormatted || '-'}`,
+        `Total a pagar: ${payload.totalFormatted || '-'}`
+      );
+
+      if (payload.registryNote) {
+        lines.push(`Registro - detalle: ${payload.registryNote}`);
+      }
+
+      if (payload.selladoNote) {
+        lines.push(`Sellado - detalle: ${payload.selladoNote}`);
+      }
+    } else {
+      lines.push(
+        '',
+        'La cotizacion exacta debe confirmarse revisando la documentacion.'
+      );
+    }
+
+    lines.push('', 'Quedo atento/a para continuar con el tramite.');
+
+    return `https://wa.me/${TRANSFERENCIA_WA_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
   }
 
   function renderQuote(payload) {
@@ -54,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (summaryClientWhatsapp) summaryClientWhatsapp.textContent = payload.clientWhatsapp || '-';
     summaryAge.textContent = payload.ageLabel || '-';
     summaryBuyerSignature.textContent = payload.buyerSignatureLabel || '-';
-    disclaimer.textContent = payload.disclaimer || '';
+    if (disclaimer) disclaimer.textContent = payload.disclaimer || '';
 
     if (payload.includeBreakdown) {
       breakdown.hidden = false;
@@ -70,7 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
       breakdown.hidden = true;
     }
 
-    setWhatsappState(true, payload.whatsappHref || '', payload.whatsappLabel || 'Enviar cotizacion al cliente por WhatsApp');
+    renderWhatsappDeliveryStatus(payload.whatsappDelivery);
+    setWhatsappState(true, buildProcedureWhatsappHref(payload), 'Iniciar tr\u00e1mite');
   }
 
   if (resetLink) {

@@ -14,6 +14,17 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const COOKIE_NAME = 'gs_admin_session';
 const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY || '';
 const GOOGLE_PLACE_ID_ENV = process.env.GOOGLE_PLACE_ID || '';
+const WHATSAPP_QUOTE_API_URL = process.env.WHATSAPP_QUOTE_API_URL || '';
+const WHATSAPP_QUOTE_API_TOKEN = process.env.WHATSAPP_QUOTE_API_TOKEN || '';
+const WHATSAPP_QUOTE_TEMPLATE_NAME = process.env.WHATSAPP_QUOTE_TEMPLATE_NAME || 'transferencia_cotizacion';
+const WHATSAPP_QUOTE_TEMPLATE_LANGUAGE = process.env.WHATSAPP_QUOTE_TEMPLATE_LANGUAGE || 'es_AR';
+const WHATSAPP_BUSINESS_PHONE = process.env.WHATSAPP_BUSINESS_PHONE || '543743668039';
+
+const GMAIL_CLIENT_ID = process.env.GMAIL_CLIENT_ID || '';
+const GMAIL_CLIENT_SECRET = process.env.GMAIL_CLIENT_SECRET || '';
+const GMAIL_REFRESH_TOKEN = process.env.GMAIL_REFRESH_TOKEN || '';
+const GMAIL_FROM_EMAIL = process.env.GMAIL_FROM_EMAIL || 'francomakoski4@gmail.com';
+const GMAIL_TO_EMAIL = process.env.GMAIL_TO_EMAIL || 'francomakoski4@gmail.com';
 
 // Cache de reseñas en memoria (se renueva cada 24 horas)
 const reviewsCache = { data: null, expiresAt: 0, placeId: GOOGLE_PLACE_ID_ENV };
@@ -461,6 +472,19 @@ async function handleApi(req, res, url) {
     const body = await readJsonBody(req);
     const request = createConsumerWithdrawalRequest(normalizeConsumerWithdrawalInput(body));
     sendJson(res, 201, { request });
+    return;
+  }
+
+  if (req.method === 'POST' && pathname === '/api/transferencia/quote') {
+    const ip = getClientIp(req);
+    const body = await readJsonBody(req);
+    const quote = normalizeTransferenciaQuoteInput(body);
+    const delivery = await sendTransferenciaQuoteWhatsapp(quote);
+    sendGmailNotification(
+      `Nueva cotizacion de transferencia — ${quote.typeLabel} — ${quote.priceFormatted}`,
+      buildTransferenciaQuoteEmailHtml(quote, ip, body)
+    ).catch(err => console.error('[Gmail] Error inesperado:', err.message));
+    sendJson(res, 200, { ok: true, delivery });
     return;
   }
 
@@ -1449,6 +1473,157 @@ function isValidIsoDate(value) {
   );
 }
 
+function normalizeTransferenciaQuoteInput(payload) {
+  const clientWhatsapp = normalizeWhatsappNumber(readString(payload.clientWhatsapp));
+  const price = Number(payload.price);
+
+  if (!clientWhatsapp) {
+    throw createHttpError(400, 'Ingresa un numero de WhatsApp valido.', true);
+  }
+
+  if (!Number.isFinite(price) || price <= 0) {
+    throw createHttpError(400, 'Ingresa un precio de compra valido.', true);
+  }
+
+  return {
+    clientWhatsapp,
+    typeLabel: readString(payload.typeLabel) || 'Vehiculo',
+    misionesLabel: readString(payload.misionesLabel) || '-',
+    price,
+    priceFormatted: readString(payload.priceFormatted) || String(price),
+    ageLabel: readString(payload.ageLabel) || '-',
+    buyerSignatureLabel: readString(payload.buyerSignatureLabel) || '-',
+    includeBreakdown: toBoolean(payload.includeBreakdown),
+    serviceFeeFormatted: readString(payload.serviceFeeFormatted) || '-',
+    registryAmountFormatted: readString(payload.registryAmountFormatted) || '-',
+    stampedTotalFormatted: readString(payload.stampedTotalFormatted) || '-',
+    stampsFormatted: readString(payload.stampsFormatted) || '-',
+    interestFormatted: readString(payload.interestFormatted) || '-',
+    penaltyFormatted: readString(payload.penaltyFormatted) || '-',
+    totalFormatted: readString(payload.totalFormatted) || '-',
+    registryNote: readString(payload.registryNote),
+    selladoNote: readString(payload.selladoNote),
+    disclaimer: readString(payload.disclaimer)
+  };
+}
+
+function normalizeWhatsappNumber(value) {
+  const digits = String(value || '').replace(/\D/g, '').replace(/^0+/, '');
+  if (!digits) return '';
+  if (digits.startsWith('549')) return digits;
+  if (digits.startsWith('54') && digits.length === 12) return `549${digits.slice(2)}`;
+  if (digits.startsWith('9') && digits.length === 11) return `54${digits}`;
+  if (digits.length === 10) return `549${digits}`;
+  if (digits.startsWith('54')) return digits;
+  return digits;
+}
+
+function buildTransferenciaTemplateParameters(quote) {
+  return [
+    { key: 'tipo', value: quote.typeLabel },
+    { key: 'domicilio_misiones', value: quote.misionesLabel },
+    { key: 'precio_compra', value: quote.priceFormatted },
+    { key: 'firma_vendedor', value: quote.ageLabel },
+    { key: 'firma_comprador', value: quote.buyerSignatureLabel },
+    { key: 'formulario_escribania_honorarios', value: quote.serviceFeeFormatted },
+    { key: 'registro', value: quote.registryAmountFormatted },
+    { key: 'sellado_total', value: quote.stampedTotalFormatted },
+    { key: 'sellos', value: quote.stampsFormatted },
+    { key: 'intereses', value: quote.interestFormatted },
+    { key: 'multas', value: quote.penaltyFormatted },
+    { key: 'total_estimado', value: quote.totalFormatted }
+  ];
+}
+
+function buildTransferenciaWhatsappMessage(quote) {
+  const lines = [
+    'Hola, te compartimos la cotizacion estimada de transferencia de Gestoria Sonia.',
+    `Tipo: ${quote.typeLabel}`,
+    `Domicilio del titular nuevo: ${quote.misionesLabel}`,
+    `Precio de compra informado: ${quote.priceFormatted}`,
+    `Firma del vendedor: ${quote.ageLabel}`,
+    `Firma del comprador: ${quote.buyerSignatureLabel}`
+  ];
+
+  if (quote.includeBreakdown) {
+    lines.push(
+      `Formulario + Escribania + Honorarios: ${quote.serviceFeeFormatted}`,
+      `Registro: ${quote.registryAmountFormatted}`,
+      `Sellado total: ${quote.stampedTotalFormatted}`,
+      `Liquidacion de sellos: ${quote.stampsFormatted}`,
+      `Intereses: ${quote.interestFormatted}`,
+      `Multas: ${quote.penaltyFormatted}`,
+      `Total estimado: ${quote.totalFormatted}`
+    );
+  } else {
+    lines.push('Para este domicilio necesitamos confirmar el valor exacto revisando la documentacion.');
+  }
+
+  if (quote.registryNote) lines.push(quote.registryNote);
+  if (quote.selladoNote) lines.push(quote.selladoNote);
+  lines.push('La cotizacion es orientativa y el valor exacto se confirma al revisar la documentacion.');
+
+  return lines.join('\n');
+}
+
+async function sendTransferenciaQuoteWhatsapp(quote) {
+  if (!WHATSAPP_QUOTE_API_URL) {
+    return {
+      status: 'pending_configuration',
+      sent: false,
+      message: 'WHATSAPP_QUOTE_API_URL no esta configurada.'
+    };
+  }
+
+  const requestPayload = {
+    to: quote.clientWhatsapp,
+    from: WHATSAPP_BUSINESS_PHONE,
+    template: {
+      name: WHATSAPP_QUOTE_TEMPLATE_NAME,
+      language: WHATSAPP_QUOTE_TEMPLATE_LANGUAGE,
+      parameters: buildTransferenciaTemplateParameters(quote)
+    },
+    message: buildTransferenciaWhatsappMessage(quote),
+    quote
+  };
+
+  const headers = {
+    'Content-Type': 'application/json'
+  };
+
+  if (WHATSAPP_QUOTE_API_TOKEN) {
+    headers.Authorization = `Bearer ${WHATSAPP_QUOTE_API_TOKEN}`;
+  }
+
+  let response;
+  let responseBody = {};
+
+  try {
+    response = await fetch(WHATSAPP_QUOTE_API_URL, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(requestPayload)
+    });
+    responseBody = await response.json().catch(() => ({}));
+  } catch {
+    throw createHttpError(502, 'No se pudo conectar con la API de WhatsApp.', true);
+  }
+
+  if (!response.ok) {
+    throw createHttpError(
+      502,
+      responseBody.error || responseBody.message || 'La API de WhatsApp rechazo el envio.',
+      true
+    );
+  }
+
+  return {
+    status: 'sent',
+    sent: true,
+    providerMessageId: responseBody.id || responseBody.messageId || responseBody.providerMessageId || null
+  };
+}
+
 function buildConsumerWithdrawalCode() {
   const date = new Date();
   const stamp = [
@@ -1636,6 +1811,114 @@ function ensureDir(target) {
     fs.mkdirSync(target, { recursive: true });
   }
 }
+async function getGmailAccessToken() {
+  if (!GMAIL_CLIENT_ID || !GMAIL_CLIENT_SECRET || !GMAIL_REFRESH_TOKEN) return null;
+  try {
+    const res = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        client_id: GMAIL_CLIENT_ID,
+        client_secret: GMAIL_CLIENT_SECRET,
+        refresh_token: GMAIL_REFRESH_TOKEN,
+        grant_type: 'refresh_token'
+      })
+    });
+    const data = await res.json();
+    return data.access_token || null;
+  } catch {
+    return null;
+  }
+}
+
+async function sendGmailNotification(subject, htmlBody) {
+  const accessToken = await getGmailAccessToken();
+  if (!accessToken) {
+    console.warn('[Gmail] No se pudo obtener access token. Verificar variables de entorno GMAIL_*.');
+    return;
+  }
+  const emailLines = [
+    `From: Gestoria Sonia <${GMAIL_FROM_EMAIL}>`,
+    `To: ${GMAIL_TO_EMAIL}`,
+    `Subject: =?UTF-8?B?${Buffer.from(subject).toString('base64')}?=`,
+    'MIME-Version: 1.0',
+    'Content-Type: text/html; charset=utf-8',
+    '',
+    htmlBody
+  ];
+  const raw = Buffer.from(emailLines.join('\r\n')).toString('base64url');
+  try {
+    const res = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ raw })
+    });
+    if (res.ok) {
+      console.log('[Gmail] Email de cotizacion enviado OK.');
+    } else {
+      const err = await res.json().catch(() => ({}));
+      console.error('[Gmail] Error al enviar:', JSON.stringify(err));
+    }
+  } catch (err) {
+    console.error('[Gmail] Fallo de red:', err.message);
+  }
+}
+
+function buildTransferenciaQuoteEmailHtml(quote, ip, rawBody) {
+  const now = new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
+
+  const mainRows = [
+    ['Tipo de vehiculo', quote.typeLabel],
+    ['Domicilio en Misiones', quote.misionesLabel],
+    ['Precio de compra', quote.priceFormatted],
+    ['Firma vendedor', quote.ageLabel],
+    ['Firma comprador', quote.buyerSignatureLabel],
+    ['WhatsApp del cliente', quote.clientWhatsapp],
+  ];
+
+  const breakdownRows = quote.includeBreakdown ? [
+    ['Formulario + Escribania + Honorarios', quote.serviceFeeFormatted],
+    ['Registro', quote.registryAmountFormatted],
+    ['Sellado total', quote.stampedTotalFormatted],
+    ['Liquidacion de sellos', quote.stampsFormatted],
+    ['Intereses', quote.interestFormatted],
+    ['Multas', quote.penaltyFormatted],
+    ['Total estimado', quote.totalFormatted],
+  ] : [];
+
+  const techRows = [
+    ['IP del cliente', ip || 'No disponible'],
+    ['Fecha y hora', now],
+  ];
+
+  const renderRows = rows => rows.map(([label, value]) =>
+    `<tr><td style="padding:7px 12px;border:1px solid #ddd;background:#f5f7fa;font-weight:600;white-space:nowrap">${label}</td><td style="padding:7px 12px;border:1px solid #ddd">${value || '—'}</td></tr>`
+  ).join('');
+
+  const notesHtml = [quote.registryNote, quote.selladoNote]
+    .filter(Boolean)
+    .map(n => `<p style="margin:6px 0;padding:8px 12px;background:#fff3cd;border-left:4px solid #ffc107;border-radius:3px">📌 ${n}</p>`)
+    .join('');
+
+  return `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;color:#222;max-width:640px;margin:0 auto">
+  <h2 style="margin:0;padding:16px 20px;background:#1a3a5c;color:#fff;border-radius:6px 6px 0 0">📋 Nueva cotizacion de transferencia</h2>
+  <table style="width:100%;border-collapse:collapse;border:1px solid #ddd;border-top:none">
+    ${renderRows(mainRows)}
+  </table>
+  ${breakdownRows.length ? `
+  <h3 style="margin:16px 0 4px;font-size:14px;color:#1a3a5c">Desglose de costos</h3>
+  <table style="width:100%;border-collapse:collapse;border:1px solid #ddd">
+    ${renderRows(breakdownRows)}
+  </table>` : ''}
+  ${notesHtml}
+  <h3 style="margin:16px 0 4px;font-size:13px;color:#555">Datos tecnicos</h3>
+  <table style="width:100%;border-collapse:collapse;border:1px solid #ddd">
+    ${renderRows(techRows)}
+  </table>
+  <p style="margin-top:20px;font-size:11px;color:#999">Gestoria Sonia — Notificacion automatica del cotizador de transferencias</p>
+</body></html>`;
+}
+
 function nowIso() {
   return new Date().toISOString();
 }

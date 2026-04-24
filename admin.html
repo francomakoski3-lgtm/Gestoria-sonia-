@@ -9,7 +9,7 @@
   <!-- SEO:START -->
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
   <!-- SEO:END -->
-  <link rel="stylesheet" href="css/admin.css?v=20260422-0752">
+  <link rel="stylesheet" href="css/admin.css?v=20260424-2359">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18100857997"></script>
@@ -89,6 +89,7 @@
         <button type="button" class="tab-button" data-tab-target="inmuebles">Inmuebles</button>
         <button type="button" class="tab-button" data-tab-target="cuenta">Cuenta</button>
         <button type="button" class="tab-button" data-tab-target="rendimiento">Rendimiento</button>
+        <button type="button" class="tab-button" data-tab-target="informacion">Informaci&oacute;n</button>
       </nav>
 
       <section class="tab-panel is-active" data-tab-panel="autos">
@@ -452,6 +453,87 @@
           </article>
         </div>
       </section>
+
+      <!-- ══════════════ PESTAÑA: INFORMACIÓN ══════════════ -->
+      <section class="tab-panel" data-tab-panel="informacion">
+        <div class="info-tab-layout">
+
+          <!-- ── Bloque: Cotizador de transferencias ─────── -->
+          <article class="info-block">
+            <div class="info-block-header">
+              <div class="info-block-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+                </svg>
+              </div>
+              <div>
+                <h2 class="info-block-title">Cotizador de transferencias</h2>
+                <p class="info-block-subtitle">Configuraci&oacute;n del formulario de cotizaci&oacute;n del sitio web.</p>
+              </div>
+            </div>
+
+            <div class="info-block-body">
+
+              <!-- Destino de correos -->
+              <div class="info-setting-group">
+                <div class="info-setting-label">
+                  <span class="info-setting-name">D&oacute;nde enviar las cotizaciones</span>
+                  <span class="info-setting-desc">Los clientes que completen el cotizador recibir&aacute;n una copia, y la gestor&iacute;a recibir&aacute; otra en esta direcci&oacute;n.</span>
+                </div>
+                <div class="info-setting-control">
+                  <div class="info-email-input-wrap">
+                    <svg class="info-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/>
+                    </svg>
+                    <input
+                      type="email"
+                      class="info-email-input"
+                      id="cotizador-email"
+                      placeholder="correo@ejemplo.com"
+                      value=""
+                      autocomplete="email"
+                    >
+                  </div>
+                  <button type="button" class="btn-info-save" id="cotizador-email-save" disabled>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M20 6 9 17l-5-5"/>
+                    </svg>
+                    Guardar
+                  </button>
+                </div>
+                <p class="info-setting-hint">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
+                  </svg>
+                  Esta funcionalidad estar&aacute; activa pr&oacute;ximamente.
+                </p>
+              </div>
+
+              <!-- Divisor -->
+              <hr class="info-divider">
+
+              <!-- Vista previa del estado -->
+              <div class="info-status-row">
+                <div class="info-status-badge info-status-badge--pending">
+                  <span class="info-status-dot"></span>
+                  Pendiente de configurar
+                </div>
+                <span class="info-status-note">Una vez guardado el correo, las cotizaciones se enviar&aacute;n autom&aacute;ticamente.</span>
+              </div>
+
+            </div>
+          </article>
+
+          <!-- Placeholder para futuros apartados -->
+          <div class="info-coming-soon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.35">
+              <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+            </svg>
+            <p>M&aacute;s opciones de configuraci&oacute;n pr&oacute;ximamente.</p>
+          </div>
+
+        </div>
+      </section>
     </section>
   </div>
 
@@ -459,6 +541,6 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
-  <script src="js/admin.js?v=20260422-0752"></script>
+  <script src="js/admin.js?v=20260424-2359"></script>
 </body>
 </html>

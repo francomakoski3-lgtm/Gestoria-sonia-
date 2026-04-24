@@ -31,6 +31,12 @@ const GESTORIA_SERVICE_DETAILS = {
         iconAlt: 'Calculadora',
         label: 'Estimado',
         value: 'Calculadora online'
+      },
+      {
+        iconImg: 'img/services/experiencia.png',
+        iconAlt: 'Experiencia',
+        label: 'Experiencia',
+        value: '+ 19 A&ntilde;os'
       }
     ],
     detailSections: [
@@ -63,7 +69,9 @@ const GESTORIA_SERVICE_DETAILS = {
           'img/payment/payment-pagofacil.png',
           'img/payment/payment-rapipago.png',
           'img/payment/payment-2.png',
-          'img/payment/payment-5.png'
+          'img/payment/payment-5.png',
+          'img/payment/payment-btc.svg',
+          'img/payment/payment-usdt.svg'
         ]
       }
     ],
@@ -71,6 +79,7 @@ const GESTORIA_SERVICE_DETAILS = {
     ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20una%20transferencia%20de%20auto%20o%20moto.',
     secondaryLabel: 'Iniciar tr&aacute;mite',
     secondaryHref: 'cotizar-transferencia.html',
+    secondaryClass: 'btn-service-start',
     secondaryTargetBlank: true,
     hidePrimaryCta: true,
     includeCalculator: false
@@ -1746,10 +1755,11 @@ function renderGestoriaServiceDetail(service) {
     ? `<span class="gestoria-service-press-hand" aria-hidden="true">&#x1F449;</span><span class="gestoria-service-cta-copy">${secondaryLabelText}</span>`
     : secondaryLabelText;
   const secondaryActionClass = secondaryHasAnimatedHand ? ' gestoria-service-cta--with-hand' : '';
+  const secondaryVisualClass = service.secondaryClass ? ` ${service.secondaryClass}` : '';
   const secondaryLinkAttrs = service.secondaryTargetBlank ? ' target="_blank" rel="noopener"' : '';
   const calculatorActionMarkup = service.includeCalculator
-    ? `<button type="button" class="btn btn-dark${secondaryActionClass}" data-transfer-calculator-toggle aria-expanded="false" aria-controls="service-transfer-calculator">${secondaryLabelMarkup}</button>`
-    : (service.secondaryHref ? `<a href="${service.secondaryHref}"${secondaryLinkAttrs} class="btn btn-dark${secondaryActionClass}">${secondaryLabelMarkup}</a>` : '');
+    ? `<button type="button" class="btn btn-dark${secondaryVisualClass}${secondaryActionClass}" data-transfer-calculator-toggle aria-expanded="false" aria-controls="service-transfer-calculator">${secondaryLabelMarkup}</button>`
+    : (service.secondaryHref ? `<a href="${service.secondaryHref}"${secondaryLinkAttrs} class="btn btn-dark${secondaryVisualClass}${secondaryActionClass}">${secondaryLabelMarkup}</a>` : '');
   const ctaHasAnimatedHand = Boolean(service.ctaAnimatedHand || service.ctaLabel === 'Iniciar tu tr&aacute;mite');
   const ctaLabelMarkup = ctaHasAnimatedHand
     ? `<span class="gestoria-service-press-hand" aria-hidden="true">&#x1F449;</span><span class="gestoria-service-cta-copy">${service.ctaLabel}</span>`
@@ -2014,7 +2024,7 @@ function renderTransferCalculator() {
             </label>
             <label class="vehicle-type-option">
               <input type="radio" name="misionesResidence" value="no">
-              <span>No</span>
+              <span>Otra provincia</span>
             </label>
           </div>
         </div>
@@ -2025,7 +2035,7 @@ function renderTransferCalculator() {
         </div>
 
         <div class="form-group">
-          <label for="transfer-age">&iquest;Hace cu&aacute;nto se certific&oacute; la firma del vendedor?</label>
+          <label for="transfer-age">&iquest;Hace cu&aacute;nto se certific&oacute; la firma del <span class="text-underline">vendedor</span>?</label>
           <select id="transfer-age" name="ageBracket" required>
             <option value="lt90" selected>Menos de 90 d&iacute;as</option>
             <option value="90d1y">M&aacute;s de 90 d&iacute;as y hasta 1 a&ntilde;o</option>
@@ -2037,26 +2047,20 @@ function renderTransferCalculator() {
         </div>
 
         <div class="form-group">
-          <label>&iquest;Hace cu&aacute;nto se certific&oacute; la firma del comprador?</label>
-          <div class="vehicle-type-switch" role="radiogroup" aria-label="Tiempo desde la certificaci&oacute;n de la firma del comprador">
-            <label class="vehicle-type-option is-active">
-              <input type="radio" name="buyerSignatureRange" value="lt15" checked>
-              <span>Menos de 15 d&iacute;as h&aacute;biles</span>
-            </label>
-            <label class="vehicle-type-option">
-              <input type="radio" name="buyerSignatureRange" value="gt15">
-              <span>M&aacute;s de 15 d&iacute;as h&aacute;biles</span>
-            </label>
-          </div>
+          <label>&iquest;Hace cu&aacute;nto se certific&oacute; la firma del <span class="text-underline">comprador</span>?</label>
+          <select id="buyer-signature-range" name="buyerSignatureRange" required>
+            <option value="lt15" selected>Menos de 15 d&iacute;as h&aacute;biles</option>
+            <option value="gt15">M&aacute;s de 15 d&iacute;as h&aacute;biles</option>
+          </select>
         </div>
 
         <div class="form-group conditional-field" id="buyer-signature-date-group" hidden>
-          <label for="buyer-signature-date">Fecha de certificaci&oacute;n de la firma del comprador</label>
+          <label for="buyer-signature-date">Fecha de certificaci&oacute;n de la firma del <span class="text-underline">comprador</span></label>
           <input type="date" id="buyer-signature-date" name="buyerSignatureDate">
           <p class="form-helper" id="buyer-signature-date-help">Seleccion&aacute; la fecha para calcular los d&iacute;as h&aacute;biles aproximados.</p>
         </div>
 
-        <button type="submit" class="btn btn-dark" id="transferencia-submit-btn">Calcular transferencia</button>
+        <button type="submit" class="btn btn-dark" id="transferencia-submit-btn">Siguiente paso</button>
       </form>
 
       <p class="gestoria-transfer-note">La cotizaci&oacute;n final se confirma seg&uacute;n la documentaci&oacute;n disponible y el caso puntual.</p>
