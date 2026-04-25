@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -6,10 +6,11 @@
   <link rel="icon" type="image/png" href="img/site-icon.png">
   <title>Panel administrativo | Gestoria Sonia</title>
   <meta name="description" content="Panel de gestion para administrar autos e inmuebles.">
+  <link rel="canonical" href="https://gestoriasonia.ar/admin">
   <!-- SEO:START -->
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
   <!-- SEO:END -->
-  <link rel="stylesheet" href="css/admin.css?v=20260424-2359">
+  <link rel="stylesheet" href="css/admin.css?v=20260425-admin-menu">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18100857997"></script>
@@ -64,7 +65,12 @@
         </div>
 
         <div class="topbar-actions">
-          <span class="user-chip" id="current-user"></span>
+          <div class="user-menu">
+            <button type="button" class="user-chip user-menu-button" id="current-user" aria-haspopup="menu" aria-expanded="false"></button>
+            <div class="user-dropdown" id="user-dropdown" role="menu" hidden>
+              <button type="button" class="user-dropdown-item" id="open-password-panel" role="menuitem">Cambiar contrasena</button>
+            </div>
+          </div>
           <button type="button" class="btn btn-secondary" id="logout-button">Cerrar sesion</button>
         </div>
       </header>
@@ -87,7 +93,7 @@
       <nav class="tabs-bar">
         <button type="button" class="tab-button is-active" data-tab-target="autos">Autos</button>
         <button type="button" class="tab-button" data-tab-target="inmuebles">Inmuebles</button>
-        <button type="button" class="tab-button" data-tab-target="cuenta">Cuenta</button>
+        <button type="button" class="tab-button" data-tab-target="servicios">Servicios</button>
         <button type="button" class="tab-button" data-tab-target="rendimiento">Rendimiento</button>
         <button type="button" class="tab-button" data-tab-target="informacion">Informaci&oacute;n</button>
       </nav>
@@ -334,6 +340,29 @@
         </div>
       </section>
 
+      <section class="tab-panel" data-tab-panel="servicios">
+        <article class="info-block">
+          <div class="info-block-header">
+            <div class="info-block-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/>
+              </svg>
+            </div>
+            <div>
+              <h2 class="info-block-title">Servicios</h2>
+              <p class="info-block-subtitle">Activa o desactiva los servicios que se muestran en las paginas de gestoria.</p>
+            </div>
+          </div>
+
+          <div class="info-block-body">
+            <div class="services-admin-status" id="service-settings-status"></div>
+            <div class="services-admin-list" id="service-settings-list">
+              <p class="recipients-empty">Cargando servicios...</p>
+            </div>
+          </div>
+        </article>
+      </section>
+
       <section class="tab-panel" data-tab-panel="cuenta">
         <article class="admin-card narrow-card">
           <div class="card-head">
@@ -356,7 +385,7 @@
         <div class="analytics-header">
           <div class="analytics-header-dot"></div>
           <span class="analytics-header-title">// sistema de monitoreo &mdash; gestoria_sonia.ar</span>
-          <span class="analytics-header-jp" aria-hidden="true">監視システム</span>
+          <span class="analytics-header-jp" aria-hidden="true">??????</span>
         </div>
 
         <!-- Resumen -->
@@ -364,22 +393,22 @@
           <div class="analytics-stat-card">
             <span class="analytics-stat-label">Visitas totales</span>
             <strong class="analytics-stat-value" id="an-total">—</strong>
-            <span class="jp-sub" aria-hidden="true">総訪問数</span>
+            <span class="jp-sub" aria-hidden="true">????</span>
           </div>
           <div class="analytics-stat-card">
             <span class="analytics-stat-label">Últimos 30 días</span>
             <strong class="analytics-stat-value" id="an-30d">—</strong>
-            <span class="jp-sub" aria-hidden="true">30日間</span>
+            <span class="jp-sub" aria-hidden="true">30??</span>
           </div>
           <div class="analytics-stat-card">
             <span class="analytics-stat-label">Visitantes únicos</span>
             <strong class="analytics-stat-value" id="an-unique">—</strong>
-            <span class="jp-sub" aria-hidden="true">ユニーク訪問者</span>
+            <span class="jp-sub" aria-hidden="true">???????</span>
           </div>
           <div class="analytics-stat-card">
             <span class="analytics-stat-label">Únicos (30 días)</span>
             <strong class="analytics-stat-value" id="an-unique-30d">—</strong>
-            <span class="jp-sub" aria-hidden="true">30日ユニーク</span>
+            <span class="jp-sub" aria-hidden="true">30?????</span>
           </div>
         </div>
 
@@ -388,7 +417,7 @@
           <article class="admin-card">
             <div class="card-head">
               <div>
-                <span class="eyebrow">Páginas<span class="jp-tag" aria-hidden="true">ページ</span></span>
+                <span class="eyebrow">Páginas<span class="jp-tag" aria-hidden="true">???</span></span>
                 <h2>Más visitadas</h2>
               </div>
             </div>
@@ -402,7 +431,7 @@
           <article class="admin-card">
             <div class="card-head">
               <div>
-                <span class="eyebrow">Interacciones<span class="jp-tag" aria-hidden="true">アクション</span></span>
+                <span class="eyebrow">Interacciones<span class="jp-tag" aria-hidden="true">?????</span></span>
                 <h2>Botones más usados</h2>
               </div>
             </div>
@@ -416,7 +445,7 @@
           <article class="admin-card">
             <div class="card-head">
               <div>
-                <span class="eyebrow">Origen<span class="jp-tag" aria-hidden="true">起源</span></span>
+                <span class="eyebrow">Origen<span class="jp-tag" aria-hidden="true">??</span></span>
                 <h2>Países de los visitantes</h2>
               </div>
             </div>
@@ -430,7 +459,7 @@
           <article class="admin-card">
             <div class="card-head">
               <div>
-                <span class="eyebrow">Actividad<span class="jp-tag" aria-hidden="true">活動</span></span>
+                <span class="eyebrow">Actividad<span class="jp-tag" aria-hidden="true">??</span></span>
                 <h2>Visitas recientes</h2>
               </div>
             </div>
@@ -444,7 +473,7 @@
           <article class="admin-card admin-card--full">
             <div class="card-head">
               <div>
-                <span class="eyebrow">Geolocalización<span class="jp-tag" aria-hidden="true">地図</span></span>
+                <span class="eyebrow">Geolocalización<span class="jp-tag" aria-hidden="true">??</span></span>
                 <h2>Mapa de visitas</h2>
               </div>
             </div>
@@ -454,11 +483,11 @@
         </div>
       </section>
 
-      <!-- ══════════════ PESTAÑA: INFORMACIÓN ══════════════ -->
+      <!-- -------------- PESTAÑA: INFORMACIÓN -------------- -->
       <section class="tab-panel" data-tab-panel="informacion">
         <div class="info-tab-layout">
 
-          <!-- ── Bloque: Cotizador de transferencias ─────── -->
+          <!-- -- Bloque: Cotizador de transferencias ------- -->
           <article class="info-block">
             <div class="info-block-header">
               <div class="info-block-icon">
@@ -473,64 +502,60 @@
             </div>
 
             <div class="info-block-body">
+              <div class="recipients-section">
+                <div class="recipients-header">
+                  <p class="recipients-desc">Estas personas recibir&aacute;n un email cada vez que alguien complete el cotizador de transferencias.</p>
+                  <div class="recipients-status" id="recipients-status"></div>
+                </div>
 
-              <!-- Destino de correos -->
-              <div class="info-setting-group">
-                <div class="info-setting-label">
-                  <span class="info-setting-name">D&oacute;nde enviar las cotizaciones</span>
-                  <span class="info-setting-desc">Los clientes que completen el cotizador recibir&aacute;n una copia, y la gestor&iacute;a recibir&aacute; otra en esta direcci&oacute;n.</span>
+                <div id="recipients-list" class="recipients-list">
+                  <p class="recipients-empty">Cargando...</p>
                 </div>
-                <div class="info-setting-control">
-                  <div class="info-email-input-wrap">
-                    <svg class="info-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/>
-                    </svg>
-                    <input
-                      type="email"
-                      class="info-email-input"
-                      id="cotizador-email"
-                      placeholder="correo@ejemplo.com"
-                      value=""
-                      autocomplete="email"
-                    >
-                  </div>
-                  <button type="button" class="btn-info-save" id="cotizador-email-save" disabled>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M20 6 9 17l-5-5"/>
-                    </svg>
-                    Guardar
-                  </button>
+
+                <div class="recipients-add">
+                  <input type="text" id="recipient-label" class="recipient-input" placeholder="Nombre (ej: Sonia)" maxlength="60">
+                  <input type="email" id="recipient-email" class="recipient-input" placeholder="correo@ejemplo.com" maxlength="120">
+                  <button type="button" id="recipient-add-btn" class="btn btn-primary recipient-add-btn">+ Agregar</button>
                 </div>
-                <p class="info-setting-hint">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
-                  </svg>
-                  Esta funcionalidad estar&aacute; activa pr&oacute;ximamente.
-                </p>
+                <p id="recipients-error" class="recipients-error" hidden></p>
               </div>
-
-              <!-- Divisor -->
-              <hr class="info-divider">
-
-              <!-- Vista previa del estado -->
-              <div class="info-status-row">
-                <div class="info-status-badge info-status-badge--pending">
-                  <span class="info-status-dot"></span>
-                  Pendiente de configurar
-                </div>
-                <span class="info-status-note">Una vez guardado el correo, las cotizaciones se enviar&aacute;n autom&aacute;ticamente.</span>
-              </div>
-
             </div>
           </article>
 
-          <!-- Placeholder para futuros apartados -->
-          <div class="info-coming-soon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.35">
-              <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
-            </svg>
-            <p>M&aacute;s opciones de configuraci&oacute;n pr&oacute;ximamente.</p>
-          </div>
+          <!-- -- Bloque: Consultas de contacto ------------ -->
+          <article class="info-block">
+            <div class="info-block-header">
+              <div class="info-block-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
+                </svg>
+              </div>
+              <div>
+                <h2 class="info-block-title">Consultas de contacto</h2>
+                <p class="info-block-subtitle">Configuraci&oacute;n del formulario "Contanos qu&eacute; necesit&aacute;s" de la p&aacute;gina de inicio.</p>
+              </div>
+            </div>
+
+            <div class="info-block-body">
+              <div class="recipients-section">
+                <div class="recipients-header">
+                  <p class="recipients-desc">Estas personas recibir&aacute;n un email cada vez que alguien env&iacute;e una consulta desde el inicio.</p>
+                  <div class="recipients-status" id="contact-recipients-status"></div>
+                </div>
+
+                <div id="contact-recipients-list" class="recipients-list">
+                  <p class="recipients-empty">Cargando...</p>
+                </div>
+
+                <div class="recipients-add">
+                  <input type="text" id="contact-recipient-label" class="recipient-input" placeholder="Nombre (ej: Sonia)" maxlength="60">
+                  <input type="email" id="contact-recipient-email" class="recipient-input" placeholder="correo@ejemplo.com" maxlength="120">
+                  <button type="button" id="contact-recipient-add-btn" class="btn btn-primary recipient-add-btn">+ Agregar</button>
+                </div>
+                <p id="contact-recipients-error" class="recipients-error" hidden></p>
+              </div>
+            </div>
+          </article>
 
         </div>
       </section>
@@ -541,6 +566,6 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
-  <script src="js/admin.js?v=20260424-2359"></script>
+  <script src="js/admin.js?v=20260425-admin-menu"></script>
 </body>
 </html>

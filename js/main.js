@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    GESTORIA SONIA - JavaScript principal
    ============================================================ */
 
@@ -93,7 +93,7 @@ const INMUEBLES = [
     m2: null,
     m2terreno: '603,5',
     imagen: 'img/inmuebles/lomas-de-jardin/terreno-01.jpeg',
-    detalleUrl: 'terreno-lomas-de-jardin.html',
+    detalleUrl: 'terreno-lomas-de-jardin',
     medidas: '17 x 35,5 m',
     esquina: true,
     acceso: 'Empedrado',
@@ -213,7 +213,7 @@ function waLink(message) {
 }
 
 function buildAutoDetailUrl(auto) {
-  return `autos.html?auto=${auto.id}`;
+  return `autos?auto=${auto.id}`;
 }
 
 function badgeLabel(state) {
@@ -378,8 +378,8 @@ function renderAutoDetailPage(auto) {
   return `
     <section class="auto-detail-page">
       <div class="auto-detail-topbar">
-        <p class="breadcrumb"><a href="index.html">Inicio</a> › <a href="autos.html">Autos</a> › <span>${auto.nombre}</span></p>
-        <a href="autos.html" class="auto-back-link" data-auto-back aria-label="Volver atrás">
+        <p class="breadcrumb"><a href="/">Inicio</a> › <a href="autos">Autos</a> › <span>${auto.nombre}</span></p>
+        <a href="autos" class="auto-back-link" data-auto-back aria-label="Volver atrás">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 5.3a1 1 0 0 1 0 1.4L10.4 11H20a1 1 0 1 1 0 2h-9.6l4.3 4.3a1 1 0 0 1-1.4 1.4l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 0 1 1.4 0Z" fill="currentColor"/></svg>
         </a>
       </div>
@@ -422,7 +422,7 @@ function renderAutoDetailPage(auto) {
 
           <div class="auto-detail-actions">
             <a href="${waLink(waMessage)}" target="_blank" rel="noopener" class="btn btn-primary">Consultar por WhatsApp</a>
-            <a href="autos.html" class="btn btn-dark">Seguir viendo autos</a>
+            <a href="autos" class="btn btn-dark">Seguir viendo autos</a>
           </div>
         </aside>
       </div>
@@ -488,10 +488,10 @@ function renderAutoDetailPage(auto) {
 function renderAutoNotFound() {
   return `
     <section class="auto-detail-empty">
-      <p class="breadcrumb"><a href="index.html">Inicio</a> › <a href="autos.html">Autos</a> › <span>No encontrado</span></p>
+      <p class="breadcrumb"><a href="/">Inicio</a> › <a href="autos">Autos</a> › <span>No encontrado</span></p>
       <h1>Ese vehiculo no esta disponible</h1>
       <p>La publicacion que intentaste abrir ya no existe o cambio de enlace.</p>
-      <a href="autos.html" class="btn btn-dark">Volver a autos</a>
+      <a href="autos" class="btn btn-dark">Volver a autos</a>
     </section>
   `;
 }
@@ -757,10 +757,10 @@ function initNavbar() {
     });
   }
 
-  const current = window.location.pathname.split('/').pop() || 'index.html';
+  const current = window.location.pathname.split('/').pop() || '/';
   document.querySelectorAll('.nav-links a').forEach(link => {
     const href = link.getAttribute('href');
-    if (href === current || (current === '' && href === 'index.html')) {
+    if (href === current || (current === '' && href === '/')) {
       link.classList.add('active');
     }
   });

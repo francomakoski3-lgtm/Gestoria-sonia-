@@ -1,4 +1,4 @@
-(function initTransferenciaCalculator(globalScope) {
+﻿(function initTransferenciaCalculator(globalScope) {
   'use strict';
 
   const STAMP_RATE = 0.03;

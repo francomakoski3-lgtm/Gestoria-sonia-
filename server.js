@@ -5,6 +5,23 @@ const crypto = require('node:crypto');
 const { URL } = require('node:url');
 const { DatabaseSync } = require('node:sqlite');
 
+// Carga .env local si existe (solo en desarrollo, Hostinger usa sus propias env vars)
+try {
+  const envFile = path.join(__dirname, '.env');
+  if (fs.existsSync(envFile)) {
+    const lines = fs.readFileSync(envFile, 'utf8').split('\n');
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      const eqIdx = trimmed.indexOf('=');
+      if (eqIdx === -1) continue;
+      const key = trimmed.slice(0, eqIdx).trim();
+      const val = trimmed.slice(eqIdx + 1).trim();
+      if (key && !(key in process.env)) process.env[key] = val;
+    }
+  }
+} catch {}
+
 const ROOT_DIR = __dirname;
 const DATA_DIR = path.join(ROOT_DIR, 'data');
 const DB_PATH = path.join(DATA_DIR, 'gestoria-sonia.db');
@@ -14,11 +31,6 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const COOKIE_NAME = 'gs_admin_session';
 const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY || '';
 const GOOGLE_PLACE_ID_ENV = process.env.GOOGLE_PLACE_ID || '';
-const WHATSAPP_QUOTE_API_URL = process.env.WHATSAPP_QUOTE_API_URL || '';
-const WHATSAPP_QUOTE_API_TOKEN = process.env.WHATSAPP_QUOTE_API_TOKEN || '';
-const WHATSAPP_QUOTE_TEMPLATE_NAME = process.env.WHATSAPP_QUOTE_TEMPLATE_NAME || 'transferencia_cotizacion';
-const WHATSAPP_QUOTE_TEMPLATE_LANGUAGE = process.env.WHATSAPP_QUOTE_TEMPLATE_LANGUAGE || 'es_AR';
-const WHATSAPP_BUSINESS_PHONE = process.env.WHATSAPP_BUSINESS_PHONE || '543743668039';
 
 const GMAIL_CLIENT_ID = process.env.GMAIL_CLIENT_ID || '';
 const GMAIL_CLIENT_SECRET = process.env.GMAIL_CLIENT_SECRET || '';
@@ -131,6 +143,20 @@ const PROPERTY_SEEDS = [
   }
 ];
 
+const SERVICE_SETTINGS_SEEDS = [
+  { id: 'transferencias', category: 'automotor', title: 'Transferencia del automotor', sortOrder: 10 },
+  { id: 'informe-dominio', category: 'automotor', title: 'Informe de dominio del automotor', sortOrder: 20 },
+  { id: 'denuncia-venta', category: 'automotor', title: 'Denuncia de venta', sortOrder: 30 },
+  { id: 'cedula-titulo', category: 'automotor', title: 'Cedula, titulo y duplicados', sortOrder: 40 },
+  { id: 'inscripcion-0km', category: 'automotor', title: 'Inscripcion 0 km', sortOrder: 50 },
+  { id: 'prendas-registrales', category: 'automotor', title: 'Prendas y tramites registrales', sortOrder: 60 },
+  { id: 'asesoramiento', category: 'automotor', title: 'Asesoramiento personalizado', sortOrder: 70 },
+  { id: 'boleto-compra-venta', category: 'inmobiliaria', title: 'Boleto de compra venta de inmuebles', sortOrder: 10 },
+  { id: 'contratos-alquiler', category: 'inmobiliaria', title: 'Contratos de alquiler', sortOrder: 20 },
+  { id: 'seguros-page', category: 'paginas', title: 'Pagina completa de seguros', sortOrder: 10 },
+  { id: 'mercado-page', category: 'paginas', title: 'Pagina completa de mercado', sortOrder: 20 }
+];
+
 ensureDir(DATA_DIR);
 ensureDir(UPLOADS_DIR);
 ensureDir(path.join(UPLOADS_DIR, 'autos'));
@@ -144,6 +170,7 @@ initDatabase();
 migrateDatabase();
 ensureDefaultAdmin();
 seedListings();
+seedServiceSettings();
 
 const server = http.createServer(async (req, res) => {
   try {
@@ -166,7 +193,7 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
   console.log(`Gestoria Sonia lista en http://localhost:${PORT}`);
-  console.log(`Panel administrativo: http://localhost:${PORT}/admin.html`);
+  console.log(`Panel administrativo: http://localhost:${PORT}/admin`);
 });
 
 function initDatabase() {
@@ -269,6 +296,59 @@ function initDatabase() {
       created_at TEXT NOT NULL
     );
 
+    CREATE TABLE IF NOT EXISTS email_recipients (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT NOT NULL UNIQUE,
+      label TEXT,
+      created_at TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS contact_email_recipients (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT NOT NULL UNIQUE,
+      label TEXT,
+      created_at TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS contact_messages (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      full_name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      message TEXT NOT NULL,
+      page_url TEXT,
+      ip TEXT,
+      email_delivery_status TEXT,
+      email_delivery_message TEXT,
+      created_at TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS transferencia_quotes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      client_whatsapp TEXT NOT NULL,
+      type_label TEXT NOT NULL,
+      misiones_label TEXT NOT NULL,
+      price REAL NOT NULL,
+      price_formatted TEXT NOT NULL,
+      age_label TEXT NOT NULL,
+      buyer_signature_label TEXT NOT NULL,
+      include_breakdown INTEGER NOT NULL DEFAULT 0,
+      service_fee_formatted TEXT,
+      registry_amount_formatted TEXT,
+      stamped_total_formatted TEXT,
+      stamps_formatted TEXT,
+      interest_formatted TEXT,
+      penalty_formatted TEXT,
+      total_formatted TEXT,
+      registry_note TEXT,
+      sellado_note TEXT,
+      disclaimer TEXT,
+      whatsapp_delivery_status TEXT,
+      whatsapp_delivery_message TEXT,
+      ip TEXT,
+      raw_payload_json TEXT,
+      created_at TEXT NOT NULL
+    );
+
     CREATE TABLE IF NOT EXISTS consumer_withdrawal_requests (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       code TEXT NOT NULL UNIQUE,
@@ -281,6 +361,16 @@ function initDatabase() {
       origin_channel TEXT NOT NULL,
       page_url TEXT,
       status TEXT NOT NULL DEFAULT 'received',
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS service_settings (
+      service_id TEXT PRIMARY KEY,
+      category TEXT NOT NULL,
+      title TEXT NOT NULL,
+      enabled INTEGER NOT NULL DEFAULT 1,
+      sort_order INTEGER NOT NULL DEFAULT 0,
       created_at TEXT NOT NULL,
       updated_at TEXT NOT NULL
     );
@@ -327,6 +417,42 @@ function seedListings() {
   if (!propertiesCount) {
     PROPERTY_SEEDS.forEach(seed => insertProperty(seed));
   }
+}
+
+function seedServiceSettings() {
+  const now = nowIso();
+  SERVICE_SETTINGS_SEEDS.forEach(service => {
+    const existing = getRow('SELECT service_id FROM service_settings WHERE service_id = ?', service.id);
+    if (existing) {
+      runStatement(
+        `
+          UPDATE service_settings
+          SET category = ?, title = ?, sort_order = ?
+          WHERE service_id = ?
+        `,
+        service.category,
+        service.title,
+        service.sortOrder,
+        service.id
+      );
+      return;
+    }
+
+    runStatement(
+      `
+        INSERT INTO service_settings (
+          service_id, category, title, enabled, sort_order, created_at, updated_at
+        )
+        VALUES (?, ?, ?, 1, ?, ?, ?)
+      `,
+      service.id,
+      service.category,
+      service.title,
+      service.sortOrder,
+      now,
+      now
+    );
+  });
 }
 async function handleApi(req, res, url) {
   const pathname = url.pathname;
@@ -462,6 +588,26 @@ async function handleApi(req, res, url) {
     return;
   }
 
+  if (req.method === 'GET' && pathname === '/api/services') {
+    sendJson(res, 200, { items: listServiceSettings() });
+    return;
+  }
+
+  if (req.method === 'GET' && pathname === '/api/admin/services') {
+    requireAuth(req);
+    sendJson(res, 200, { items: listServiceSettings() });
+    return;
+  }
+
+  if (req.method === 'PUT' && pathname === '/api/admin/services') {
+    requireAuth(req);
+    const body = await readJsonBody(req);
+    const items = Array.isArray(body.items) ? body.items : [];
+    updateServiceSettings(items);
+    sendJson(res, 200, { items: listServiceSettings() });
+    return;
+  }
+
   if (req.method === 'GET' && pathname === '/api/admin/consumer-withdrawals') {
     requireAuth(req);
     sendJson(res, 200, { items: listConsumerWithdrawalRequests() });
@@ -475,16 +621,94 @@ async function handleApi(req, res, url) {
     return;
   }
 
+  if (req.method === 'GET' && pathname === '/api/admin/email-recipients') {
+    requireAuth(req);
+    sendJson(res, 200, { items: allRows('SELECT * FROM email_recipients ORDER BY created_at ASC') });
+    return;
+  }
+
+  if (req.method === 'POST' && pathname === '/api/admin/email-recipients') {
+    requireAuth(req);
+    const body = await readJsonBody(req);
+    const email = readString(body.email).toLowerCase();
+    const label = readNullableString(body.label);
+    if (!email || !isValidEmail(email)) throw createHttpError(400, 'Email invalido.', true);
+    try {
+      runStatement('INSERT INTO email_recipients (email, label, created_at) VALUES (?, ?, ?)', email, label, nowIso());
+    } catch {
+      throw createHttpError(409, 'Este email ya esta agregado.', true);
+    }
+    sendJson(res, 201, { ok: true });
+    return;
+  }
+
+  const recipientMatch = pathname.match(/^\/api\/admin\/email-recipients\/(\d+)$/);
+  if (recipientMatch && req.method === 'DELETE') {
+    requireAuth(req);
+    const id = Number.parseInt(recipientMatch[1], 10);
+    runStatement('DELETE FROM email_recipients WHERE id = ?', id);
+    sendJson(res, 200, { ok: true });
+    return;
+  }
+
+  if (req.method === 'GET' && pathname === '/api/admin/contact-email-recipients') {
+    requireAuth(req);
+    sendJson(res, 200, { items: allRows('SELECT * FROM contact_email_recipients ORDER BY created_at ASC') });
+    return;
+  }
+
+  if (req.method === 'POST' && pathname === '/api/admin/contact-email-recipients') {
+    requireAuth(req);
+    const body = await readJsonBody(req);
+    const email = readString(body.email).toLowerCase();
+    const label = readNullableString(body.label);
+    if (!email || !isValidEmail(email)) throw createHttpError(400, 'Email invalido.', true);
+    try {
+      runStatement('INSERT INTO contact_email_recipients (email, label, created_at) VALUES (?, ?, ?)', email, label, nowIso());
+    } catch {
+      throw createHttpError(409, 'Este email ya esta agregado.', true);
+    }
+    sendJson(res, 201, { ok: true });
+    return;
+  }
+
+  const contactRecipientMatch = pathname.match(/^\/api\/admin\/contact-email-recipients\/(\d+)$/);
+  if (contactRecipientMatch && req.method === 'DELETE') {
+    requireAuth(req);
+    const id = Number.parseInt(contactRecipientMatch[1], 10);
+    runStatement('DELETE FROM contact_email_recipients WHERE id = ?', id);
+    sendJson(res, 200, { ok: true });
+    return;
+  }
+
+  if (req.method === 'POST' && pathname === '/api/contact/messages') {
+    const ip = getClientIp(req);
+    const body = await readJsonBody(req);
+    const contactMessage = normalizeContactMessageInput(body);
+    const messageId = saveContactMessage(contactMessage, ip);
+    const delivery = await sendGmailNotification(
+      `Nueva consulta web #${messageId} - ${contactMessage.fullName}`,
+      buildContactMessageEmailHtml(contactMessage, ip, messageId),
+      { recipientType: 'contact', logLabel: 'consulta de contacto', replyTo: contactMessage.email }
+    );
+    updateContactMessageDelivery(messageId, delivery);
+    if (!delivery.sent) {
+      throw createHttpError(502, 'No se pudo enviar la consulta en este momento. Intentalo nuevamente.', true);
+    }
+    sendJson(res, 200, { ok: true, messageId, emailSent: delivery.sent });
+    return;
+  }
+
   if (req.method === 'POST' && pathname === '/api/transferencia/quote') {
     const ip = getClientIp(req);
     const body = await readJsonBody(req);
     const quote = normalizeTransferenciaQuoteInput(body);
-    const delivery = await sendTransferenciaQuoteWhatsapp(quote);
+    const quoteId = saveTransferenciaQuote(quote, ip, body);
     sendGmailNotification(
-      `Nueva cotizacion de transferencia — ${quote.typeLabel} — ${quote.priceFormatted}`,
-      buildTransferenciaQuoteEmailHtml(quote, ip, body)
+      `Nueva cotizacion de transferencia #${quoteId} - ${quote.typeLabel} - ${quote.priceFormatted}`,
+      buildTransferenciaQuoteEmailHtml(quote, ip, body, quoteId)
     ).catch(err => console.error('[Gmail] Error inesperado:', err.message));
-    sendJson(res, 200, { ok: true, delivery });
+    sendJson(res, 200, { ok: true, quoteId });
     return;
   }
 
@@ -673,9 +897,33 @@ async function serveStatic(req, res, pathname) {
     throw createHttpError(405, 'Metodo no permitido.');
   }
 
-  const requestedPath =
-    pathname === '/admin' || pathname === '/panel' ? '/admin.html' : pathname;
-  const filePath = resolvePublicFile(requestedPath === '/' ? '/index.html' : requestedPath);
+  if (pathname === '/index.html') {
+    redirectCleanUrl(req, res, '/');
+    return;
+  }
+
+  if (pathname.endsWith('.html')) {
+    redirectCleanUrl(req, res, pathname.slice(0, -5));
+    return;
+  }
+
+  const requestedPath = pathname === '/admin' || pathname === '/panel' ? '/admin.html' : pathname;
+  const normalizedPath = requestedPath === '/' ? '/index.html' : requestedPath;
+  let filePath = resolvePublicFile(normalizedPath);
+
+  if (
+    pathname !== '/' &&
+    !path.extname(normalizedPath) &&
+    normalizedPath.endsWith('/') &&
+    !fs.existsSync(filePath)
+  ) {
+    redirectCleanUrl(req, res, normalizedPath.slice(0, -1));
+    return;
+  }
+
+  if (filePath && !fs.existsSync(filePath) && !path.extname(normalizedPath)) {
+    filePath = resolvePublicFile(`${normalizedPath}.html`);
+  }
 
   if (!filePath || !fs.existsSync(filePath)) {
     throw createHttpError(404, 'Archivo no encontrado.', true);
@@ -706,6 +954,13 @@ async function serveStatic(req, res, pathname) {
   fs.createReadStream(filePath).pipe(res);
 }
 
+function redirectCleanUrl(req, res, cleanPath) {
+  const url = new URL(req.url, `http://${req.headers.host || `127.0.0.1:${PORT}`}`);
+  url.pathname = cleanPath || '/';
+  res.writeHead(301, { Location: `${url.pathname}${url.search}` });
+  res.end();
+}
+
 function resolvePublicFile(requestPath) {
   const decodedPath = decodeURIComponent(requestPath);
   const normalizedPath = path.normalize(decodedPath).replace(/^(\.\.(\/|\\|$))+/, '');
@@ -727,6 +982,35 @@ function listProperties() {
     FROM properties
     ORDER BY featured DESC, updated_at DESC, id DESC
   `).map(mapPropertyRow);
+}
+
+function listServiceSettings() {
+  return allRows(`
+    SELECT *
+    FROM service_settings
+    ORDER BY category ASC, sort_order ASC, title ASC
+  `).map(mapServiceSettingRow);
+}
+
+function updateServiceSettings(items) {
+  const allowedIds = new Set(SERVICE_SETTINGS_SEEDS.map(service => service.id));
+  const now = nowIso();
+
+  items.forEach(item => {
+    const serviceId = readString(item?.id || item?.serviceId);
+    if (!allowedIds.has(serviceId)) return;
+
+    runStatement(
+      `
+        UPDATE service_settings
+        SET enabled = ?, updated_at = ?
+        WHERE service_id = ?
+      `,
+      toBoolean(item.enabled) ? 1 : 0,
+      now,
+      serviceId
+    );
+  });
 }
 
 function listConsumerWithdrawalRequests() {
@@ -1223,6 +1507,17 @@ function mapPropertyRow(row) {
   };
 }
 
+function mapServiceSettingRow(row) {
+  return {
+    id: row.service_id,
+    category: row.category,
+    title: row.title,
+    enabled: Boolean(row.enabled),
+    sortOrder: row.sort_order,
+    updatedAt: row.updated_at
+  };
+}
+
 function mapConsumerWithdrawalRow(row) {
   return {
     id: row.id,
@@ -1473,6 +1768,69 @@ function isValidIsoDate(value) {
   );
 }
 
+function normalizeContactMessageInput(payload) {
+  const fullName = readString(payload.nombre || payload.name);
+  const email = readString(payload.correo || payload.email).toLowerCase();
+  const message = readString(payload.mensaje || payload.message);
+  const pageUrl = readNullableString(payload.pageUrl);
+
+  if (!fullName) {
+    throw createHttpError(400, 'Ingresa tu nombre.', true);
+  }
+  if (fullName.length > 120) {
+    throw createHttpError(400, 'El nombre informado es demasiado largo.', true);
+  }
+  if (!email || !isValidEmail(email)) {
+    throw createHttpError(400, 'Ingresa un correo electronico valido.', true);
+  }
+  if (!message || message.length < 5) {
+    throw createHttpError(400, 'Escribi tu consulta para poder enviarla.', true);
+  }
+  if (message.length > 2500) {
+    throw createHttpError(400, 'La consulta supera el limite permitido.', true);
+  }
+
+  return {
+    fullName,
+    email,
+    message,
+    pageUrl: pageUrl && pageUrl.length <= 500 ? pageUrl : null
+  };
+}
+
+function saveContactMessage(input, ip) {
+  const result = runStatement(
+    `INSERT INTO contact_messages (
+      full_name,
+      email,
+      message,
+      page_url,
+      ip,
+      email_delivery_status,
+      email_delivery_message,
+      created_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    input.fullName,
+    input.email,
+    input.message,
+    input.pageUrl,
+    ip,
+    'pending',
+    null,
+    nowIso()
+  );
+  return Number(result.lastInsertRowid);
+}
+
+function updateContactMessageDelivery(messageId, delivery) {
+  runStatement(
+    'UPDATE contact_messages SET email_delivery_status = ?, email_delivery_message = ? WHERE id = ?',
+    delivery.sent ? 'sent' : 'failed',
+    delivery.message || delivery.reason || null,
+    messageId
+  );
+}
+
 function normalizeTransferenciaQuoteInput(payload) {
   const clientWhatsapp = normalizeWhatsappNumber(readString(payload.clientWhatsapp));
   const price = Number(payload.price);
@@ -1507,6 +1865,58 @@ function normalizeTransferenciaQuoteInput(payload) {
   };
 }
 
+function saveTransferenciaQuote(quote, ip, rawPayload) {
+  const result = runStatement(`
+    INSERT INTO transferencia_quotes (
+      client_whatsapp,
+      type_label,
+      misiones_label,
+      price,
+      price_formatted,
+      age_label,
+      buyer_signature_label,
+      include_breakdown,
+      service_fee_formatted,
+      registry_amount_formatted,
+      stamped_total_formatted,
+      stamps_formatted,
+      interest_formatted,
+      penalty_formatted,
+      total_formatted,
+      registry_note,
+      sellado_note,
+      disclaimer,
+      ip,
+      raw_payload_json,
+      created_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `,
+    quote.clientWhatsapp,
+    quote.typeLabel,
+    quote.misionesLabel,
+    quote.price,
+    quote.priceFormatted,
+    quote.ageLabel,
+    quote.buyerSignatureLabel,
+    quote.includeBreakdown ? 1 : 0,
+    quote.serviceFeeFormatted,
+    quote.registryAmountFormatted,
+    quote.stampedTotalFormatted,
+    quote.stampsFormatted,
+    quote.interestFormatted,
+    quote.penaltyFormatted,
+    quote.totalFormatted,
+    quote.registryNote || null,
+    quote.selladoNote || null,
+    quote.disclaimer || null,
+    ip || null,
+    JSON.stringify(rawPayload || {}),
+    nowIso()
+  );
+
+  return Number(result.lastInsertRowid);
+}
+
 function normalizeWhatsappNumber(value) {
   const digits = String(value || '').replace(/\D/g, '').replace(/^0+/, '');
   if (!digits) return '';
@@ -1518,26 +1928,13 @@ function normalizeWhatsappNumber(value) {
   return digits;
 }
 
-function buildTransferenciaTemplateParameters(quote) {
-  return [
-    { key: 'tipo', value: quote.typeLabel },
-    { key: 'domicilio_misiones', value: quote.misionesLabel },
-    { key: 'precio_compra', value: quote.priceFormatted },
-    { key: 'firma_vendedor', value: quote.ageLabel },
-    { key: 'firma_comprador', value: quote.buyerSignatureLabel },
-    { key: 'formulario_escribania_honorarios', value: quote.serviceFeeFormatted },
-    { key: 'registro', value: quote.registryAmountFormatted },
-    { key: 'sellado_total', value: quote.stampedTotalFormatted },
-    { key: 'sellos', value: quote.stampsFormatted },
-    { key: 'intereses', value: quote.interestFormatted },
-    { key: 'multas', value: quote.penaltyFormatted },
-    { key: 'total_estimado', value: quote.totalFormatted }
-  ];
-}
-
-function buildTransferenciaWhatsappMessage(quote) {
+function buildTransferenciaClientContactMessage(quote, quoteId) {
   const lines = [
-    'Hola, te compartimos la cotizacion estimada de transferencia de Gestoria Sonia.',
+    'Hola, vimos que hiciste una consulta en nuestra pagina web por una cotizacion de transferencia.',
+    `El precio de la cotizacion es: ${quote.includeBreakdown ? quote.totalFormatted : 'a confirmar con la documentacion'}.`,
+    '',
+    'Datos de tu consulta:',
+    `Cotizacion: #${quoteId}`,
     `Tipo: ${quote.typeLabel}`,
     `Domicilio del titular nuevo: ${quote.misionesLabel}`,
     `Precio de compra informado: ${quote.priceFormatted}`,
@@ -1547,6 +1944,8 @@ function buildTransferenciaWhatsappMessage(quote) {
 
   if (quote.includeBreakdown) {
     lines.push(
+      '',
+      'Detalle de la cotizacion:',
       `Formulario + Escribania + Honorarios: ${quote.serviceFeeFormatted}`,
       `Registro: ${quote.registryAmountFormatted}`,
       `Sellado total: ${quote.stampedTotalFormatted}`,
@@ -1556,72 +1955,18 @@ function buildTransferenciaWhatsappMessage(quote) {
       `Total estimado: ${quote.totalFormatted}`
     );
   } else {
-    lines.push('Para este domicilio necesitamos confirmar el valor exacto revisando la documentacion.');
+    lines.push('', 'Para este domicilio necesitamos revisar la documentacion para confirmar el valor exacto.');
   }
 
-  if (quote.registryNote) lines.push(quote.registryNote);
+  if (quote.registryNote) lines.push('', quote.registryNote);
   if (quote.selladoNote) lines.push(quote.selladoNote);
-  lines.push('La cotizacion es orientativa y el valor exacto se confirma al revisar la documentacion.');
+  lines.push('', 'La cotizacion es orientativa y el valor exacto se confirma al revisar la documentacion.');
 
   return lines.join('\n');
 }
 
-async function sendTransferenciaQuoteWhatsapp(quote) {
-  if (!WHATSAPP_QUOTE_API_URL) {
-    return {
-      status: 'pending_configuration',
-      sent: false,
-      message: 'WHATSAPP_QUOTE_API_URL no esta configurada.'
-    };
-  }
-
-  const requestPayload = {
-    to: quote.clientWhatsapp,
-    from: WHATSAPP_BUSINESS_PHONE,
-    template: {
-      name: WHATSAPP_QUOTE_TEMPLATE_NAME,
-      language: WHATSAPP_QUOTE_TEMPLATE_LANGUAGE,
-      parameters: buildTransferenciaTemplateParameters(quote)
-    },
-    message: buildTransferenciaWhatsappMessage(quote),
-    quote
-  };
-
-  const headers = {
-    'Content-Type': 'application/json'
-  };
-
-  if (WHATSAPP_QUOTE_API_TOKEN) {
-    headers.Authorization = `Bearer ${WHATSAPP_QUOTE_API_TOKEN}`;
-  }
-
-  let response;
-  let responseBody = {};
-
-  try {
-    response = await fetch(WHATSAPP_QUOTE_API_URL, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(requestPayload)
-    });
-    responseBody = await response.json().catch(() => ({}));
-  } catch {
-    throw createHttpError(502, 'No se pudo conectar con la API de WhatsApp.', true);
-  }
-
-  if (!response.ok) {
-    throw createHttpError(
-      502,
-      responseBody.error || responseBody.message || 'La API de WhatsApp rechazo el envio.',
-      true
-    );
-  }
-
-  return {
-    status: 'sent',
-    sent: true,
-    providerMessageId: responseBody.id || responseBody.messageId || responseBody.providerMessageId || null
-  };
+function buildWhatsappContactHref(phone, message) {
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
 
 function buildConsumerWithdrawalCode() {
@@ -1831,21 +2176,40 @@ async function getGmailAccessToken() {
   }
 }
 
-async function sendGmailNotification(subject, htmlBody) {
+async function sendGmailNotification(subject, htmlBody, options = {}) {
   const accessToken = await getGmailAccessToken();
   if (!accessToken) {
     console.warn('[Gmail] No se pudo obtener access token. Verificar variables de entorno GMAIL_*.');
-    return;
+    return { sent: false, reason: 'missing_access_token', message: 'No se pudo obtener access token.' };
   }
+  let recipientList = [];
+  const recipientType = options.recipientType === 'contact' ? 'contact' : 'transferencia';
+  const recipientTable = recipientType === 'contact' ? 'contact_email_recipients' : 'email_recipients';
+  try {
+    recipientList = allRows(`SELECT email FROM ${recipientTable}`).map(r => r.email);
+  } catch {}
+  if (!recipientList.length) {
+    recipientList = GMAIL_TO_EMAIL.split(',').map(e => e.trim()).filter(Boolean);
+  }
+  if (!recipientList.length) {
+    console.warn('[Gmail] No hay destinatarios configurados.');
+    return { sent: false, reason: 'missing_recipients', message: 'No hay destinatarios configurados.' };
+  }
+  const recipients = recipientList.join(', ');
   const emailLines = [
     `From: Gestoria Sonia <${GMAIL_FROM_EMAIL}>`,
-    `To: ${GMAIL_TO_EMAIL}`,
+    `To: ${recipients}`,
+  ];
+  if (options.replyTo && isValidEmail(options.replyTo)) {
+    emailLines.push(`Reply-To: ${options.replyTo}`);
+  }
+  emailLines.push(
     `Subject: =?UTF-8?B?${Buffer.from(subject).toString('base64')}?=`,
     'MIME-Version: 1.0',
     'Content-Type: text/html; charset=utf-8',
     '',
     htmlBody
-  ];
+  );
   const raw = Buffer.from(emailLines.join('\r\n')).toString('base64url');
   try {
     const res = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
@@ -1854,20 +2218,55 @@ async function sendGmailNotification(subject, htmlBody) {
       body: JSON.stringify({ raw })
     });
     if (res.ok) {
-      console.log('[Gmail] Email de cotizacion enviado OK.');
+      console.log(`[Gmail] Email de ${options.logLabel || 'notificacion'} enviado OK.`);
+      return { sent: true, message: `Enviado a ${recipients}` };
     } else {
       const err = await res.json().catch(() => ({}));
       console.error('[Gmail] Error al enviar:', JSON.stringify(err));
+      return { sent: false, reason: 'gmail_error', message: err.error?.message || 'Error de Gmail.' };
     }
   } catch (err) {
     console.error('[Gmail] Fallo de red:', err.message);
+    return { sent: false, reason: 'network_error', message: err.message };
   }
 }
 
-function buildTransferenciaQuoteEmailHtml(quote, ip, rawBody) {
+function buildContactMessageEmailHtml(contactMessage, ip, messageId) {
   const now = new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
+  const replyHref = `mailto:${encodeURIComponent(contactMessage.email)}?subject=${encodeURIComponent(`Respuesta a tu consulta #${messageId}`)}`;
+  const rows = [
+    ['ID de consulta', `#${messageId}`],
+    ['Nombre', contactMessage.fullName],
+    ['Correo electronico', contactMessage.email],
+    ['Pagina de origen', contactMessage.pageUrl || 'No disponible'],
+    ['IP del cliente', ip || 'No disponible'],
+    ['Fecha y hora', now],
+  ];
+  const renderRows = rowsToRender => rowsToRender.map(([label, value]) =>
+    `<tr><td style="padding:8px 12px;border:1px solid #ddd;background:#f5f7fa;font-weight:600;white-space:nowrap">${escapeHtml(label)}</td><td style="padding:8px 12px;border:1px solid #ddd">${escapeHtml(value || '-')}</td></tr>`
+  ).join('');
+  const messageHtml = escapeHtml(contactMessage.message).replace(/\r?\n/g, '<br>');
+
+  return `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;color:#222;max-width:640px;margin:0 auto">
+  <h2 style="margin:0;padding:16px 20px;background:#171311;color:#fff;border-radius:6px 6px 0 0">Nueva consulta web #${messageId}</h2>
+  <table style="width:100%;border-collapse:collapse;border:1px solid #ddd;border-top:none">
+    ${renderRows(rows)}
+  </table>
+  <h3 style="margin:18px 0 8px;font-size:15px;color:#171311">Mensaje del cliente</h3>
+  <div style="padding:14px 16px;border:1px solid #ddd;border-radius:6px;background:#fffdfb;line-height:1.6">${messageHtml}</div>
+  <div style="margin:22px 0 18px;text-align:center">
+    <a href="${replyHref}" style="display:inline-block;padding:13px 22px;background:#b44a2f;color:#fff;text-decoration:none;border-radius:6px;font-weight:700">Responder por email</a>
+  </div>
+  <p style="margin-top:20px;font-size:11px;color:#999">Gestoria Sonia - Notificacion automatica del formulario de contacto</p>
+</body></html>`;
+}
+
+function buildTransferenciaQuoteEmailHtml(quote, ip, rawBody, quoteId) {
+  const now = new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
+  const contactHref = buildWhatsappContactHref(quote.clientWhatsapp, buildTransferenciaClientContactMessage(quote, quoteId));
 
   const mainRows = [
+    ['ID de cotizacion', `#${quoteId}`],
     ['Tipo de vehiculo', quote.typeLabel],
     ['Domicilio en Misiones', quote.misionesLabel],
     ['Precio de compra', quote.priceFormatted],
@@ -1901,7 +2300,7 @@ function buildTransferenciaQuoteEmailHtml(quote, ip, rawBody) {
     .join('');
 
   return `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;color:#222;max-width:640px;margin:0 auto">
-  <h2 style="margin:0;padding:16px 20px;background:#1a3a5c;color:#fff;border-radius:6px 6px 0 0">📋 Nueva cotizacion de transferencia</h2>
+  <h2 style="margin:0;padding:16px 20px;background:#1a3a5c;color:#fff;border-radius:6px 6px 0 0">📋 Nueva cotizacion de transferencia #${quoteId}</h2>
   <table style="width:100%;border-collapse:collapse;border:1px solid #ddd;border-top:none">
     ${renderRows(mainRows)}
   </table>
@@ -1915,8 +2314,24 @@ function buildTransferenciaQuoteEmailHtml(quote, ip, rawBody) {
   <table style="width:100%;border-collapse:collapse;border:1px solid #ddd">
     ${renderRows(techRows)}
   </table>
+  <div style="margin:22px 0 18px;text-align:center">
+    <a href="${contactHref}" style="display:inline-block;padding:13px 22px;background:#25d366;color:#fff;text-decoration:none;border-radius:6px;font-weight:700">Contactar con el cliente</a>
+    <p style="margin:10px 0 0;font-size:12px;color:#666">
+      Si el boton no abre, usa este enlace:
+      <a href="${contactHref}" style="color:#1a3a5c;text-decoration:underline">abrir WhatsApp con el mensaje cargado</a>
+    </p>
+  </div>
   <p style="margin-top:20px;font-size:11px;color:#999">Gestoria Sonia — Notificacion automatica del cotizador de transferencias</p>
 </body></html>`;
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function nowIso() {

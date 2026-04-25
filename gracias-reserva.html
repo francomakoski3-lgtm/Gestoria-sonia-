@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -6,6 +6,7 @@
   <link rel="icon" type="image/png" href="img/site-icon.png">
   <title>Reserva confirmada | Gestoria Sonia</title>
   <meta name="description" content="Gracias por reservar una cita con Gestoria Sonia.">
+  <link rel="canonical" href="https://gestoriasonia.ar/gracias-reserva">
   <!-- SEO:START -->
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
   <!-- SEO:END -->
@@ -721,7 +722,7 @@
 
   <main id="page-content" class="page-shell">
     <div class="topbar">
-      <a href="index.html" class="brand-chip" aria-label="Volver al inicio de Gestoria Sonia">
+      <a href="/" class="brand-chip" aria-label="Volver al inicio de Gestoria Sonia">
         <img src="img/logo.png" alt="Gestoria Sonia">
         <div class="brand-copy">
           <strong>Gestoria Sonia</strong>
@@ -752,7 +753,7 @@
 
         <div class="actions">
           <a class="button button-primary" href="https://wa.me/543743668039?text=Hola,%20ya%20reserve%20una%20cita%20y%20quiero%20adelantar%20informacion." target="_blank" rel="noopener">Enviar mensaje por WhatsApp</a>
-          <a class="button button-secondary" href="index.html">Volver al inicio</a>
+          <a class="button button-secondary" href="/">Volver al inicio</a>
         </div>
 
       </div>
@@ -922,7 +923,7 @@
 
       var eventDateLabel = formatDateTime(eventStartTime, eventEndTime);
       if (eventDateLabel) {
-        eventDateLabel = eventDateLabel.replace(/Â·/g, '|');
+        eventDateLabel = eventDateLabel.replace(/·/g, '|');
         metaItems.push({
           label: 'Fecha y horario',
           value: eventDateLabel

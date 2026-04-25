@@ -1,6 +1,6 @@
-const TRANSFERENCIA_WA_NUMBER = '543743668039';
+﻿const TRANSFERENCIA_WA_NUMBER = '543743668039';
 const TRANSFERENCIA_RESULT_STORAGE_KEY = 'transferenciaQuoteResult';
-const TRANSFERENCIA_RESULT_PAGE = 'cotizacion-transferencia-resultado.html';
+const TRANSFERENCIA_RESULT_PAGE = 'cotizacion-transferencia-resultado';
 const TRANSFERENCIA_QUOTE_API_ENDPOINT = '/api/transferencia/quote';
 const FIXED_SERVICE_FEE = 150000;
 const STAMP_RATE = 0.03;
@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      throw new Error(data.error || 'No se pudo enviar la cotizacion por WhatsApp.');
+      throw new Error(data.error || 'No se pudo guardar la cotizacion.');
     }
 
     return data;
@@ -398,7 +398,6 @@ document.addEventListener('DOMContentLoaded', () => {
         includeBreakdown: false,
         resultCopy: 'Como el titular nuevo no tiene domicilio en Misiones, la cotizacion exacta se confirma por WhatsApp.',
         disclaimer: 'La cotizacion exacta final se confirma por WhatsApp.',
-        whatsappLabel: 'Enviar cotizacion al cliente por WhatsApp',
         registryRateLabel: formatPercent(registryRate),
         serviceFeeFormatted: moneyFormatter.format(FIXED_SERVICE_FEE),
         registryAmountFormatted: moneyFormatter.format(ZERO_AMOUNT),
@@ -488,7 +487,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     isSubmitting = true;
     setSubmitLoadingState(true);
-    setFormStatus('Estamos calculando la cotizacion y preparando el mensaje al cliente.');
+    setFormStatus('Estamos calculando la cotizacion...');
 
     // Google Ads: Formulario enviado
     if (typeof gtag === 'function') {
@@ -496,21 +495,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     sendQuoteRequest(payload)
-      .catch(error => ({
-        delivery: {
-          status: 'pending_configuration',
-          message: error.message || 'No se pudo conectar con el envio automatico de WhatsApp.'
-        }
-      }))
-      .then(result => {
-        const delivery = result.delivery || {};
-        const nextPayload = {
-          ...payload,
-          whatsappDelivery: delivery
-        };
-
-        window.sessionStorage.setItem(TRANSFERENCIA_RESULT_STORAGE_KEY, JSON.stringify(nextPayload));
-      window.location.href = TRANSFERENCIA_RESULT_PAGE;
+      .catch(() => ({}))
+      .then(() => {
+        window.sessionStorage.setItem(TRANSFERENCIA_RESULT_STORAGE_KEY, JSON.stringify(payload));
+        window.location.href = TRANSFERENCIA_RESULT_PAGE;
       });
   });
 

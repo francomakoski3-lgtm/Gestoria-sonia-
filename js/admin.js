@@ -1,7 +1,8 @@
-const state = {
+﻿const state = {
   user: null,
   autos: [],
   properties: [],
+  services: [],
   autoMedia: { cover: null, gallery: [] },
   propertyMedia: { cover: null, gallery: [] }
 };
@@ -38,7 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
   bindEvents();
   restoreSession();
   initRendimientoTab();
-  initInfoTab();
+  initInfoTabControls();
+  initContactRecipientControls();
 });
 
 function cacheElements() {
@@ -47,6 +49,8 @@ function cacheElements() {
   elements.loginForm = document.getElementById('login-form');
   elements.logoutButton = document.getElementById('logout-button');
   elements.currentUser = document.getElementById('current-user');
+  elements.userDropdown = document.getElementById('user-dropdown');
+  elements.openPasswordPanelButton = document.getElementById('open-password-panel');
   elements.toast = document.getElementById('toast');
 
   elements.statsAutos = document.getElementById('stats-autos');
@@ -81,6 +85,9 @@ function cacheElements() {
   elements.propertyGalleryPreview = document.getElementById('property-gallery-preview');
   elements.propertyClearCover = document.getElementById('property-clear-cover');
 
+  elements.serviceSettingsList = document.getElementById('service-settings-list');
+  elements.serviceSettingsStatus = document.getElementById('service-settings-status');
+
   elements.passwordForm = document.getElementById('password-form');
   elements.tabButtons = Array.from(document.querySelectorAll('[data-tab-target]'));
   elements.tabPanels = Array.from(document.querySelectorAll('[data-tab-panel]'));
@@ -100,6 +107,9 @@ function initAutoCatalogControls() {
 function bindEvents() {
   elements.loginForm.addEventListener('submit', onLoginSubmit);
   elements.logoutButton.addEventListener('click', onLogoutClick);
+  elements.currentUser.addEventListener('click', onUserMenuToggle);
+  elements.openPasswordPanelButton.addEventListener('click', onOpenPasswordPanel);
+  document.addEventListener('click', onDocumentClick);
   elements.autoForm.addEventListener('submit', onAutoSubmit);
   elements.propertyForm.addEventListener('submit', onPropertySubmit);
   elements.passwordForm.addEventListener('submit', onPasswordSubmit);
@@ -130,9 +140,13 @@ function bindEvents() {
 
   elements.autoList.addEventListener('click', onAutoListAction);
   elements.propertyList.addEventListener('click', onPropertyListAction);
+  elements.serviceSettingsList?.addEventListener('change', onServiceSettingsChange);
 
   elements.tabButtons.forEach(button => {
-    button.addEventListener('click', () => activateTab(button.dataset.tabTarget));
+    button.addEventListener('click', () => {
+      closeUserMenu();
+      activateTab(button.dataset.tabTarget);
+    });
   });
 
   elements.autoBrandSelect.addEventListener('change', () => syncAutoBrandFields(true));
@@ -318,14 +332,16 @@ function showDashboard() {
 }
 
 async function refreshData() {
-  const [stats, autosResponse, propertiesResponse] = await Promise.all([
+  const [stats, autosResponse, propertiesResponse, servicesResponse] = await Promise.all([
     api('/api/admin/dashboard'),
     api('/api/autos'),
-    api('/api/inmuebles')
+    api('/api/inmuebles'),
+    api('/api/admin/services')
   ]);
 
   state.autos = autosResponse.items || [];
   state.properties = propertiesResponse.items || [];
+  state.services = servicesResponse.items || [];
 
   elements.statsAutos.textContent = stats.autos;
   elements.statsInmuebles.textContent = stats.inmuebles;
@@ -333,8 +349,11 @@ async function refreshData() {
 
   renderAutoList();
   renderPropertyList();
+  renderServiceSettings();
   resetAutoForm();
   resetPropertyForm();
+  loadRecipients();
+  loadContactRecipients();
 }
 
 async function onLoginSubmit(event) {
@@ -363,6 +382,7 @@ async function onLoginSubmit(event) {
 
 async function onLogoutClick() {
   try {
+    closeUserMenu();
     await api('/api/auth/logout', { method: 'POST' });
   } finally {
     state.user = null;
@@ -408,6 +428,36 @@ async function onPropertySubmit(event) {
   } catch (error) {
     showToast(error.message, true);
   }
+}
+
+function onUserMenuToggle(event) {
+  event.stopPropagation();
+  const isOpen = !elements.userDropdown.hidden;
+  setUserMenuOpen(!isOpen);
+}
+
+function onOpenPasswordPanel(event) {
+  event.stopPropagation();
+  closeUserMenu();
+  activateTab('cuenta');
+}
+
+function onDocumentClick(event) {
+  const menu = elements.userDropdown;
+  const button = elements.currentUser;
+  if (!menu || menu.hidden) return;
+  if (menu.contains(event.target) || button.contains(event.target)) return;
+  closeUserMenu();
+}
+
+function setUserMenuOpen(open) {
+  elements.userDropdown.hidden = !open;
+  elements.currentUser.setAttribute('aria-expanded', String(open));
+}
+
+function closeUserMenu() {
+  if (!elements.userDropdown) return;
+  setUserMenuOpen(false);
 }
 
 async function onPasswordSubmit(event) {
@@ -672,6 +722,92 @@ function renderPropertyList() {
   elements.propertyList.innerHTML = state.properties.length
     ? state.properties.map(renderPropertyCard).join('')
     : '<p class="empty-state">No hay inmuebles cargados todavia.</p>';
+}
+
+function renderServiceSettings() {
+  if (!elements.serviceSettingsList) return;
+
+  const groups = [
+    { id: 'automotor', title: 'Gestoria del automotor' },
+    { id: 'inmobiliaria', title: 'Gestoria inmobiliaria' },
+    { id: 'paginas', title: 'Paginas principales' }
+  ];
+
+  const enabledCount = state.services.filter(service => service.enabled).length;
+  if (elements.serviceSettingsStatus) {
+    elements.serviceSettingsStatus.innerHTML = `
+      <span class="recipients-badge recipients-badge--ok">${enabledCount} visible${enabledCount !== 1 ? 's' : ''}</span>
+      <span class="services-admin-note">Los cambios se aplican en la web al recargar la pagina.</span>
+    `;
+  }
+
+  elements.serviceSettingsList.innerHTML = groups.map(group => {
+    const services = state.services.filter(service => service.category === group.id);
+    const rows = services.length
+      ? services.map(renderServiceSettingRow).join('')
+      : '<p class="recipients-empty">No hay servicios cargados en esta categoria.</p>';
+
+    return `
+      <section class="services-admin-group">
+        <div class="services-admin-group-head">
+          <h3>${escapeHtml(group.title)}</h3>
+          <span>${services.length} servicio${services.length !== 1 ? 's' : ''}</span>
+        </div>
+        <div class="services-admin-rows">
+          ${rows}
+        </div>
+      </section>
+    `;
+  }).join('');
+}
+
+function renderServiceSettingRow(service) {
+  const status = service.enabled ? 'Visible en la web' : 'Oculto en la web';
+
+  return `
+    <label class="service-toggle-row">
+      <span class="service-toggle-copy">
+        <strong>${escapeHtml(service.title)}</strong>
+        <small>${status}</small>
+      </span>
+      <input type="checkbox" data-service-toggle data-service-id="${escapeHtml(service.id)}" ${service.enabled ? 'checked' : ''}>
+      <span class="service-switch" aria-hidden="true"></span>
+    </label>
+  `;
+}
+
+async function onServiceSettingsChange(event) {
+  const input = event.target.closest('[data-service-toggle]');
+  if (!input) return;
+
+  const previousChecked = !input.checked;
+  const serviceId = input.dataset.serviceId;
+  const current = state.services.find(service => service.id === serviceId);
+  if (current) current.enabled = input.checked;
+  input.disabled = true;
+  renderServiceSettings();
+
+  try {
+    const response = await api('/api/admin/services', {
+      method: 'PUT',
+      body: JSON.stringify({
+        items: [
+          {
+            id: serviceId,
+            enabled: Boolean(current?.enabled)
+          }
+        ]
+      })
+    });
+
+    state.services = response.items || [];
+    renderServiceSettings();
+    showToast('Servicios actualizados.');
+  } catch (error) {
+    if (current) current.enabled = previousChecked;
+    renderServiceSettings();
+    showToast(error.message, true);
+  }
 }
 
 function renderAutoCard(auto) {
@@ -969,36 +1105,208 @@ function formatRelativeTime(isoString) {
 /* ═══════════════════════════════════════════
    PESTAÑA INFORMACIÓN — lógica UI
    ═══════════════════════════════════════════ */
-function initInfoTab() {
-  const emailInput = document.getElementById('cotizador-email');
-  const saveBtn    = document.getElementById('cotizador-email-save');
-  if (!emailInput || !saveBtn) return;
+function initInfoTabControls() {
+  const addBtn = document.getElementById('recipient-add-btn');
+  const emailInput = document.getElementById('recipient-email');
+  const labelInput = document.getElementById('recipient-label');
+  const errorEl = document.getElementById('recipients-error');
 
-  // Habilitar el botón cuando el campo tiene contenido
-  emailInput.addEventListener('input', () => {
-    saveBtn.disabled = emailInput.value.trim() === '';
-  });
+  if (!addBtn) return;
 
-  // Al guardar (solo gráfico por ahora): muestra feedback visual
-  saveBtn.addEventListener('click', () => {
+  addBtn.addEventListener('click', async () => {
     const email = emailInput.value.trim();
-    if (!email) return;
+    const label = labelInput.value.trim();
+    if (!email) { showRecipientsError('Ingresa un correo electronico.'); return; }
 
-    // Feedback visual temporal
-    const original = saveBtn.innerHTML;
-    saveBtn.innerHTML = `
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20 6 9 17l-5-5"/>
-      </svg>
-      Guardado
-    `;
-    saveBtn.style.background = 'var(--green)';
-    saveBtn.disabled = true;
+    addBtn.disabled = true;
+    addBtn.textContent = 'Guardando...';
+    hideRecipientsError();
 
-    window.setTimeout(() => {
-      saveBtn.innerHTML = original;
-      saveBtn.style.background = '';
-      saveBtn.disabled = false;
-    }, 2200);
+    try {
+      const res = await fetch('/api/admin/email-recipients', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, label })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Error al agregar.');
+      emailInput.value = '';
+      labelInput.value = '';
+      await loadRecipients();
+      showToast('Correo agregado.');
+    } catch (err) {
+      showRecipientsError(err.message);
+    } finally {
+      addBtn.disabled = false;
+      addBtn.textContent = '+ Agregar';
+    }
   });
+
+  emailInput.addEventListener('keydown', e => { if (e.key === 'Enter') addBtn.click(); });
+
+  function showRecipientsError(msg) {
+    errorEl.textContent = msg;
+    errorEl.hidden = false;
+  }
+  function hideRecipientsError() {
+    errorEl.hidden = true;
+  }
+}
+
+async function loadRecipients() {
+  const listEl = document.getElementById('recipients-list');
+  const statusEl = document.getElementById('recipients-status');
+  if (!listEl) return;
+
+  try {
+    const res = await fetch('/api/admin/email-recipients');
+    const data = await res.json();
+    const items = data.items || [];
+
+    if (items.length === 0) {
+      listEl.innerHTML = '<p class="recipients-empty">No hay destinatarios configurados todavia.</p>';
+      if (statusEl) statusEl.innerHTML = '<span class="recipients-badge recipients-badge--none">Sin destinatarios</span>';
+      return;
+    }
+
+    if (statusEl) statusEl.innerHTML = `<span class="recipients-badge recipients-badge--ok">${items.length} destinatario${items.length !== 1 ? 's' : ''}</span>`;
+
+    listEl.innerHTML = items.map(item => `
+      <div class="recipient-row" data-id="${item.id}">
+        <div class="recipient-info">
+          <span class="recipient-email">${item.email}</span>
+          ${item.label ? `<span class="recipient-label-tag">${item.label}</span>` : ''}
+        </div>
+        <button type="button" class="recipient-delete-btn" data-id="${item.id}" title="Eliminar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    `).join('');
+
+    listEl.querySelectorAll('.recipient-delete-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = btn.dataset.id;
+        const row = listEl.querySelector(`.recipient-row[data-id="${id}"]`);
+        const emailText = row?.querySelector('.recipient-email')?.textContent || 'este correo';
+        if (!confirm(`¿Eliminar ${emailText} de los destinatarios?`)) return;
+        btn.disabled = true;
+        try {
+          const res = await fetch(`/api/admin/email-recipients/${id}`, { method: 'DELETE' });
+          if (!res.ok) throw new Error('No se pudo eliminar.');
+          await loadRecipients();
+          showToast('Correo eliminado.');
+        } catch (err) {
+          showToast(err.message);
+          btn.disabled = false;
+        }
+      });
+    });
+  } catch {
+    listEl.innerHTML = '<p class="recipients-empty">Error al cargar los destinatarios.</p>';
+  }
+}
+
+function initContactRecipientControls() {
+  const addBtn = document.getElementById('contact-recipient-add-btn');
+  const emailInput = document.getElementById('contact-recipient-email');
+  const labelInput = document.getElementById('contact-recipient-label');
+  const errorEl = document.getElementById('contact-recipients-error');
+
+  if (!addBtn) return;
+
+  addBtn.addEventListener('click', async () => {
+    const email = emailInput.value.trim();
+    const label = labelInput.value.trim();
+    if (!email) { showContactRecipientsError('Ingresa un correo electronico.'); return; }
+
+    addBtn.disabled = true;
+    addBtn.textContent = 'Guardando...';
+    hideContactRecipientsError();
+
+    try {
+      const res = await fetch('/api/admin/contact-email-recipients', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, label })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Error al agregar.');
+      emailInput.value = '';
+      labelInput.value = '';
+      await loadContactRecipients();
+      showToast('Correo agregado.');
+    } catch (err) {
+      showContactRecipientsError(err.message);
+    } finally {
+      addBtn.disabled = false;
+      addBtn.textContent = '+ Agregar';
+    }
+  });
+
+  emailInput.addEventListener('keydown', e => { if (e.key === 'Enter') addBtn.click(); });
+
+  function showContactRecipientsError(msg) {
+    errorEl.textContent = msg;
+    errorEl.hidden = false;
+  }
+  function hideContactRecipientsError() {
+    errorEl.hidden = true;
+  }
+}
+
+async function loadContactRecipients() {
+  const listEl = document.getElementById('contact-recipients-list');
+  const statusEl = document.getElementById('contact-recipients-status');
+  if (!listEl) return;
+
+  try {
+    const res = await fetch('/api/admin/contact-email-recipients');
+    const data = await res.json();
+    const items = data.items || [];
+
+    if (items.length === 0) {
+      listEl.innerHTML = '<p class="recipients-empty">No hay destinatarios configurados todavia.</p>';
+      if (statusEl) statusEl.innerHTML = '<span class="recipients-badge recipients-badge--none">Sin destinatarios</span>';
+      return;
+    }
+
+    if (statusEl) statusEl.innerHTML = `<span class="recipients-badge recipients-badge--ok">${items.length} destinatario${items.length !== 1 ? 's' : ''}</span>`;
+
+    listEl.innerHTML = items.map(item => `
+      <div class="recipient-row" data-id="${item.id}">
+        <div class="recipient-info">
+          <span class="recipient-email">${item.email}</span>
+          ${item.label ? `<span class="recipient-label-tag">${item.label}</span>` : ''}
+        </div>
+        <button type="button" class="recipient-delete-btn" data-id="${item.id}" title="Eliminar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    `).join('');
+
+    listEl.querySelectorAll('.recipient-delete-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = btn.dataset.id;
+        const row = listEl.querySelector(`.recipient-row[data-id="${id}"]`);
+        const emailText = row?.querySelector('.recipient-email')?.textContent || 'este correo';
+        if (!confirm(`Eliminar ${emailText} de los destinatarios?`)) return;
+        btn.disabled = true;
+        try {
+          const res = await fetch(`/api/admin/contact-email-recipients/${id}`, { method: 'DELETE' });
+          if (!res.ok) throw new Error('No se pudo eliminar.');
+          await loadContactRecipients();
+          showToast('Correo eliminado.');
+        } catch (err) {
+          showToast(err.message);
+          btn.disabled = false;
+        }
+      });
+    });
+  } catch {
+    listEl.innerHTML = '<p class="recipients-empty">Error al cargar los destinatarios.</p>';
+  }
 }

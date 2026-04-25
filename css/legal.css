@@ -369,3 +369,70 @@ body.legal-page {
   .legal-page-hero { padding: 40px 20px 36px; }
   .legal-page .section { padding: 32px 20px 48px; }
 }
+
+/* Identidad Gestoria Sonia */
+body.legal-page {
+  background: #fffdfb;
+  color: #2f231d;
+}
+
+.legal-page-hero,
+.legal-card,
+.legal-hero-card,
+.legal-mini-card {
+  background: #fffdfb;
+  border-color: rgba(181,96,58,0.14);
+}
+
+.legal-page-hero {
+  border-top: 3px solid #b5603a;
+}
+
+.legal-hero-copy h1,
+.legal-card p,
+.legal-list li,
+.legal-mini-card p,
+.legal-mini-card li {
+  color: #2f231d;
+}
+
+.legal-eyebrow,
+.legal-hero-card h2,
+.legal-card h2,
+.legal-mini-card h3 {
+  color: #b5603a;
+}
+
+.legal-note {
+  background: #f5f1eb;
+  border-left-color: #b5603a;
+}
+
+.legal-cta-row .btn-primary,
+.legal-cta-row .btn-dark {
+  background: #2e7d33;
+  border-color: #2e7d33;
+  color: #ffffff;
+}
+
+.legal-cta-row .btn-primary:hover,
+.legal-cta-row .btn-dark:hover {
+  background: #25662a;
+  border-color: #25662a;
+}
+
+.legal-card input[type="text"],
+.legal-card input[type="email"],
+.legal-card input[type="tel"],
+.legal-card input[type="date"],
+.legal-card textarea {
+  background: #fcfaf7;
+  border-color: rgba(47,35,29,0.14);
+  color: #2f231d;
+}
+
+.legal-card input:focus,
+.legal-card textarea:focus {
+  border-color: #b5603a;
+  background: #fffdfb;
+}

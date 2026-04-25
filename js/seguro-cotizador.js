@@ -1,4 +1,4 @@
-const SEGURO_COTIZADOR_CONFIG = {
+﻿const SEGURO_COTIZADOR_CONFIG = {
   auto: {
     label: 'Auto',
     planLabel: 'Plan RC',

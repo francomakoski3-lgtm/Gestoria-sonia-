@@ -296,15 +296,15 @@ const STATIC_PAGE_CONFIG = {
 };
 
 const ROBOTS_DISALLOW = [
-  '/admin.html',
-  '/cotizacion-transferencia-resultado.html',
-  '/gracias-reserva.html',
-  '/gestoria-servicio.html',
-  '/gestoria-inmobiliaria-servicio.html',
-  '/review_dom_chrome.html',
-  '/review_dom_edge.html',
-  '/review_google.html',
-  '/review_page_edge.html',
+  '/admin',
+  '/cotizacion-transferencia-resultado',
+  '/gracias-reserva',
+  '/gestoria-servicio',
+  '/gestoria-inmobiliaria-servicio',
+  '/review_dom_chrome',
+  '/review_dom_edge',
+  '/review_google',
+  '/review_page_edge',
 ];
 
 function readFile(filePath) {
@@ -330,6 +330,16 @@ function escapeHtml(value) {
 function toAbsoluteUrl(value) {
   if (!value) return '';
   return /^https?:\/\//i.test(value) ? value : `${SITE_URL}${value}`;
+}
+
+function cleanPath(value) {
+  const pathname = String(value || '').replace(/^\/+/, '');
+  if (!pathname || pathname === 'index.html') return '/';
+  return `/${pathname.replace(/\.html$/i, '')}`;
+}
+
+function cleanUrl(filename) {
+  return `${SITE_URL}${cleanPath(filename)}`;
 }
 
 function ensureTitle(contents, title) {
@@ -448,7 +458,7 @@ function buildSchemasForPage(config, canonical, title, description, imageUrl) {
       buildBreadcrumbSchema(
         config.schemas.breadcrumb.map(item => ({
           name: item.name,
-          url: item.path ? `${SITE_URL}${item.path}` : canonical,
+          url: item.path ? `${SITE_URL}${cleanPath(item.path)}` : canonical,
         }))
       )
     );
@@ -519,7 +529,7 @@ function replaceServiceMount(contents, servicePage) {
     '  <div',
     '    id="gestoria-service-detail-mount"',
     `    data-service-id="${escapeHtml(servicePage.serviceId)}"`,
-    `    data-service-home="${escapeHtml(servicePage.parentPath)}"`,
+    `    data-service-home="${escapeHtml(cleanPath(servicePage.parentPath).slice(1) || '/')}"`,
     `    data-service-home-label="${escapeHtml(servicePage.homeLabel)}"></div>`,
   ].join('\n');
 
@@ -553,15 +563,15 @@ function buildPageConfig() {
     pageConfig[servicePage.filename] = {
       title: servicePage.title,
       description: servicePage.description,
-      canonical: `${SITE_URL}/${servicePage.filename}`,
+      canonical: cleanUrl(servicePage.filename),
       imagePath: servicePage.imagePath,
       sitemap: true,
       schemas: {
         webPageType: 'WebPage',
         breadcrumb: [
           { name: 'Inicio', path: '/' },
-          { name: servicePage.parentName, path: `/${servicePage.parentPath}` },
-          { name: servicePage.serviceName, path: `/${servicePage.filename}` },
+          { name: servicePage.parentName, path: cleanPath(servicePage.parentPath) },
+          { name: servicePage.serviceName, path: cleanPath(servicePage.filename) },
         ],
         servicePage,
       },
@@ -659,6 +669,12 @@ function buildPageConfig() {
       { name: 'Títulos y capacitaciones', path: '/titulos.html' },
     ],
   };
+
+  for (const [filename, config] of Object.entries(pageConfig)) {
+    if (!config.canonical) {
+      config.canonical = cleanUrl(filename);
+    }
+  }
 
   return pageConfig;
 }

@@ -1,4 +1,4 @@
-const TRANSFERENCIA_RESULT_STORAGE_KEY = 'transferenciaQuoteResult';
+﻿const TRANSFERENCIA_RESULT_STORAGE_KEY = 'transferenciaQuoteResult';
 const TRANSFERENCIA_WA_NUMBER = '543743668039';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const breakdownPenalty = document.getElementById('breakdown-penalty');
   const breakdownTotal = document.getElementById('breakdown-total');
   const disclaimer = document.getElementById('transferencia-disclaimer');
-  const whatsappStatus = document.getElementById('transferencia-whatsapp-status');
   const whatsappButton = document.getElementById('transferencia-whatsapp');
   const resetLink = document.getElementById('transferencia-reset-link');
 
@@ -47,38 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     summaryBuyerSignature.textContent = '-';
     breakdown.hidden = true;
     if (disclaimer) disclaimer.textContent = 'Volve al formulario para hacer otra cotizacion.';
-    if (whatsappStatus) {
-      whatsappStatus.textContent = '';
-      whatsappStatus.classList.remove('is-success', 'is-error');
-    }
     setWhatsappState(false);
-  }
-
-  function renderWhatsappDeliveryStatus(delivery) {
-    if (!whatsappStatus) return;
-
-    whatsappStatus.classList.remove('is-success', 'is-error');
-
-    if (!delivery) {
-      whatsappStatus.textContent = 'La cotizacion quedo calculada, pero no hay estado del envio por WhatsApp.';
-      whatsappStatus.classList.add('is-error');
-      return;
-    }
-
-    if (delivery.status === 'sent') {
-      whatsappStatus.textContent = 'La cotizacion fue enviada al WhatsApp del cliente desde el numero de la empresa.';
-      whatsappStatus.classList.add('is-success');
-      return;
-    }
-
-    if (delivery.status === 'pending_configuration') {
-      whatsappStatus.textContent = 'La cotizacion quedo lista. Falta conectar la API de WhatsApp para activar el envio automatico.';
-      whatsappStatus.classList.add('is-error');
-      return;
-    }
-
-    whatsappStatus.textContent = delivery.message || 'No se pudo confirmar el envio por WhatsApp.';
-    whatsappStatus.classList.add('is-error');
   }
 
   function buildProcedureWhatsappHref(payload) {
@@ -149,7 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
       breakdown.hidden = true;
     }
 
-    renderWhatsappDeliveryStatus(payload.whatsappDelivery);
     setWhatsappState(true, buildProcedureWhatsappHref(payload), 'Iniciar tr\u00e1mite');
   }
 

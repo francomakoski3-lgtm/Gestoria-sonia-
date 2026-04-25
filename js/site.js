@@ -1,9 +1,10 @@
-const WA_NUMBER = '543743668039';
+﻿const WA_NUMBER = '543743668039';
 const WA_BASE = `https://wa.me/${WA_NUMBER}`;
 
 const cache = {
   autosPromise: null,
-  propertiesPromise: null
+  propertiesPromise: null,
+  serviceSettingsPromise: null
 };
 
 const GESTORIA_SERVICE_DETAILS = {
@@ -78,9 +79,8 @@ const GESTORIA_SERVICE_DETAILS = {
     ctaLabel: 'Consultar por WhatsApp',
     ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20una%20transferencia%20de%20auto%20o%20moto.',
     secondaryLabel: 'Iniciar tr&aacute;mite',
-    secondaryHref: 'cotizar-transferencia.html',
+    secondaryHref: 'cotizar-transferencia',
     secondaryClass: 'btn-service-start',
-    secondaryTargetBlank: true,
     hidePrimaryCta: true,
     includeCalculator: false
   },
@@ -761,84 +761,102 @@ const GESTORIA_SERVICE_DETAILS = {
 
 const SERVICE_PAGE_METADATA = {
   transferencias: {
-    pagePath: 'transferencia-automotor.html',
+    pagePath: 'transferencia-automotor',
     metaTitle: 'Transferencia automotor en Jardín América | Gestoría Sonia',
     metaDescription: 'Transferencia de autos y motos en Jardín América, Misiones. Requisitos, costos orientativos y acompañamiento con Gestoría Sonia.',
     imagePath: 'img/services/transferencia-cover.jpg',
-    serviceHome: 'gestoria.html',
+    serviceHome: 'gestoria',
     serviceHomeLabel: 'Volver a servicios'
   },
   'informe-dominio': {
-    pagePath: 'informe-de-dominio.html',
+    pagePath: 'informe-de-dominio',
     metaTitle: 'Informe de dominio automotor | Gestoría Sonia',
     metaDescription: 'Solicitá informe de dominio histórico o actual para autos y motos con Gestoría Sonia en Jardín América, Misiones.',
     imagePath: 'img/services/informes-cover.png',
-    serviceHome: 'gestoria.html',
+    serviceHome: 'gestoria',
     serviceHomeLabel: 'Volver a servicios'
   },
   'denuncia-venta': {
-    pagePath: 'denuncia-de-venta.html',
+    pagePath: 'denuncia-de-venta',
     metaTitle: 'Denuncia de venta del automotor | Gestoría Sonia',
     metaDescription: 'Realizá la denuncia de venta de tu auto o moto con acompañamiento local en Jardín América, Misiones.',
     imagePath: 'img/services/denuncia-venta-cover.png',
-    serviceHome: 'gestoria.html',
+    serviceHome: 'gestoria',
     serviceHomeLabel: 'Volver a servicios'
   },
   'cedula-titulo': {
-    pagePath: 'cedula-y-titulo-automotor.html',
+    pagePath: 'cedula-y-titulo-automotor',
     metaTitle: 'Cédula y título del automotor | Gestoría Sonia',
     metaDescription: 'Gestión de cédula, título, duplicados y documentación digital del automotor en Jardín América, Misiones.',
     imagePath: 'img/services/cedula-titulo-cover.png',
-    serviceHome: 'gestoria.html',
+    serviceHome: 'gestoria',
     serviceHomeLabel: 'Volver a servicios'
   },
   'inscripcion-0km': {
-    pagePath: 'inscripcion-0km.html',
+    pagePath: 'inscripcion-0km',
     metaTitle: 'Inscripción 0 km | Gestoría Sonia',
     metaDescription: 'Patenta tu auto o moto 0 km con Gestoría Sonia. Inscripción inicial y documentación registral en Jardín América, Misiones.',
     imagePath: 'img/services/inscripcion-0km-cover.png',
-    serviceHome: 'gestoria.html',
+    serviceHome: 'gestoria',
     serviceHomeLabel: 'Volver a servicios'
   },
   'prendas-registrales': {
-    pagePath: 'prendas-y-tramites-registrales.html',
+    pagePath: 'prendas-y-tramites-registrales',
     metaTitle: 'Prendas y trámites registrales | Gestoría Sonia',
     metaDescription: 'Cancelaciones, regularizaciones y trámites registrales del automotor con seguimiento local en Jardín América, Misiones.',
     imagePath: 'img/services/prendas-registrales-cover.png',
-    serviceHome: 'gestoria.html',
+    serviceHome: 'gestoria',
     serviceHomeLabel: 'Volver a servicios'
   },
   asesoramiento: {
-    pagePath: 'asesoramiento-automotor.html',
+    pagePath: 'asesoramiento-automotor',
     metaTitle: 'Asesoramiento de gestoría del automotor | Gestoría Sonia',
     metaDescription: 'Asesoramiento para compras, ventas y trámites del automotor con atención personalizada en Jardín América, Misiones.',
     imagePath: 'img/services/asesoramiento-cover.png',
-    serviceHome: 'gestoria.html',
+    serviceHome: 'gestoria',
     serviceHomeLabel: 'Volver a servicios'
   },
   'boleto-compra-venta': {
-    pagePath: 'boleto-compra-venta-inmuebles.html',
+    pagePath: 'boleto-compra-venta-inmuebles',
     metaTitle: 'Boleto de compra venta de inmuebles | Gestoría Sonia',
     metaDescription: 'Redacción, revisión y sellado de boletos de compra venta de inmuebles en Jardín América, Misiones.',
     imagePath: 'img/services/inmuebles-cover.jpg',
-    serviceHome: 'gestoria-inmobiliaria.html',
+    serviceHome: 'gestoria-inmobiliaria',
     serviceHomeLabel: 'Volver a servicios inmobiliarios'
   },
   'contratos-alquiler': {
-    pagePath: 'contratos-de-alquiler.html',
+    pagePath: 'contratos-de-alquiler',
     metaTitle: 'Contratos de alquiler | Gestoría Sonia',
     metaDescription: 'Contratos de alquiler con redacción clara, condiciones bien definidas y respaldo documental en Jardín América, Misiones.',
     imagePath: 'img/services/inmuebles-cover.jpg',
-    serviceHome: 'gestoria-inmobiliaria.html',
+    serviceHome: 'gestoria-inmobiliaria',
     serviceHomeLabel: 'Volver a servicios inmobiliarios'
   }
 };
 
 const SITE_ORIGIN = 'https://gestoriasonia.ar';
 const GENERIC_SERVICE_TEMPLATES = new Set([
-  'gestoria-servicio.html',
-  'gestoria-inmobiliaria-servicio.html'
+  'gestoria-servicio',
+  'gestoria-inmobiliaria-servicio'
 ]);
+
+const FEATURE_VISIBILITY = {
+  'seguros-page': {
+    title: 'Seguros no disponible',
+    message: 'La seccion de seguros esta desactivada temporalmente desde el panel administrativo.',
+    disabledTitle: 'Seguros no disponible | Gestoria Sonia',
+    hrefPrefixes: ['seguros', 'liderar-seguros', 'cotizar-seguro'],
+    pages: ['seguros', 'liderar-seguros', 'cotizar-seguro']
+  },
+  'mercado-page': {
+    title: 'Mercado no disponible',
+    message: 'La seccion de mercado esta desactivada temporalmente desde el panel administrativo.',
+    disabledTitle: 'Mercado no disponible | Gestoria Sonia',
+    hrefPrefixes: ['mercado', 'autos', 'inmuebles', 'terreno-lomas-de-jardin'],
+    pages: ['mercado', 'autos', 'inmuebles', 'terreno-lomas-de-jardin'],
+    homeSelectors: ['#home-mercado']
+  }
+};
 
 function decodeHtmlEntities(value) {
   const textarea = document.createElement('textarea');
@@ -847,7 +865,7 @@ function decodeHtmlEntities(value) {
 }
 
 function getCurrentPageFile() {
-  return window.location.pathname.split('/').pop() || 'index.html';
+  return window.location.pathname.split('/').pop() || '/';
 }
 
 function getResolvedService(serviceId) {
@@ -893,9 +911,11 @@ function syncServicePageHead(service) {
 document.addEventListener('DOMContentLoaded', async () => {
   initNavbar();
   initContactForm();
+  initQuienesReadMore();
   initGestoriaServiceGallery();
   initGestoriaServicePage();
   initAnalyticsTracking();
+  await initPublicServiceVisibility();
 
   await Promise.all([
     initHomeDestacados(),
@@ -973,13 +993,172 @@ function loadProperties() {
   return cache.propertiesPromise;
 }
 
+function loadServiceSettings() {
+  if (!cache.serviceSettingsPromise) {
+    cache.serviceSettingsPromise = fetchJson('/api/services').then(data => data.items || []);
+  }
+  return cache.serviceSettingsPromise;
+}
+
+async function initPublicServiceVisibility() {
+  const serviceCards = Array.from(document.querySelectorAll('[data-service-id]'));
+  const detailMount = document.getElementById('gestoria-service-detail-mount');
+
+  try {
+    const services = await loadServiceSettings();
+    const disabledIds = new Set(
+      services
+        .filter(service => !service.enabled)
+        .map(service => service.id)
+    );
+
+    serviceCards.forEach(card => {
+      card.hidden = disabledIds.has(card.dataset.serviceId);
+    });
+    renderServicesEmptyState(serviceCards);
+    applyFeatureVisibility(disabledIds);
+
+    if (detailMount) {
+      const params = new URLSearchParams(window.location.search);
+      const serviceId = detailMount.dataset.serviceId || params.get('servicio') || '';
+      if (disabledIds.has(serviceId)) {
+        renderDisabledServicePage(detailMount);
+      }
+    }
+  } catch (error) {
+    console.warn('No se pudo cargar la configuracion de servicios.', error);
+  }
+}
+
+function applyFeatureVisibility(disabledIds) {
+  Object.entries(FEATURE_VISIBILITY).forEach(([featureId, config]) => {
+    if (!disabledIds.has(featureId)) return;
+
+    hideFeatureLinks(config);
+    hideFeatureHomeSections(config);
+
+    if (config.pages.includes(getCurrentPageFile())) {
+      renderDisabledFeaturePage(featureId, config);
+    }
+  });
+}
+
+function hideFeatureLinks(config) {
+  document.querySelectorAll('a[href]').forEach(link => {
+    const href = link.getAttribute('href') || '';
+    const normalizedHref = href.replace(/^\.\//, '');
+    const shouldHide = config.hrefPrefixes.some(prefix =>
+      normalizedHref === prefix ||
+      normalizedHref.startsWith(`${prefix}?`) ||
+      normalizedHref.startsWith(`${prefix}#`)
+    );
+
+    if (!shouldHide) return;
+
+    const navItem = link.closest('li');
+    const serviceCard = link.classList.contains('service-card') ? link : null;
+    const sectionLink = link.classList.contains('section-link') ? link : null;
+    (navItem || serviceCard || sectionLink || link).hidden = true;
+  });
+}
+
+function hideFeatureHomeSections(config) {
+  (config.homeSelectors || []).forEach(selector => {
+    document.querySelectorAll(selector).forEach(element => {
+      const section = element.closest('section');
+      (section || element).hidden = true;
+    });
+  });
+}
+
+function renderDisabledFeaturePage(featureId, config) {
+  document.body.dataset.disabledFeature = featureId;
+  document.title = config.disabledTitle || `${config.title} | Gestoria Sonia`;
+
+  const nav = document.querySelector('.navbar');
+  const footer = document.querySelector('.footer');
+  Array.from(document.body.children).forEach(child => {
+    if (
+      child === nav ||
+      child === footer ||
+      child.classList.contains('wa-float') ||
+      child.tagName === 'SCRIPT'
+    ) {
+      return;
+    }
+    child.hidden = true;
+  });
+
+  const existing = document.querySelector('[data-disabled-feature-page]');
+  if (existing) existing.remove();
+
+  const section = document.createElement('section');
+  section.className = 'section page-empty-shell';
+  section.setAttribute('data-disabled-feature-page', featureId);
+  section.innerHTML = `
+    <div class="auto-detail-empty">
+      <p class="breadcrumb"><a href="/">Inicio</a> &rsaquo; <span>No disponible</span></p>
+      <h1>${config.title}</h1>
+      <p>${config.message}</p>
+      <a href="/" class="btn btn-dark">Volver al inicio</a>
+    </div>
+  `;
+
+  if (nav) {
+    nav.insertAdjacentElement('afterend', section);
+  } else {
+    document.body.prepend(section);
+  }
+}
+
+function renderServicesEmptyState(serviceCards) {
+  const grid = document.querySelector('.gestoria-services-grid');
+  if (!grid || !serviceCards.length) return;
+
+  grid.querySelector('[data-services-empty-state]')?.remove();
+  const hasVisibleServices = serviceCards.some(card => !card.hidden);
+  if (hasVisibleServices) return;
+
+  grid.insertAdjacentHTML(
+    'beforeend',
+    `
+      <div class="services-empty-state" data-services-empty-state>
+        <h3>Servicios no disponibles</h3>
+        <p>Por el momento no hay servicios publicados en esta seccion.</p>
+      </div>
+    `
+  );
+}
+
+function renderDisabledServicePage(mount) {
+  const home = mount.dataset.serviceHome || 'gestoria';
+  const label = mount.dataset.serviceHomeLabel || 'Volver a servicios';
+  const crumbCurrent = document.getElementById('gestoria-service-crumb-current');
+  const backLink = document.querySelector('.gestoria-service-backlink');
+
+  document.title = 'Servicio no disponible | Gestoria Sonia';
+  if (crumbCurrent) crumbCurrent.textContent = 'Servicio no disponible';
+  if (backLink) {
+    backLink.href = home;
+    backLink.textContent = label;
+  }
+
+  mount.innerHTML = `
+    <section class="gestoria-service-page-error">
+      <h2>Servicio no disponible</h2>
+      <p>Este servicio esta desactivado temporalmente desde el panel administrativo.</p>
+      <a href="${home}" class="btn btn-dark">${label}</a>
+    </section>
+  `;
+}
+
 function renderCarCard(auto) {
   const [badgeClass, badgeText] = badgeLabel(auto.status);
   const specs = [auto.year, auto.fuel, auto.transmission].filter(Boolean).join(' · ');
 
   return `
     <article class="car-card" data-tipo="${escapeHtml(auto.vehicleType)}" data-estado="${escapeHtml(auto.status)}" data-anio="${escapeHtml(auto.year)}">
-      <a href="autos.html?auto=${auto.id}" class="car-card-link" aria-label="Ver ${escapeHtml(auto.title)}">
+      <a href="autos?auto=${auto.id}" class="car-card-link" aria-label="Ver ${escapeHtml(auto.title)}">
         <div class="car-card-img">
           <img src="${escapeHtml(safeUrl(auto.coverImage || auto.galleryImages?.[0] || 'img/services/autos-cover.jpg'))}" alt="${escapeHtml(auto.title)}" loading="lazy">
           <span class="badge ${badgeClass}">${escapeHtml(badgeText)}</span>
@@ -1005,7 +1184,7 @@ function renderPropertyCard(property) {
 
   return `
     <article class="prop-card" data-tipo="${escapeHtml(property.propertyType)}" data-operacion="${escapeHtml(property.operation)}">
-      <a href="inmuebles.html?inmueble=${property.id}" class="prop-card-image-link" aria-label="Ver ${escapeHtml(property.title)}">
+      <a href="inmuebles?inmueble=${property.id}" class="prop-card-image-link" aria-label="Ver ${escapeHtml(property.title)}">
         <div class="prop-card-img">
           <img src="${escapeHtml(safeUrl(property.coverImage || property.galleryImages?.[0] || 'img/services/inmuebles-cover.jpg'))}" alt="${escapeHtml(property.title)}" loading="lazy">
           <span class="badge ${badgeClass}">${escapeHtml(badgeText)}</span>
@@ -1059,7 +1238,7 @@ function buildMarketItems(autos, properties) {
       id: auto.id,
       kind: 'auto',
       title: auto.title || [auto.brand, auto.model].filter(Boolean).join(' ') || 'Vehiculo',
-      href: `autos.html?auto=${auto.id}`,
+      href: `autos?auto=${auto.id}`,
       image: safeUrl(auto.coverImage || auto.galleryImages?.[0] || 'img/services/autos-cover.jpg'),
       badgeClass,
       badgeText,
@@ -1092,7 +1271,7 @@ function buildMarketItems(autos, properties) {
       id: property.id,
       kind: 'inmueble',
       title: property.title || 'Propiedad',
-      href: `inmuebles.html?inmueble=${property.id}`,
+      href: `inmuebles?inmueble=${property.id}`,
       image: safeUrl(property.coverImage || property.galleryImages?.[0] || 'img/services/inmuebles-cover.jpg'),
       badgeClass,
       badgeText,
@@ -1241,8 +1420,8 @@ function renderAutoDetailPage(auto) {
   return `
     <section class="auto-detail-page">
       <div class="auto-detail-topbar">
-        <p class="breadcrumb"><a href="index.html">Inicio</a> › <a href="mercado.html">Mercado</a> › <span>${escapeHtml(title)}</span></p>
-        <a href="mercado.html" class="auto-back-link" data-back-link aria-label="Volver">
+        <p class="breadcrumb"><a href="/">Inicio</a> › <a href="mercado">Mercado</a> › <span>${escapeHtml(title)}</span></p>
+        <a href="mercado" class="auto-back-link" data-back-link aria-label="Volver">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 5.3a1 1 0 0 1 0 1.4L10.4 11H20a1 1 0 1 1 0 2h-9.6l4.3 4.3a1 1 0 0 1-1.4 1.4l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 0 1 1.4 0Z" fill="currentColor"/></svg>
         </a>
       </div>
@@ -1355,7 +1534,7 @@ function renderPropertyDetailPage(property) {
     <section class="property-detail-section">
       <div class="page-hero" style="margin-bottom:32px;">
         <div>
-          <p class="breadcrumb"><a href="index.html">Inicio</a> › <a href="mercado.html">Mercado</a> › <span>${escapeHtml(property.title)}</span></p>
+          <p class="breadcrumb"><a href="/">Inicio</a> › <a href="mercado">Mercado</a> › <span>${escapeHtml(property.title)}</span></p>
           <h1>${escapeHtml(property.title)}</h1>
           <p>${escapeHtml([property.location, property.price].filter(Boolean).join(' · '))}</p>
         </div>
@@ -1396,6 +1575,8 @@ function renderPropertyDetailPage(property) {
 }
 
 async function initHomeDestacados() {
+  if (document.body.dataset.disabledFeature === 'mercado-page') return;
+
   const autosMount = document.getElementById('home-autos');
   const propertiesMount = document.getElementById('home-inmuebles');
   const marketplaceMount = document.getElementById('home-mercado');
@@ -1424,6 +1605,8 @@ async function initHomeDestacados() {
 }
 
 async function initMarketplacePage() {
+  if (document.body.dataset.disabledFeature === 'mercado-page') return;
+
   const grid = document.getElementById('mercado-grid');
   if (!grid) return;
 
@@ -1474,6 +1657,8 @@ async function initMarketplacePage() {
 }
 
 async function initAutoPage() {
+  if (document.body.dataset.disabledFeature === 'mercado-page') return;
+
   const grid = document.getElementById('autos-grid');
   const detailMount = document.getElementById('auto-detail-view');
   if (!grid && !detailMount) return;
@@ -1486,7 +1671,7 @@ async function initAutoPage() {
       const auto = autos.find(item => item.id === requestedId);
       document.querySelectorAll('[data-autos-list-view]').forEach(section => { section.hidden = true; });
       detailMount.hidden = false;
-      detailMount.innerHTML = auto ? renderAutoDetailPage(auto) : '<section class="auto-detail-empty"><h1>Vehiculo no encontrado</h1><p>La publicacion ya no existe.</p><a href="mercado.html" class="btn btn-dark">Volver al mercado</a></section>';
+      detailMount.innerHTML = auto ? renderAutoDetailPage(auto) : '<section class="auto-detail-empty"><h1>Vehiculo no encontrado</h1><p>La publicacion ya no existe.</p><a href="mercado" class="btn btn-dark">Volver al mercado</a></section>';
       bindDetailGallery();
       return;
     }
@@ -1522,6 +1707,8 @@ async function initAutoPage() {
 }
 
 async function initPropertyPage() {
+  if (document.body.dataset.disabledFeature === 'mercado-page') return;
+
   const grid = document.getElementById('inmuebles-grid');
   const detailMount = document.getElementById('inmueble-detail-view');
   if (!grid && !detailMount) return;
@@ -1534,7 +1721,7 @@ async function initPropertyPage() {
       const property = properties.find(item => item.id === requestedId);
       document.querySelectorAll('[data-inmuebles-list-view]').forEach(section => { section.hidden = true; });
       detailMount.hidden = false;
-      detailMount.innerHTML = property ? renderPropertyDetailPage(property) : '<section class="auto-detail-empty"><h1>Inmueble no encontrado</h1><p>La publicacion ya no existe.</p><a href="mercado.html" class="btn btn-dark">Volver al mercado</a></section>';
+      detailMount.innerHTML = property ? renderPropertyDetailPage(property) : '<section class="auto-detail-empty"><h1>Inmueble no encontrado</h1><p>La publicacion ya no existe.</p><a href="mercado" class="btn btn-dark">Volver al mercado</a></section>';
       return;
     }
 
@@ -1665,12 +1852,12 @@ function initGestoriaServicePage() {
   const backLink = document.querySelector('.gestoria-service-backlink');
   const fallbackHome =
     mount.dataset.serviceHome ||
-    (currentPage === 'gestoria-inmobiliaria-servicio.html'
-      ? 'gestoria-inmobiliaria.html'
-      : 'gestoria.html');
+    (currentPage === 'gestoria-inmobiliaria-servicio'
+      ? 'gestoria-inmobiliaria'
+      : 'gestoria');
   const fallbackHomeLabel =
     mount.dataset.serviceHomeLabel ||
-    (fallbackHome === 'gestoria-inmobiliaria.html'
+    (fallbackHome === 'gestoria-inmobiliaria'
       ? 'Volver a servicios inmobiliarios'
       : 'Volver a servicios');
 
@@ -2114,7 +2301,7 @@ function initNavbar() {
 
   document.querySelectorAll('.nav-links a').forEach(link => {
     const href = link.getAttribute('href');
-    if (href === current || (current === '' && href === 'index.html')) {
+    if (href === current || (current === '' && href === '/')) {
       link.classList.add('active');
     }
   });
@@ -2128,33 +2315,116 @@ function updatePropertyTabStyles(activeButton) {
   });
 }
 
+function initQuienesReadMore() {
+  const content = document.querySelector('[data-quienes-expandable]');
+  const trigger = document.querySelector('[data-quienes-read-more]');
+  if (!content || !trigger) return;
+
+  if (content.scrollHeight <= content.clientHeight + 8) {
+    trigger.hidden = true;
+    return;
+  }
+
+  trigger.addEventListener('click', () => {
+    content.style.maxHeight = `${content.scrollHeight}px`;
+    content.classList.add('is-expanded');
+    trigger.setAttribute('aria-expanded', 'true');
+    trigger.hidden = true;
+  });
+}
+
 function initContactForm() {
   const form = document.getElementById('contact-form');
   if (!form) return;
 
-  form.addEventListener('submit', event => {
+  form.addEventListener('submit', async event => {
     event.preventDefault();
     const submitButton = form.querySelector('button[type="submit"]');
     const name = form.elements.nombre?.value.trim() || '';
     const email = form.elements.correo?.value.trim() || '';
-    const phone = form.elements.telefono?.value.trim() || '';
-    const subject = form.elements.asunto?.value || 'Consulta desde la web';
     const message = form.elements.mensaje?.value.trim() || '';
-    const intro = [`Hola, soy ${name}.`];
+    const statusEl = getContactFormStatus(form);
 
-    if (email) intro.push(`Correo: ${email}`);
-    if (phone) intro.push(`Telefono: ${phone}`);
-
-    const text = `${intro.join('\n')}\nAsunto: ${subject}\n${message}`;
+    setContactFormStatus(statusEl, '');
     submitButton?.classList.add('is-loading');
-    window.open(waLink(text), '_blank');
-    submitButton?.classList.remove('is-loading');
+    if (submitButton) submitButton.disabled = true;
 
-    // Google Ads: Formulario enviado
-    if (typeof gtag === 'function') {
-      gtag('event', 'conversion', { 'send_to': 'AW-18100857997/wTOLCMunu6AcEI3ZlLdD' });
+    try {
+      const res = await fetch('/api/contact/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre: name,
+          correo: email,
+          mensaje: message,
+          pageUrl: window.location.href
+        })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'No se pudo enviar la consulta.');
+
+      form.reset();
+      showContactSuccessToast('Tu mensaje ha sido enviado correctamente. Responderemos tu mensaje en menos de 24 horas por mail.');
+
+      // Google Ads: Formulario enviado
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', { 'send_to': 'AW-18100857997/wTOLCMunu6AcEI3ZlLdD' });
+      }
+    } catch (err) {
+      setContactFormStatus(statusEl, err.message || 'No se pudo enviar la consulta. Intentalo nuevamente.', true);
+    } finally {
+      submitButton?.classList.remove('is-loading');
+      if (submitButton) submitButton.disabled = false;
     }
   });
+}
+
+function getContactFormStatus(form) {
+  let statusEl = form.querySelector('.contact-form-status');
+  if (!statusEl) {
+    statusEl = document.createElement('p');
+    statusEl.className = 'contact-form-status';
+    statusEl.setAttribute('role', 'status');
+    form.append(statusEl);
+  }
+  return statusEl;
+}
+
+function setContactFormStatus(statusEl, message, isError = false) {
+  statusEl.textContent = message;
+  statusEl.classList.toggle('is-error', Boolean(isError));
+}
+
+function showContactSuccessToast(message) {
+  let toast = document.querySelector('.contact-success-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.className = 'contact-success-toast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    toast.innerHTML = `
+      <div class="contact-success-card">
+        <div class="contact-success-icon" aria-hidden="true">
+          <svg viewBox="0 0 52 52">
+            <circle cx="26" cy="26" r="23"></circle>
+            <path d="M16 27.5 23 34l14-16"></path>
+          </svg>
+        </div>
+        <p></p>
+      </div>
+    `;
+    document.body.append(toast);
+  }
+
+  toast.querySelector('p').textContent = message;
+  toast.hidden = false;
+  toast.classList.remove('is-visible');
+  window.clearTimeout(toast._hideTimer);
+  requestAnimationFrame(() => toast.classList.add('is-visible'));
+  toast._hideTimer = window.setTimeout(() => {
+    toast.classList.remove('is-visible');
+    window.setTimeout(() => { toast.hidden = true; }, 220);
+  }, 2600);
 }
 
 function initAnalyticsTracking() {

@@ -1,13 +1,13 @@
 User-agent: *
 Allow: /
-Disallow: /admin.html
-Disallow: /cotizacion-transferencia-resultado.html
-Disallow: /gracias-reserva.html
-Disallow: /gestoria-servicio.html
-Disallow: /gestoria-inmobiliaria-servicio.html
-Disallow: /review_dom_chrome.html
-Disallow: /review_dom_edge.html
-Disallow: /review_google.html
-Disallow: /review_page_edge.html
+Disallow: /admin
+Disallow: /cotizacion-transferencia-resultado
+Disallow: /gracias-reserva
+Disallow: /gestoria-servicio
+Disallow: /gestoria-inmobiliaria-servicio
+Disallow: /review_dom_chrome
+Disallow: /review_dom_edge
+Disallow: /review_google
+Disallow: /review_page_edge
 
 Sitemap: https://gestoriasonia.ar/sitemap.xml
