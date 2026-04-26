@@ -8,6 +8,18 @@ echo    GESTORIA SONIA  -  Subir cambios
 echo ============================================
 echo.
 
+echo Revisando si hay cambios visuales para actualizar cache...
+node scripts\cache-bust.js
+if errorlevel 1 (
+    echo.
+    echo ERROR - No se pudo actualizar la version de cache.
+    echo Revisa que Node.js y Git esten funcionando.
+    echo.
+    pause
+    exit /b 1
+)
+echo.
+
 echo Archivos modificados:
 echo.
 git status --short
