@@ -3,33 +3,43 @@
    Reemplazar "JARDÍN GESTIONES" con el nombre comercial final
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 /* ── Variables ─────────────────────────────────────────────── */
 :root {
-  --black:      #2f231d;
+  --navy:       #192f56;
+  --navy-deep:  #0e1d38;
+  --navy-soft:  #2a4574;
+  --gold:       #c9a66b;
+  --cream:      #f5f1e8;
+  --cream-deep: #ece6d6;
+  --ink:        #1a1a1a;
+  --ink-soft:   #4a4a4a;
+  --line:       #d8d2c2;
+  --black:      var(--ink);
   --white:      #ffffff;
-  --brand-bg:   #fffdfb;
-  --brand-bg-2: #fcfaf7;
-  --brand-card: #f5f1eb;
-  --brand-warm: #f4f0e8;
-  --accent:     #b5603a;
-  --accent-rgb: 181, 96, 58;
-  --red:        var(--accent);
-  --red-dark:   #8f482b;
-  --red-light:  #d49a7d;
-  --cta:        #2e7d33;
-  --cta-dark:   #25662a;
-  --gray-100:   #fcfaf7;
-  --gray-200:   #e8ded4;
-  --gray-500:   #756457;
-  --gray-800:   #3d352d;
+  --brand-bg:   #ffffff;
+  --brand-bg-2: var(--cream);
+  --brand-card: #ffffff;
+  --brand-warm: var(--cream-deep);
+  --accent:     var(--gold);
+  --accent-rgb: 201, 166, 107;
+  --red:        var(--navy);
+  --red-dark:   var(--navy-deep);
+  --red-light:  var(--gold);
+  --cta:        var(--navy);
+  --cta-dark:   var(--navy-deep);
+  --gray-100:   var(--cream);
+  --gray-200:   var(--line);
+  --gray-500:   var(--ink-soft);
+  --gray-800:   var(--navy);
   --green-wa:   #25d366;
-  --font:       'Montserrat', 'Arial', sans-serif;
-  --shadow-sm:  0 8px 24px rgba(47,35,29,0.06);
-  --shadow-md:  0 18px 40px rgba(47,35,29,0.10);
-  --shadow-lg:  0 28px 56px rgba(47,35,29,0.14);
-  --radius:     6px;
+  --font:       'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-script:'Kaushan Script', 'Brush Script MT', cursive;
+  --shadow-sm:  0 1px 2px rgba(25,47,86,0.06);
+  --shadow-md:  0 4px 12px rgba(25,47,86,0.08);
+  --shadow-lg:  0 12px 32px rgba(25,47,86,0.12);
+  --radius:     8px;
   --nav-h:      72px;
 }
 
@@ -401,6 +411,8 @@ button { cursor: pointer; font-family: var(--font); }
 }
 .home-hero .hero-content {
   max-width: 760px;
+  padding-top: 34px;
+  padding-bottom: 28px;
 }
 .interior-hero {
   min-height: 500px;
@@ -5882,5 +5894,583 @@ button { cursor: pointer; font-family: var(--font); }
 
 .wa-float {
   background: var(--green-wa);
+}
+
+/* Brand kit 2026: Gestoria Sonia */
+body {
+  color: var(--ink);
+  background: var(--brand-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a:hover {
+  color: var(--navy-soft);
+}
+
+.navbar {
+  background: rgba(255, 255, 255, 0.96);
+  border-top: 3px solid var(--gold);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(25, 47, 86, 0.06);
+}
+
+.navbar.is-scrolled {
+  box-shadow: 0 4px 12px rgba(25, 47, 86, 0.08);
+}
+
+.nav-links a {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.nav-links a::after {
+  background: var(--gold);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--navy);
+}
+
+.nav-search,
+.btn-primary,
+.btn-dark,
+.btn-white,
+.contact-submit-btn,
+.service-card-body .btn,
+.quote-actions .btn-primary,
+.btn-service-start,
+#transferencia-submit-btn {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(25, 47, 86, 0.12);
+}
+
+.nav-search:hover,
+.btn-primary:hover,
+.btn-dark:hover,
+.btn-white:hover,
+.contact-submit-btn:hover,
+.service-card-body .btn:hover,
+.quote-actions .btn-primary:hover,
+.btn-service-start:hover,
+#transferencia-submit-btn:hover {
+  background: var(--navy-deep);
+  border-color: var(--navy-deep);
+  box-shadow: 0 8px 18px rgba(25, 47, 86, 0.16);
+}
+
+.btn-secondary,
+.nav-icon-btn {
+  background: #ffffff;
+  color: var(--navy);
+  border: 1px solid var(--navy);
+  box-shadow: none;
+}
+
+.btn-secondary:hover,
+.nav-icon-btn:hover {
+  background: var(--navy);
+  color: #ffffff;
+  border-color: var(--navy);
+}
+
+.btn-outline {
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.hero,
+.home-hero,
+.interior-hero,
+.page-hero,
+.cta-banner {
+  background: var(--navy-deep);
+}
+
+.hero-bg,
+.home-hero .hero-bg,
+.interior-hero .hero-bg,
+.interior-hero--gestoria .hero-bg,
+.interior-hero--seguros .hero-bg,
+.interior-hero--autos .hero-bg,
+.interior-hero--inmuebles .hero-bg {
+  background:
+    radial-gradient(circle at 82% 8%, rgba(201, 166, 107, 0.18) 0%, rgba(201, 166, 107, 0) 28%),
+    linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+}
+
+.hero-bg::after,
+.home-hero .hero-bg::after,
+.interior-hero .hero-bg::after {
+  background: linear-gradient(90deg, rgba(14, 29, 56, 0.94) 0%, rgba(25, 47, 86, 0.72) 52%, rgba(14, 29, 56, 0.35) 100%);
+}
+
+.home-hero h1,
+.interior-hero h1,
+.page-hero h1 {
+  font-family: var(--font-script);
+  font-size: 72px;
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #ffffff;
+}
+
+.home-hero h1 em,
+.interior-hero h1 em,
+.page-hero h1 em {
+  color: var(--gold);
+  font-style: normal;
+}
+
+.hero p,
+.home-hero p,
+.interior-hero p,
+.page-hero p,
+.hero-crumb,
+.hero-crumb a {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.hero-crumb span {
+  color: var(--gold);
+}
+
+.hero-tag,
+.home-hero .hero-tag,
+.interior-hero .hero-tag,
+.contact-form .contact-eyebrow,
+.gestoria-service-eyebrow,
+.gestoria-service-card-tag,
+.reviews-eyebrow,
+.quienes-eyebrow,
+.titulo-card-kicker {
+  background: rgba(201, 166, 107, 0.12);
+  border: 1px solid rgba(201, 166, 107, 0.28);
+  color: var(--gold);
+}
+
+.section-header h2,
+.reviews-summary h2,
+.contact-form h3,
+.quienes-texto h3,
+.service-card-body h3,
+.market-card-body h3,
+.car-card h3,
+.prop-card h3,
+.titulo-card h3,
+.feature-item h4 {
+  color: var(--navy);
+  letter-spacing: 0;
+}
+
+.section-header h2 {
+  font-size: 40px;
+  font-weight: 700;
+  text-transform: none;
+}
+
+.section-gray,
+.reviews-home,
+.titulos-section,
+.seguro-cotizador-section,
+.filters-bar {
+  background: var(--cream);
+}
+
+.service-card,
+.market-card,
+.car-card,
+.prop-card,
+.review-card,
+.reviews-summary,
+.reviews-score,
+.contact-form,
+.gestoria-service-card-btn,
+.gestoria-service-detail,
+.gestoria-service-block,
+.titulo-card,
+.titulos-hero-panel,
+.quienes-credential,
+.services-empty-state,
+.transferencia-form-card,
+.seguro-cotizador-panel,
+.seguro-cotizador-controls,
+.seguro-cotizador-price-card,
+.seguro-cotizador-list,
+.seguro-option-card,
+.liderar-brand-card,
+.liderar-summary-card,
+.gestoria-service-highlight-card,
+.gestoria-service-faq-item {
+  background: #ffffff;
+  border-color: var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.service-card:hover,
+.market-card:hover,
+.car-card:hover,
+.prop-card:hover,
+.review-card:hover,
+.titulo-card:hover,
+.gestoria-service-detail:hover {
+  border-color: var(--navy-soft);
+  box-shadow: var(--shadow-md);
+}
+
+.service-card-body,
+.service-card-subtitle,
+.service-card-brand,
+.contact-item,
+.feature-item,
+.contact-section .contact-item {
+  background: #ffffff;
+}
+
+.service-card-brand {
+  border-color: rgba(201, 166, 107, 0.35);
+}
+
+.service-card-subtitle,
+.service-card-brand span,
+.section-link,
+.review-card-kicker,
+.quienes-credential-label,
+.titulo-card-kicker {
+  color: var(--navy);
+}
+
+.feature-item::before,
+.reviews-summary::before {
+  background: var(--gold);
+}
+
+.feature-icon,
+.contact-item-icon,
+.contact-section .contact-item-icon {
+  background: rgba(201, 166, 107, 0.12);
+  border-color: rgba(201, 166, 107, 0.26);
+  color: var(--navy);
+}
+
+.contact-section.section-dark,
+.section-dark:has(.features-grid) {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.contact-section .contact-info,
+.contact-info {
+  background:
+    radial-gradient(circle at 90% 0%, rgba(201, 166, 107, 0.16) 0%, rgba(201, 166, 107, 0) 28%),
+    linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+  border-color: rgba(201, 166, 107, 0.28);
+  color: #ffffff;
+  box-shadow: var(--shadow-md);
+}
+
+.contact-info h3,
+.contact-section .contact-info h3 {
+  color: #ffffff;
+}
+
+.contact-info .contact-intro,
+.contact-section .contact-intro,
+.contact-info .contact-item-text label,
+.contact-info .contact-item-text span,
+.contact-info .contact-item-text a {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.contact-info .contact-item,
+.contact-section .contact-info .contact-item {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.contact-info .contact-item-icon {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(201, 166, 107, 0.3);
+  color: var(--gold);
+}
+
+.contact-info .contact-eyebrow,
+.contact-section .contact-info .contact-eyebrow {
+  background: rgba(201, 166, 107, 0.14);
+  border: 1px solid rgba(201, 166, 107, 0.32);
+  color: var(--gold);
+}
+
+.gestoria-inmobiliaria-sale-cover,
+.gestoria-inmobiliaria-rental-cover,
+.seguro-brand-cover {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.gestoria-inmobiliaria-sale-cover {
+  background:
+    linear-gradient(180deg, rgba(14, 29, 56, 0.18) 0%, rgba(14, 29, 56, 0.56) 100%),
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 26%),
+    url('../img/services/inmuebles-cover.jpg');
+}
+
+.gestoria-inmobiliaria-rental-cover {
+  background:
+    linear-gradient(180deg, rgba(14, 29, 56, 0.18) 0%, rgba(14, 29, 56, 0.56) 100%),
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 26%),
+    url('../img/services/inmuebles-cover.jpg');
+}
+
+.seguro-brand-cover {
+  background:
+    linear-gradient(180deg, rgba(14, 29, 56, 0.2) 0%, rgba(14, 29, 56, 0.6) 100%),
+    radial-gradient(circle at 18% 18%, rgba(201, 166, 107, 0.18) 0%, rgba(201, 166, 107, 0) 26%),
+    url('../img/services/seguros-cover.jpg');
+}
+
+.seguro-brand-cover .transfer-quote-cover-content strong {
+  color: #ffffff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.3);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select,
+.contact-form .form-group input,
+.contact-form .form-group textarea {
+  border-color: var(--line);
+  border-radius: 4px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus,
+.contact-form .form-group input:focus,
+.contact-form .form-group textarea:focus {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(25, 47, 86, 0.1);
+}
+
+.footer,
+.section-dark {
+  background: var(--navy-deep);
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.footer-col h5 {
+  color: var(--gold);
+}
+
+.footer-col a:hover,
+.footer a:hover {
+  color: var(--gold);
+}
+
+.footer-brand .nav-logo-img {
+  height: 82px;
+  filter: brightness(0) invert(1);
+}
+
+.footer-brand .nav-logo-img-wrap {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  min-width: 0;
+  min-height: 0;
+  justify-content: flex-start;
+}
+
+@media (max-width: 768px) {
+  .home-hero h1,
+  .interior-hero h1,
+  .page-hero h1 {
+    font-size: 52px;
+  }
+
+  .section-header h2 {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 420px) {
+  .home-hero h1,
+  .interior-hero h1,
+  .page-hero h1 {
+    font-size: 44px;
+  }
+}
+
+/* Category heroes aligned with the brand system */
+.gestoria-hero,
+.market-page-hero {
+  background: var(--navy-deep);
+  border-bottom: 1px solid rgba(201, 166, 107, 0.22);
+}
+
+.gestoria-hero::before,
+.market-page-hero::before {
+  background:
+    radial-gradient(circle at 86% 0%, rgba(201, 166, 107, 0.18) 0%, rgba(201, 166, 107, 0) 28%),
+    radial-gradient(circle at 12% 16%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 30%),
+    linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+}
+
+.gestoria-hero::after,
+.market-page-hero::after {
+  background: linear-gradient(90deg, rgba(14, 29, 56, 0.94) 0%, rgba(25, 47, 86, 0.78) 52%, rgba(14, 29, 56, 0.36) 100%);
+}
+
+.gestoria-hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.gestoria-hero h1,
+.market-page-hero h1 {
+  font-family: var(--font-script);
+  font-size: 68px;
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: 0;
+  color: #ffffff;
+}
+
+.gestoria-hero p,
+.market-page-hero p {
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 660px;
+}
+
+.market-page-hero .breadcrumb {
+  background: rgba(201, 166, 107, 0.12);
+  border: 1px solid rgba(201, 166, 107, 0.28);
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.market-page-hero .breadcrumb a {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.market-page-hero .breadcrumb span {
+  color: var(--gold);
+}
+
+.market-hero-tags span,
+.gestoria-highlight-chip,
+.gestoria-tag {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(201, 166, 107, 0.28);
+  color: #ffffff;
+  box-shadow: none;
+}
+
+@media (max-width: 768px) {
+  .gestoria-hero h1,
+  .market-page-hero h1 {
+    font-size: 50px;
+  }
+}
+
+@media (max-width: 420px) {
+  .gestoria-hero h1,
+  .market-page-hero h1 {
+    font-size: 42px;
+  }
+}
+
+/* Final pass: readable generic page heroes and service highlights */
+.page-hero,
+.titulos-page-hero {
+  background: var(--navy-deep);
+  border-bottom: 1px solid rgba(201, 166, 107, 0.22);
+}
+
+.page-hero::before,
+.titulos-page-hero::before {
+  background:
+    radial-gradient(circle at 86% 0%, rgba(201, 166, 107, 0.18) 0%, rgba(201, 166, 107, 0) 28%),
+    radial-gradient(circle at 12% 16%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 30%),
+    linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+}
+
+.page-hero::after,
+.titulos-page-hero::after {
+  background: linear-gradient(90deg, rgba(14, 29, 56, 0.94) 0%, rgba(25, 47, 86, 0.78) 52%, rgba(14, 29, 56, 0.36) 100%);
+}
+
+.page-hero h1,
+.titulos-page-hero h1 {
+  color: #ffffff;
+}
+
+.page-hero p,
+.titulos-page-hero p {
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.page-hero .breadcrumb,
+.titulos-page-hero .breadcrumb {
+  background: rgba(201, 166, 107, 0.12);
+  border: 1px solid rgba(201, 166, 107, 0.28);
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.page-hero .breadcrumb a,
+.titulos-page-hero .breadcrumb a {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.page-hero .breadcrumb span,
+.titulos-page-hero .breadcrumb span {
+  color: var(--gold);
+}
+
+.gestoria-service-highlight-card {
+  display: grid;
+  align-content: start;
+  min-height: 112px;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+}
+
+.gestoria-service-highlight-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  background: rgba(201, 166, 107, 0.14);
+  border: 1px solid rgba(201, 166, 107, 0.32);
+  color: var(--navy);
+}
+
+.gestoria-service-highlight-icon--image {
+  background: rgba(201, 166, 107, 0.14);
+  box-shadow: none;
+}
+
+.gestoria-service-highlight-icon--image img {
+  width: 26px;
+  height: 26px;
+}
+
+.gestoria-service-highlight-label {
+  color: var(--navy);
+}
+
+.gestoria-service-highlight-value {
+  color: var(--ink);
+}
+
+.titulos-page-hero .titulos-hero-panel p {
+  color: var(--ink-soft);
 }
 

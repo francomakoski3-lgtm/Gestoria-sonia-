@@ -43,7 +43,7 @@ const reviewsCache = { data: null, expiresAt: 0, placeId: GOOGLE_PLACE_ID_ENV };
 const REVIEWS_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
 // Cache de geolocalización por IP (evita llamadas repetidas a ip-api.com)
-const geoCache = new Map(); // ip -> { country, city, region, cachedAt }
+const geoCache = new Map(); // ip -> datos de ubicacion y proveedor
 const GEO_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 días
 const SESSION_DAYS = 30;
 const MAX_BODY_SIZE = 30 * 1024 * 1024;
@@ -704,9 +704,10 @@ async function handleApi(req, res, url) {
     const body = await readJsonBody(req);
     const quote = normalizeTransferenciaQuoteInput(body);
     const quoteId = saveTransferenciaQuote(quote, ip, body);
+    const geo = await getGeoForIp(ip);
     sendGmailNotification(
       `Nueva cotizacion de transferencia #${quoteId} - ${quote.typeLabel} - ${quote.priceFormatted}`,
-      buildTransferenciaQuoteEmailHtml(quote, ip, body, quoteId)
+      buildTransferenciaQuoteEmailHtml(quote, ip, body, quoteId, geo)
     ).catch(err => console.error('[Gmail] Error inesperado:', err.message));
     sendJson(res, 200, { ok: true, quoteId });
     return;
@@ -1930,11 +1931,10 @@ function normalizeWhatsappNumber(value) {
 
 function buildTransferenciaClientContactMessage(quote, quoteId) {
   const lines = [
-    'Hola, vimos que hiciste una consulta en nuestra pagina web por una cotizacion de transferencia.',
+    'Hola, vimos que hiciste una consulta en nuestra pagina web https://gestoriasonia.ar por una cotizacion de transferencia.',
     `El precio de la cotizacion es: ${quote.includeBreakdown ? quote.totalFormatted : 'a confirmar con la documentacion'}.`,
     '',
     'Datos de tu consulta:',
-    `Cotizacion: #${quoteId}`,
     `Tipo: ${quote.typeLabel}`,
     `Domicilio del titular nuevo: ${quote.misionesLabel}`,
     `Precio de compra informado: ${quote.priceFormatted}`,
@@ -2063,27 +2063,83 @@ function getClientIp(req) {
 }
 
 async function getGeoForIp(ip) {
-  const empty = { country: null, city: null, region: null, lat: null, lon: null };
+  const empty = {
+    query: null,
+    country: null,
+    countryCode: null,
+    city: null,
+    region: null,
+    regionCode: null,
+    district: null,
+    zip: null,
+    lat: null,
+    lon: null,
+    timezone: null,
+    isp: null,
+    org: null,
+    as: null,
+    asname: null,
+    mobile: null,
+    proxy: null,
+    hosting: null
+  };
   if (!ip || ip === '::1' || ip === '127.0.0.1') return empty;
 
   const cached = geoCache.get(ip);
   if (cached && Date.now() - cached.cachedAt < GEO_CACHE_TTL_MS) {
-    return { country: cached.country, city: cached.city, region: cached.region, lat: cached.lat, lon: cached.lon };
+    return { ...empty, ...cached };
   }
 
   try {
-    const res = await fetch(`http://ip-api.com/json/${ip}?fields=country,city,regionName,lat,lon&lang=es`);
+    const fields = [
+      'status',
+      'message',
+      'query',
+      'country',
+      'countryCode',
+      'region',
+      'regionName',
+      'city',
+      'district',
+      'zip',
+      'lat',
+      'lon',
+      'timezone',
+      'isp',
+      'org',
+      'as',
+      'asname',
+      'mobile',
+      'proxy',
+      'hosting'
+    ].join(',');
+    const res = await fetch(`http://ip-api.com/json/${encodeURIComponent(ip)}?fields=${fields}&lang=es`);
     const data = await res.json();
+    if (data.status && data.status !== 'success') return empty;
+
     const geo = {
+      query: data.query || null,
       country: data.country || null,
+      countryCode: data.countryCode || null,
       city: data.city || null,
       region: data.regionName || null,
+      regionCode: data.region || null,
+      district: data.district || null,
+      zip: data.zip || null,
       lat: data.lat || null,
       lon: data.lon || null,
+      timezone: data.timezone || null,
+      isp: data.isp || null,
+      org: data.org || null,
+      as: data.as || null,
+      asname: data.asname || null,
+      mobile: typeof data.mobile === 'boolean' ? data.mobile : null,
+      proxy: typeof data.proxy === 'boolean' ? data.proxy : null,
+      hosting: typeof data.hosting === 'boolean' ? data.hosting : null,
       cachedAt: Date.now()
     };
     geoCache.set(ip, geo);
-    return geo;
+    return { ...empty, ...geo };
   } catch {
     return empty;
   }
@@ -2261,9 +2317,17 @@ function buildContactMessageEmailHtml(contactMessage, ip, messageId) {
 </body></html>`;
 }
 
-function buildTransferenciaQuoteEmailHtml(quote, ip, rawBody, quoteId) {
+function buildTransferenciaQuoteEmailHtml(quote, ip, rawBody, quoteId, geo = {}) {
   const now = new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
   const contactHref = buildWhatsappContactHref(quote.clientWhatsapp, buildTransferenciaClientContactMessage(quote, quoteId));
+  const coordinates = geo.lat !== null && geo.lat !== undefined && geo.lon !== null && geo.lon !== undefined
+    ? `${geo.lat}, ${geo.lon}`
+    : null;
+  const booleanLabel = value => {
+    if (value === true) return 'Si';
+    if (value === false) return 'No';
+    return 'No disponible';
+  };
 
   const mainRows = [
     ['ID de cotizacion', `#${quoteId}`],
@@ -2287,6 +2351,20 @@ function buildTransferenciaQuoteEmailHtml(quote, ip, rawBody, quoteId) {
 
   const techRows = [
     ['IP del cliente', ip || 'No disponible'],
+    ['IP consultada', geo.query || ip || 'No disponible'],
+    ['Ciudad', geo.city || 'No disponible'],
+    ['Region / provincia', geo.region || 'No disponible'],
+    ['Pais', [geo.country, geo.countryCode].filter(Boolean).join(' - ') || 'No disponible'],
+    ['Distrito / barrio', geo.district || 'No disponible'],
+    ['Codigo postal', geo.zip || 'No disponible'],
+    ['Coordenadas aproximadas', coordinates || 'No disponible'],
+    ['Zona horaria', geo.timezone || 'No disponible'],
+    ['Proveedor de internet', geo.isp || 'No disponible'],
+    ['Organizacion / red', geo.org || 'No disponible'],
+    ['ASN', [geo.as, geo.asname].filter(Boolean).join(' - ') || 'No disponible'],
+    ['Conexion movil', booleanLabel(geo.mobile)],
+    ['Proxy/VPN detectado', booleanLabel(geo.proxy)],
+    ['Hosting/datacenter detectado', booleanLabel(geo.hosting)],
     ['Fecha y hora', now],
   ];
 

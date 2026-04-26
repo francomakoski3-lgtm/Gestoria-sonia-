@@ -370,22 +370,23 @@ body.legal-page {
   .legal-page .section { padding: 32px 20px 48px; }
 }
 
-/* Identidad Gestoria Sonia */
+/* Brand kit Gestoria Sonia */
 body.legal-page {
-  background: #fffdfb;
-  color: #2f231d;
+  background: var(--cream);
+  color: var(--ink);
 }
 
 .legal-page-hero,
 .legal-card,
 .legal-hero-card,
 .legal-mini-card {
-  background: #fffdfb;
-  border-color: rgba(181,96,58,0.14);
+  background: #ffffff;
+  border-color: var(--line);
+  box-shadow: var(--shadow-sm);
 }
 
 .legal-page-hero {
-  border-top: 3px solid #b5603a;
+  border-top: 3px solid var(--gold);
 }
 
 .legal-hero-copy h1,
@@ -393,32 +394,65 @@ body.legal-page {
 .legal-list li,
 .legal-mini-card p,
 .legal-mini-card li {
-  color: #2f231d;
+  color: var(--ink);
 }
 
 .legal-eyebrow,
 .legal-hero-card h2,
 .legal-card h2,
 .legal-mini-card h3 {
-  color: #b5603a;
+  color: var(--navy);
+}
+
+.legal-hero-copy .breadcrumb,
+.legal-hero-copy > p,
+.legal-note p {
+  color: var(--ink-soft);
+}
+
+.legal-hero-copy .breadcrumb a,
+.legal-list a,
+.legal-card a,
+.legal-hero-card a {
+  color: var(--navy);
+  text-decoration-color: var(--gold);
+}
+
+.legal-hero-copy .breadcrumb a:hover,
+.legal-list a:hover,
+.legal-card a:hover,
+.legal-hero-card a:hover {
+  color: var(--navy-soft);
 }
 
 .legal-note {
-  background: #f5f1eb;
-  border-left-color: #b5603a;
+  background: rgba(245, 241, 232, 0.72);
+  border-left-color: var(--gold);
 }
 
 .legal-cta-row .btn-primary,
 .legal-cta-row .btn-dark {
-  background: #2e7d33;
-  border-color: #2e7d33;
+  background: var(--navy);
+  border-color: var(--navy);
   color: #ffffff;
 }
 
 .legal-cta-row .btn-primary:hover,
 .legal-cta-row .btn-dark:hover {
-  background: #25662a;
-  border-color: #25662a;
+  background: var(--navy-deep);
+  border-color: var(--navy-deep);
+}
+
+.legal-cta-row .btn-secondary {
+  background: #ffffff;
+  color: var(--navy);
+  border-color: var(--navy);
+}
+
+.legal-cta-row .btn-secondary:hover {
+  background: var(--navy);
+  color: #ffffff;
+  border-color: var(--navy);
 }
 
 .legal-card input[type="text"],
@@ -426,13 +460,14 @@ body.legal-page {
 .legal-card input[type="tel"],
 .legal-card input[type="date"],
 .legal-card textarea {
-  background: #fcfaf7;
-  border-color: rgba(47,35,29,0.14);
-  color: #2f231d;
+  background: #ffffff;
+  border-color: var(--line);
+  color: var(--ink);
 }
 
 .legal-card input:focus,
 .legal-card textarea:focus {
-  border-color: #b5603a;
-  background: #fffdfb;
+  border-color: var(--navy);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(25, 47, 86, 0.1);
 }

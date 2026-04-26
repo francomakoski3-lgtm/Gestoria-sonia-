@@ -1,21 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 :root {
-  --bg: #fffdfb;
-  --bg-soft: #fcfaf7;
-  --surface: rgba(255, 253, 251, 0.94);
+  --bg: #ffffff;
+  --bg-soft: #f5f1e8;
+  --surface: rgba(255, 255, 255, 0.96);
   --surface-strong: #ffffff;
-  --stroke: rgba(47, 35, 29, 0.12);
-  --stroke-strong: rgba(47, 35, 29, 0.2);
-  --text: #2f231d;
-  --muted: #756457;
-  --accent: #b5603a;
-  --accent-dark: #8f482b;
-  --accent-soft: rgba(181, 96, 58, 0.12);
-  --green: #2e7d33;
-  --green-dark: #25662a;
-  --shadow: 0 24px 80px rgba(47, 35, 29, 0.10);
+  --stroke: rgba(216, 210, 194, 0.9);
+  --stroke-strong: rgba(25, 47, 86, 0.22);
+  --text: #1a1a1a;
+  --muted: #4a4a4a;
+  --accent: #192f56;
+  --accent-dark: #0e1d38;
+  --accent-soft: rgba(201, 166, 107, 0.14);
+  --green: #192f56;
+  --green-dark: #0e1d38;
+  --gold: #c9a66b;
+  --shadow: 0 12px 32px rgba(25, 47, 86, 0.12);
   --radius: 8px;
   --radius-sm: 8px;
-  --font: "Montserrat", "Segoe UI", sans-serif;
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-script: "Kaushan Script", "Brush Script MT", cursive;
 }
 
 * {
@@ -32,7 +36,7 @@ body {
   font-family: var(--font);
   color: var(--text);
   background:
-    linear-gradient(180deg, #fffdfb 0%, var(--bg-soft) 100%);
+    linear-gradient(180deg, #ffffff 0%, var(--bg-soft) 100%);
 }
 
 button,
@@ -1741,4 +1745,126 @@ body.cp-mode .info-status-dot {
 }
 .service-toggle-row input:disabled + .service-switch {
   opacity: 0.6;
+}
+
+/* Brand kit Gestoria Sonia */
+.login-copy {
+  background:
+    radial-gradient(circle at 88% 0%, rgba(201, 166, 107, 0.16) 0%, rgba(201, 166, 107, 0) 30%),
+    linear-gradient(160deg, #192f56 0%, #0e1d38 100%);
+  color: #ffffff;
+}
+
+.login-copy .eyebrow,
+.eyebrow,
+.toolbar-title span,
+.modal-eyebrow,
+.form-card .eyebrow,
+.preview-kicker,
+.recipient-label-tag {
+  color: var(--gold);
+}
+
+.login-copy p,
+.login-points {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.login-card,
+.admin-card,
+.stat-card,
+.modal-card,
+.form-card,
+.gallery-item,
+.preview-card,
+.service-panel,
+.service-toggle-row {
+  border-color: var(--stroke);
+  box-shadow: var(--shadow);
+}
+
+.login-form,
+.admin-card,
+.stat-card,
+.modal-card,
+.form-card,
+.preview-card {
+  background: var(--surface);
+}
+
+.login-copy h1 {
+  font-family: var(--font-script);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.dashboard-topbar h1,
+.card-head h2,
+.login-form h2,
+.modal-card h2,
+.form-card h2 {
+  color: var(--accent);
+}
+
+.btn-primary,
+.save-button,
+.modal-primary,
+.submit-button,
+.add-button,
+.publish-button {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.btn-primary:hover,
+.save-button:hover,
+.modal-primary:hover,
+.submit-button:hover,
+.add-button:hover,
+.publish-button:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+}
+
+.btn-secondary,
+.user-chip,
+.modal-secondary,
+.ghost-button {
+  background: #ffffff;
+  border-color: var(--stroke-strong);
+  color: var(--accent);
+}
+
+.btn-secondary:hover,
+.user-chip:hover,
+.modal-secondary:hover,
+.ghost-button:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+.recipient-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(25, 47, 86, 0.1);
+  outline: none;
+}
+
+.status-pill,
+.type-badge,
+.vehicle-type-pill {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.empty-state,
+.hint-box,
+.admin-note {
+  background: var(--bg-soft);
+  border-color: var(--stroke);
+  color: var(--muted);
 }
