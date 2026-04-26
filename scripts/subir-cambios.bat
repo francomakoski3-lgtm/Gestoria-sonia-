@@ -8,7 +8,7 @@ echo    GESTORIA SONIA  -  Subir cambios
 echo ============================================
 echo.
 
-echo Revisando si hay cambios visuales para actualizar cache...
+echo Revisando cache de CSS, JS, fotos e iconos...
 node scripts\cache-bust.js
 if errorlevel 1 (
     echo.
