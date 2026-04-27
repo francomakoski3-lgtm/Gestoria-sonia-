@@ -1180,7 +1180,7 @@ button { cursor: pointer; font-family: var(--font); }
   background:
     linear-gradient(180deg, rgba(10,8,7,0.18) 0%, rgba(10,8,7,0.42) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/transferencia-cover.png?v=20260427-215721');
+    url('../img/services/transferencia-cover.png?v=20260427-224002');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1248,7 +1248,7 @@ button { cursor: pointer; font-family: var(--font); }
   background:
     linear-gradient(180deg, rgba(10,8,7,0.18) 0%, rgba(10,8,7,0.42) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/informes-cover.png?v=20260427-215721');
+    url('../img/services/informes-cover.png?v=20260427-224002');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1271,7 +1271,7 @@ button { cursor: pointer; font-family: var(--font); }
   background:
     linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.38) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/denuncia-venta-cover.png?v=20260427-215721');
+    url('../img/services/denuncia-venta-cover.png?v=20260427-224002');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1280,7 +1280,7 @@ button { cursor: pointer; font-family: var(--font); }
   background:
     linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.36) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/cedula-titulo-cover.png?v=20260427-215721');
+    url('../img/services/cedula-titulo-cover.png?v=20260427-224002');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1289,7 +1289,7 @@ button { cursor: pointer; font-family: var(--font); }
   background:
     linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.34) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/inscripcion-0km-cover.png?v=20260427-215721');
+    url('../img/services/inscripcion-0km-cover.png?v=20260427-224002');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1298,7 +1298,7 @@ button { cursor: pointer; font-family: var(--font); }
   background:
     linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.38) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/prendas-registrales-cover.png?v=20260427-215721');
+    url('../img/services/prendas-registrales-cover.png?v=20260427-224002');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1307,7 +1307,7 @@ button { cursor: pointer; font-family: var(--font); }
   background:
     linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.36) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/asesoramiento-cover.png?v=20260427-215721');
+    url('../img/services/asesoramiento-cover.png?v=20260427-224002');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -6375,21 +6375,21 @@ a:hover {
   background:
     linear-gradient(180deg, rgba(14, 29, 56, 0.18) 0%, rgba(14, 29, 56, 0.56) 100%),
     radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 26%),
-    url('../img/services/inmuebles-cover.jpg?v=20260427-215721');
+    url('../img/services/inmuebles-cover.jpg?v=20260427-224002');
 }
 
 .gestoria-inmobiliaria-rental-cover {
   background:
     linear-gradient(180deg, rgba(14, 29, 56, 0.18) 0%, rgba(14, 29, 56, 0.56) 100%),
     radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 26%),
-    url('../img/services/inmuebles-cover.jpg?v=20260427-215721');
+    url('../img/services/inmuebles-cover.jpg?v=20260427-224002');
 }
 
 .seguro-brand-cover {
   background:
     linear-gradient(180deg, rgba(14, 29, 56, 0.2) 0%, rgba(14, 29, 56, 0.6) 100%),
     radial-gradient(circle at 18% 18%, rgba(201, 166, 107, 0.18) 0%, rgba(201, 166, 107, 0) 26%),
-    url('../img/services/seguros-cover.jpg?v=20260427-215721');
+    url('../img/services/seguros-cover.jpg?v=20260427-224002');
 }
 
 .seguro-brand-cover .transfer-quote-cover-content strong {

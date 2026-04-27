@@ -7,6 +7,20 @@ const cache = {
   serviceSettingsPromise: null
 };
 
+const GESTORIA_PAYMENT_LOGOS = [
+  'img/payment/payment-1.png',
+  'img/payment/payment-mastercard.png',
+  'img/payment/payment-visa.png',
+  'img/payment/payment-american-express.png',
+  'img/payment/payment-naranja.png',
+  'img/payment/payment-pagofacil.png',
+  'img/payment/payment-rapipago.png',
+  'img/payment/payment-2.png',
+  'img/payment/payment-5.png',
+  'img/payment/payment-btc.svg',
+  'img/payment/payment-usdt.svg'
+];
+
 const GESTORIA_SERVICE_DETAILS = {
   transferencias: {
     documentTitle: 'Transferencia automotor en Argentina',
@@ -78,7 +92,7 @@ const GESTORIA_SERVICE_DETAILS = {
     ],
     ctaLabel: 'Consultar por WhatsApp',
     ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20una%20transferencia%20de%20auto%20o%20moto.',
-    secondaryLabel: 'Iniciar tr&aacute;mite',
+    secondaryLabel: 'Consulta gratis',
     secondaryHref: 'cotizar-transferencia',
     secondaryClass: 'btn-service-start',
     hidePrimaryCta: true,
@@ -105,7 +119,7 @@ const GESTORIA_SERVICE_DETAILS = {
       },
       {
         iconImg: 'img/services/bandera-argentina.png',
-        iconAlt: 'Bandera argentina',
+        iconAlt: 'Bandera Argentina',
         label: 'Cobertura',
         value: 'Nacional'
       },
@@ -202,18 +216,26 @@ const GESTORIA_SERVICE_DETAILS = {
     summary: 'La denuncia de venta es un tr&aacute;mite mediante el cual el titular informa al Registro del Automotor que ya no se encuentra en posesi&oacute;n del veh&iacute;culo.',
     highlights: [
       {
+        iconImg: 'img/services/Clock.png',
+        iconAlt: 'Reloj',
         label: 'Tiempo estimado',
         value: '24 horas h&aacute;biles'
       },
       {
+        iconImg: 'img/services/informe-online.png',
+        iconAlt: 'Tr&aacute;mite online',
         label: 'Modalidad',
         value: 'Tr&aacute;mite 100% online'
       },
       {
+        iconImg: 'img/services/bandera-argentina.png',
+        iconAlt: 'Bandera Argentina',
         label: 'Cobertura',
-        value: 'Todo argentina'
+        value: 'Todo Argentina'
       },
       {
+        iconImg: 'img/services/informe-trust.png',
+        iconAlt: 'Protecci&oacute;n legal',
         label: 'Beneficio clave',
         value: 'Te desvincula legalmente del veh&iacute;culo'
       }
@@ -226,10 +248,12 @@ const GESTORIA_SERVICE_DETAILS = {
           'Evita futuras responsabilidades civiles.',
           'Te protege ante multas, infracciones o siniestros.'
         ],
+        listStyle: 'dashes',
         note: 'Una vez realizada, dej&aacute;s constancia formal de que el veh&iacute;culo fue entregado a un tercero.'
       },
       {
         title: '&iquest;Qu&eacute; datos necesito?',
+        listStyle: 'dashes',
         groups: [
           {
             title: 'Datos del comprador',
@@ -265,22 +289,29 @@ const GESTORIA_SERVICE_DETAILS = {
         items: [
           'El tr&aacute;mite debe hacerlo el titular registral del veh&iacute;culo.'
         ],
-        listStyle: 'checks'
+        listStyle: 'dashes'
       },
       {
         title: 'Costo',
         prices: [
-          { label: 'Moto', value: '$50.000' },
-          { label: 'Auto', value: '$70.000' }
+          { label: 'Auto', value: '$70.000', iconImg: 'img/services/coche.svg', iconAlt: 'Auto' },
+          { label: 'Moto', value: '$50.000', iconImg: 'img/services/moto.svg', iconAlt: 'Moto' }
         ]
       },
       {
         title: 'Medios de pago',
-        paymentMethods: [
-          { type: 'mercado-pago', label: 'Mercado Pago' },
-          { type: 'transfer', label: 'Transferencia bancaria' },
-          { type: 'card', label: 'Tarjetas' },
-          { type: 'cash', label: 'Efectivo' }
+        paymentLogos: [
+          'img/payment/payment-1.png',
+          'img/payment/payment-mastercard.png',
+          'img/payment/payment-visa.png',
+          'img/payment/payment-american-express.png',
+          'img/payment/payment-naranja.png',
+          'img/payment/payment-pagofacil.png',
+          'img/payment/payment-rapipago.png',
+          'img/payment/payment-2.png',
+          'img/payment/payment-5.png',
+          'img/payment/payment-btc.svg',
+          'img/payment/payment-usdt.svg'
         ]
       }
     ],
@@ -348,6 +379,10 @@ const GESTORIA_SERVICE_DETAILS = {
           'Evitar problemas legales o administrativos.'
         ],
         note: 'Contar con la documentaci&oacute;n actualizada es fundamental.'
+      },
+      {
+        title: 'Medios de pago',
+        paymentLogos: GESTORIA_PAYMENT_LOGOS
       }
     ],
     ctaLabel: 'Iniciar tu tr&aacute;mite',
@@ -426,12 +461,7 @@ const GESTORIA_SERVICE_DETAILS = {
       },
       {
         title: 'Medios de pago',
-        paymentMethods: [
-          { type: 'mercado-pago', label: 'Mercado Pago' },
-          { type: 'transfer', label: 'Transferencia bancaria' },
-          { type: 'card', label: 'Tarjetas' },
-          { type: 'cash', label: 'Efectivo' }
-        ]
+        paymentLogos: GESTORIA_PAYMENT_LOGOS
       }
     ],
     ctaLabel: 'Iniciar tu tr&aacute;mite',
@@ -509,6 +539,10 @@ const GESTORIA_SERVICE_DETAILS = {
           'Es clave realizarlo correctamente para evitar inconvenientes legales.'
         ],
         note: 'Cada tr&aacute;mite debe evaluarse de manera particular antes de avanzar.'
+      },
+      {
+        title: 'Medios de pago',
+        paymentLogos: GESTORIA_PAYMENT_LOGOS
       }
     ],
     ctaLabel: 'Iniciar tu tr&aacute;mite',
@@ -522,20 +556,28 @@ const GESTORIA_SERVICE_DETAILS = {
     summary: 'Brindamos asesoramiento personalizado en tr&aacute;mites del automotor, adaptado a cada situaci&oacute;n en particular, para que tomes decisiones seguras y sin riesgos.',
     highlights: [
       {
+        iconImg: 'img/services/informe-papers.png',
+        iconAlt: 'An&aacute;lisis documental',
         label: 'An&aacute;lisis',
         value: 'Caso 100% personalizado'
       },
       {
+        iconImg: 'img/services/informe-trust.png',
+        iconAlt: 'Compra y venta segura',
         label: 'Enfoque',
         value: 'Compra y venta segura'
       },
       {
+        iconImg: 'img/services/informe-online.png',
+        iconAlt: 'Atenci&oacute;n online',
         label: 'Modalidad',
         value: 'Online o presencial'
       },
       {
-        label: 'Consulta',
-        value: '$20.000'
+        iconImg: 'img/services/bandera-argentina.png',
+        iconAlt: 'Bandera Argentina',
+        label: 'Cobertura',
+        value: 'Todo Argentina'
       }
     ],
     detailSections: [
@@ -549,6 +591,7 @@ const GESTORIA_SERVICE_DETAILS = {
           'Si es aconsejable o no una compra.',
           'C&oacute;mo realizar una venta correctamente.'
         ],
+        listStyle: 'dashes',
         note: 'Cada caso es distinto, por eso el an&aacute;lisis es 100% personalizado.'
       },
       {
@@ -557,6 +600,7 @@ const GESTORIA_SERVICE_DETAILS = {
           'Toda la documentaci&oacute;n disponible del veh&iacute;culo.',
           'O la mayor cantidad de informaci&oacute;n posible.'
         ],
+        listStyle: 'dashes',
         note: 'Esto nos permite evaluar con precisi&oacute;n y brindarte la mejor soluci&oacute;n.'
       },
       {
@@ -566,7 +610,8 @@ const GESTORIA_SERVICE_DETAILS = {
           'Personas que quieren vender y desvincularse correctamente.',
           'Quienes tengan dudas legales o administrativas.',
           'Personas que no saben qu&eacute; documentaci&oacute;n exigir o presentar.'
-        ]
+        ],
+        listStyle: 'dashes'
       },
       {
         title: 'Modalidad',
@@ -574,7 +619,7 @@ const GESTORIA_SERVICE_DETAILS = {
           'Online.',
           'Presencial en oficina.'
         ],
-        listStyle: 'checks'
+        listStyle: 'dashes'
       },
       {
         title: 'Importante',
@@ -584,6 +629,7 @@ const GESTORIA_SERVICE_DETAILS = {
           'Ahorrarte dinero.',
           'Garantizar una operaci&oacute;n segura.'
         ],
+        listStyle: 'dashes',
         note: 'Un buen asesoramiento previo puede marcar la diferencia antes de avanzar.'
       },
       {
@@ -594,16 +640,26 @@ const GESTORIA_SERVICE_DETAILS = {
       },
       {
         title: 'Medios de pago',
-        paymentMethods: [
-          { type: 'mercado-pago', label: 'Mercado Pago' },
-          { type: 'transfer', label: 'Transferencia bancaria' },
-          { type: 'card', label: 'Tarjetas' },
-          { type: 'cash', label: 'Efectivo' }
+        paymentLogos: [
+          'img/payment/payment-1.png',
+          'img/payment/payment-mastercard.png',
+          'img/payment/payment-visa.png',
+          'img/payment/payment-american-express.png',
+          'img/payment/payment-naranja.png',
+          'img/payment/payment-pagofacil.png',
+          'img/payment/payment-rapipago.png',
+          'img/payment/payment-2.png',
+          'img/payment/payment-5.png',
+          'img/payment/payment-btc.svg',
+          'img/payment/payment-usdt.svg'
         ]
       }
     ],
-    ctaLabel: 'Agenda asesoramiento',
-    ctaHref: 'https://wa.me/543743668039?text=Hola,%20necesito%20asesoramiento%20para%20saber%20que%20tramite%20del%20automotor%20corresponde%20en%20mi%20caso.'
+    ctaLabel: 'Consulta presencial',
+    ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20hacer%20una%20consulta%20presencial%20por%20asesoramiento%20del%20automotor.',
+    secondaryLabel: 'Consulta online',
+    secondaryHref: 'agendar-cita',
+    secondaryButtonClass: 'btn-secondary'
   },
   'boleto-compra-venta': {
     documentTitle: 'Boleto de compra venta de inmuebles',
@@ -1926,10 +1982,11 @@ function renderGestoriaServiceDetail(service) {
   const secondaryLabelMarkup = secondaryLabelText;
   const secondaryActionClass = '';
   const secondaryVisualClass = service.secondaryClass ? ` ${service.secondaryClass}` : '';
+  const secondaryButtonClass = service.secondaryButtonClass || 'btn-dark';
   const secondaryLinkAttrs = service.secondaryTargetBlank ? ' target="_blank" rel="noopener"' : '';
   const calculatorActionMarkup = service.includeCalculator
-    ? `<button type="button" class="btn btn-dark${secondaryVisualClass}${secondaryActionClass}" data-transfer-calculator-toggle aria-expanded="false" aria-controls="service-transfer-calculator">${secondaryLabelMarkup}</button>`
-    : (service.secondaryHref ? `<a href="${service.secondaryHref}"${secondaryLinkAttrs} class="btn btn-dark${secondaryVisualClass}${secondaryActionClass}">${secondaryLabelMarkup}</a>` : '');
+    ? `<button type="button" class="btn ${secondaryButtonClass}${secondaryVisualClass}${secondaryActionClass}" data-transfer-calculator-toggle aria-expanded="false" aria-controls="service-transfer-calculator">${secondaryLabelMarkup}</button>`
+    : (service.secondaryHref ? `<a href="${service.secondaryHref}"${secondaryLinkAttrs} class="btn ${secondaryButtonClass}${secondaryVisualClass}${secondaryActionClass}">${secondaryLabelMarkup}</a>` : '');
   const ctaHasAnimatedHand = false;
   const ctaLabelMarkup = service.ctaLabel;
   const primaryCtaMarkup = service.domainConsultation
@@ -1938,8 +1995,8 @@ function renderGestoriaServiceDetail(service) {
 
   const ctaMarkup = `
     <div class="gestoria-service-actions">
-      ${calculatorActionMarkup}
       ${service.hidePrimaryCta ? '' : primaryCtaMarkup}
+      ${calculatorActionMarkup}
     </div>
   `;
   const domainConsultationMarkup = service.domainConsultation ? renderDomainConsultationModal() : '';
@@ -2134,7 +2191,7 @@ function renderGestoriaServiceSection(section) {
         ${section.groups.map(group => `
           <div class="gestoria-service-group-card">
             <h5>${group.title}</h5>
-            ${renderGestoriaServiceList(group.items)}
+            ${renderGestoriaServiceList(group.items, group.listStyle || section.listStyle)}
           </div>
         `).join('')}
       </div>
