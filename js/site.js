@@ -92,29 +92,33 @@ const GESTORIA_SERVICE_DETAILS = {
     summary: 'Pod&eacute;s solicitar el informe de dominio hist&oacute;rico o el informe de dominio actual para conocer la trayectoria registral completa o la situaci&oacute;n vigente del veh&iacute;culo.',
     highlights: [
       {
-        icon: '&#x1F4C4;',
+        iconImg: 'img/services/informe-papers.png',
+        iconAlt: 'Papeles de informe',
         label: 'Tipos de informe',
         value: 'Hist&oacute;rico y actual'
       },
       {
-        icon: '&#x1F6AA;',
-        label: 'Dato necesario',
-        value: 'Dominio o chapa patente'
+        iconImg: 'img/services/informe-online.png',
+        iconAlt: 'Tr&aacute;mite online',
+        label: 'Modalidad',
+        value: 'Online'
       },
       {
-        icon: '&#x1F464;',
-        label: 'Qui&eacute;n puede pedirlo',
-        value: 'Cualquier persona'
+        iconImg: 'img/services/bandera-argentina.png',
+        iconAlt: 'Bandera argentina',
+        label: 'Cobertura',
+        value: 'Nacional'
       },
       {
-        icon: '&#x2705;',
-        label: 'Uso clave',
-        value: 'Compra o venta de buena fe'
+        iconImg: 'img/services/Clock.png',
+        iconAlt: 'Reloj',
+        label: 'Tiempo estimado',
+        value: '1 d&iacute;a h&aacute;bil'
       }
     ],
     detailSections: [
       {
-        title: '&#x1F4C4; Informe de dominio hist&oacute;rico',
+        title: 'Informe de dominio hist&oacute;rico',
         text: 'El informe de dominio hist&oacute;rico permite conocer toda la trayectoria registral de un veh&iacute;culo desde su inscripci&oacute;n inicial hasta la actualidad.',
         items: [
           'Todos los titulares que tuvo el veh&iacute;culo.',
@@ -122,64 +126,73 @@ const GESTORIA_SERVICE_DETAILS = {
           'Cambios de radicaci&oacute;n.',
           'Prendas, embargos u otras medidas.',
           'Datos completos desde el origen del automotor.'
-        ]
+        ],
+        listStyle: 'dashes'
       },
       {
-        title: '&#x1F50E; &iquest;Para qu&eacute; sirve el hist&oacute;rico?',
+        title: '&iquest;Para qu&eacute; sirve el hist&oacute;rico?',
         items: [
           'Realizar altas y bajas municipales correctamente.',
           'Verificar la situaci&oacute;n del veh&iacute;culo respecto al pago de patentes.',
           'Analizar el historial completo antes de tomar decisiones importantes.'
-        ]
+        ],
+        listStyle: 'dashes'
       },
       {
-        title: '&#x1F4C4; Informe de dominio actual',
-        text: 'El informe de dominio brinda la situaci&oacute;n actual del veh&iacute;culo.',
+        title: '&iquest;Qu&eacute; incluye este informe?',
+        text: 'El informe de dominio es totalmente online, se solicita con el n&uacute;mero de dominio y permite conocer la situaci&oacute;n actual del veh&iacute;culo.',
         items: [
-          'Titular vigente.',
-          'Estado jur&iacute;dico actual, como embargos, prendas e inhibiciones.',
-          'Datos registrales actualizados.'
-        ]
+          'Identificaci&oacute;n del veh&iacute;culo: n&uacute;mero de chasis, n&uacute;mero de motor, modelo y a&ntilde;o.',
+          'Origen registral: si el veh&iacute;culo es nacional o importado y fecha de inscripci&oacute;n inicial.',
+          'Titular vigente: nombre completo, DNI, CUIL y domicilio del titular actual.',
+          'Estado registral actualizado: datos vigentes del dominio y situaci&oacute;n jur&iacute;dica actual.',
+          'Medidas o restricciones: denuncia de venta, prohibici&oacute;n para circular, prenda, embargo o inhibici&oacute;n, si existen.',
+          'Conclusi&oacute;n pr&aacute;ctica: permite evaluar si el veh&iacute;culo est&aacute; en condiciones legales para transferirse.'
+        ],
+        listStyle: 'numbered'
       },
       {
-        title: '&#x1F50E; &iquest;Para qu&eacute; sirve el actual?',
+        title: '&iquest;Para qu&eacute; sirve el actual?',
         items: [
           'Compra o venta de buena fe.',
           'Verificar que el veh&iacute;culo est&eacute; en condiciones legales para transferir.'
-        ]
+        ],
+        listStyle: 'dashes'
       },
       {
-        title: '&#x1F4DD; &iquest;Qu&eacute; necesit&aacute;s?',
+        title: '&iquest;Qu&eacute; necesit&aacute;s?',
         items: [
           'N&uacute;mero de dominio o chapa patente.'
         ],
-        listStyle: 'checks'
+        listStyle: 'dashes'
       },
       {
-        title: '&#x1F464; &iquest;Qui&eacute;n puede solicitarlo?',
-        items: [
-          'Cualquier persona.'
-        ],
-        listStyle: 'checks'
-      },
-      {
-        title: '&#x1F4B0; Valor',
+        title: 'Valor',
         prices: [
-          { label: 'Informe', value: '$30.000' }
+          { label: 'Auto', value: '$30.000', iconImg: 'img/services/coche.svg', iconAlt: 'Auto' },
+          { label: 'Moto', value: '$25.000', iconImg: 'img/services/moto.svg', iconAlt: 'Moto' }
         ]
       },
       {
-        title: '&#x1F4B3; Medios de pago',
-        paymentMethods: [
-          { type: 'mercado-pago', label: 'Mercado Pago' },
-          { type: 'transfer', label: 'Transferencia bancaria' },
-          { type: 'card', label: 'Tarjetas' },
-          { type: 'cash', label: 'Efectivo' }
+        title: 'Medios de pago',
+        paymentLogos: [
+          'img/payment/payment-1.png',
+          'img/payment/payment-mastercard.png',
+          'img/payment/payment-visa.png',
+          'img/payment/payment-american-express.png',
+          'img/payment/payment-naranja.png',
+          'img/payment/payment-pagofacil.png',
+          'img/payment/payment-rapipago.png',
+          'img/payment/payment-2.png',
+          'img/payment/payment-5.png',
+          'img/payment/payment-btc.svg',
+          'img/payment/payment-usdt.svg'
         ]
       }
     ],
-    ctaLabel: 'Solicitar informe',
-    ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20un%20informe%20de%20dominio%20hist%C3%B3rico%20o%20actual.'
+    ctaLabel: 'Consulta gratis',
+    ctaHref: 'https://wa.me/543743668039?text=Hola,%20quiero%20consultar%20por%20un%20informe%20de%20dominio%20hist%C3%B3rico%20o%20actual.',
+    domainConsultation: true
   },
   'denuncia-venta': {
     documentTitle: 'Denuncia de venta',
@@ -189,29 +202,25 @@ const GESTORIA_SERVICE_DETAILS = {
     summary: 'La denuncia de venta es un tr&aacute;mite mediante el cual el titular informa al Registro del Automotor que ya no se encuentra en posesi&oacute;n del veh&iacute;culo.',
     highlights: [
       {
-        icon: '&#x26A1;',
         label: 'Tiempo estimado',
         value: '24 horas h&aacute;biles'
       },
       {
-        icon: '&#x1F4BB;',
         label: 'Modalidad',
         value: 'Tr&aacute;mite 100% online'
       },
       {
-        icon: '&#x1F30E;',
         label: 'Cobertura',
-        value: 'Todo argentina&#x1F1E6;&#x1F1F7;'
+        value: 'Todo argentina'
       },
       {
-        icon: '&#x1F6E1;&#xFE0F;',
         label: 'Beneficio clave',
         value: 'Te desvincula legalmente del veh&iacute;culo'
       }
     ],
     detailSections: [
       {
-        title: '&#x1F4CC; &iquest;Para qu&eacute; sirve?',
+        title: '&iquest;Para qu&eacute; sirve?',
         items: [
           'Te desvincula legalmente del veh&iacute;culo.',
           'Evita futuras responsabilidades civiles.',
@@ -220,7 +229,7 @@ const GESTORIA_SERVICE_DETAILS = {
         note: 'Una vez realizada, dej&aacute;s constancia formal de que el veh&iacute;culo fue entregado a un tercero.'
       },
       {
-        title: '&#x1F4DD; &iquest;Qu&eacute; datos necesito?',
+        title: '&iquest;Qu&eacute; datos necesito?',
         groups: [
           {
             title: 'Datos del comprador',
@@ -247,26 +256,26 @@ const GESTORIA_SERVICE_DETAILS = {
         ]
       },
       {
-        title: '&#x26A0;&#xFE0F; Importante',
+        title: 'Importante',
         tone: 'warning',
         text: 'Es muy importante realizar este tr&aacute;mite de forma inmediata luego de entregar el veh&iacute;culo, para evitar cualquier tipo de responsabilidad futura.'
       },
       {
-        title: '&#x1F464; &iquest;Qui&eacute;n debe realizarla?',
+        title: '&iquest;Qui&eacute;n debe realizarla?',
         items: [
           'El tr&aacute;mite debe hacerlo el titular registral del veh&iacute;culo.'
         ],
         listStyle: 'checks'
       },
       {
-        title: '&#x1F4B0; Costo',
+        title: 'Costo',
         prices: [
-          { label: '&#x1F6F5; Moto', value: '$50.000' },
-          { label: '&#x1F697; Auto', value: '$70.000' }
+          { label: 'Moto', value: '$50.000' },
+          { label: 'Auto', value: '$70.000' }
         ]
       },
       {
-        title: '&#x1F4B3; Medios de pago',
+        title: 'Medios de pago',
         paymentMethods: [
           { type: 'mercado-pago', label: 'Mercado Pago' },
           { type: 'transfer', label: 'Transferencia bancaria' },
@@ -286,29 +295,25 @@ const GESTORIA_SERVICE_DETAILS = {
     summary: 'Actualmente, el Registro del Automotor emite tanto la c&eacute;dula como el t&iacute;tulo del veh&iacute;culo en formato digital, facilitando su acceso y disponibilidad en todo momento.',
     highlights: [
       {
-        icon: '&#x1F4F1;',
         label: 'Formato actual',
         value: 'Documentaci&oacute;n digital'
       },
       {
-        icon: '&#x1F4C4;',
         label: 'Tr&aacute;mites disponibles',
         value: 'C&eacute;dula y t&iacute;tulo'
       },
       {
-        icon: '&#x1F6AA;',
         label: 'Dato necesario',
         value: 'Dominio o patente'
       },
       {
-        icon: '&#x2705;',
         label: 'Uso clave',
         value: 'Circular legalmente'
       }
     ],
     detailSections: [
       {
-        title: '&#x1F4F1; C&eacute;dula del automotor',
+        title: 'C&eacute;dula del automotor',
         text: 'La c&eacute;dula acredita la habilitaci&oacute;n para circular con el veh&iacute;culo.',
         items: [
           'Tenerla siempre disponible en la app <a href="https://www.argentina.gob.ar/aplicaciones/mi-argentina" target="_blank" rel="noopener" class="gestoria-service-link">Mi Argentina</a>.',
@@ -317,7 +322,7 @@ const GESTORIA_SERVICE_DETAILS = {
         note: 'Es un documento indispensable para circular legalmente.'
       },
       {
-        title: '&#x1F4D1; T&iacute;tulo del automotor',
+        title: 'T&iacute;tulo del automotor',
         text: 'El t&iacute;tulo acredita la titularidad del veh&iacute;culo.',
         items: [
           'Solicitar duplicado de t&iacute;tulo.',
@@ -326,7 +331,7 @@ const GESTORIA_SERVICE_DETAILS = {
         ]
       },
       {
-        title: '&#x1F4DD; &iquest;Qu&eacute; necesit&aacute;s para realizar estos tr&aacute;mites?',
+        title: '&iquest;Qu&eacute; necesit&aacute;s para realizar estos tr&aacute;mites?',
         items: [
           'DNI del titular.',
           'Datos del veh&iacute;culo, como dominio o patente.',
@@ -335,7 +340,7 @@ const GESTORIA_SERVICE_DETAILS = {
         ]
       },
       {
-        title: '&#x26A0;&#xFE0F; Importante',
+        title: 'Importante',
         tone: 'warning',
         items: [
           'Circular sin inconvenientes.',
@@ -356,24 +361,21 @@ const GESTORIA_SERVICE_DETAILS = {
     summary: 'Realizamos la inscripci&oacute;n inicial de veh&iacute;culos 0 km de forma r&aacute;pida, segura y sin inconvenientes, para que puedas circular con toda la documentaci&oacute;n en regla.',
     highlights: [
       {
-        icon: '&#x23F1;&#xFE0F;',
         label: 'Tiempo estimado',
         value: '24 horas h&aacute;biles'
       },
       {
-        icon: '&#x1F4DD;',
         label: 'Dato clave',
         value: 'Dominio o patente'
       },
       {
-        icon: '&#x2705;',
         label: 'Resultado',
         value: 'Veh&iacute;culo registrado legalmente'
       }
     ],
     detailSections: [
       {
-        title: '&#x1F4CC; &iquest;Para qu&eacute; sirve?',
+        title: '&iquest;Para qu&eacute; sirve?',
         items: [
           'Inscribir el veh&iacute;culo por primera vez en el Registro del Automotor.',
           'Obtener el dominio o patente.',
@@ -382,7 +384,7 @@ const GESTORIA_SERVICE_DETAILS = {
         note: 'Es un paso obligatorio luego de la compra de un veh&iacute;culo nuevo.'
       },
       {
-        title: '&#x1F4DD; &iquest;Qu&eacute; necesito?',
+        title: '&iquest;Qu&eacute; necesito?',
         items: [
           'Factura de compra original.',
           'Formulario 01 emitido por el concesionario.',
@@ -391,14 +393,14 @@ const GESTORIA_SERVICE_DETAILS = {
         ]
       },
       {
-        title: '&#x1F464; &iquest;Para qui&eacute;n es?',
+        title: '&iquest;Para qui&eacute;n es?',
         items: [
           'Personas que hayan adquirido un veh&iacute;culo 0 km y necesiten realizar su inscripci&oacute;n inicial.'
         ],
         listStyle: 'checks'
       },
       {
-        title: '&#x1F4C4; &iquest;Qu&eacute; se entrega?',
+        title: '&iquest;Qu&eacute; se entrega?',
         items: [
           'T&iacute;tulo del automotor digital.',
           'C&eacute;dula del automotor digital.',
@@ -409,7 +411,7 @@ const GESTORIA_SERVICE_DETAILS = {
         ]
       },
       {
-        title: '&#x26A0;&#xFE0F; Importante',
+        title: 'Importante',
         tone: 'warning',
         items: [
           'Pueda circular legalmente.',
@@ -419,11 +421,11 @@ const GESTORIA_SERVICE_DETAILS = {
         note: 'Realizar correctamente la inscripci&oacute;n garantiza que el veh&iacute;culo quede en regla.'
       },
       {
-        title: '&#x1F4B0; Costo',
+        title: 'Costo',
         text: 'El costo del tr&aacute;mite es variable, ya que depende del tipo y valor del veh&iacute;culo.'
       },
       {
-        title: '&#x1F4B3; Medios de pago',
+        title: 'Medios de pago',
         paymentMethods: [
           { type: 'mercado-pago', label: 'Mercado Pago' },
           { type: 'transfer', label: 'Transferencia bancaria' },
@@ -443,29 +445,25 @@ const GESTORIA_SERVICE_DETAILS = {
     summary: 'Realizamos todo tipo de tr&aacute;mites registrables ante el Registro de la Propiedad del Automotor, gestionados de manera correcta, &aacute;gil y segura.',
     highlights: [
       {
-        icon: '&#x1F4DD;',
         label: 'Gesti&oacute;n',
         value: 'Formularios oficiales'
       },
       {
-        icon: '&#x1F3E2;',
         label: 'Presentaci&oacute;n',
         value: 'Registro correspondiente'
       },
       {
-        icon: '&#x1F512;',
         label: 'Prendas',
         value: 'Alta, baja y reinscripci&oacute;n'
       },
       {
-        icon: '&#x23F3;',
         label: 'Vigencia',
         value: '5 a&ntilde;os'
       }
     ],
     detailSections: [
       {
-        title: '&#x1F4CC; &iquest;C&oacute;mo se realizan?',
+        title: '&iquest;C&oacute;mo se realizan?',
         text: 'Los tr&aacute;mites registrables se gestionan mediante formularios tipo oficiales y presentaci&oacute;n formal ante el Registro del Automotor correspondiente.',
         items: [
           'Seg&uacute;n el domicilio del titular o del nuevo adquirente.',
@@ -473,7 +471,7 @@ const GESTORIA_SERVICE_DETAILS = {
         ]
       },
       {
-        title: '&#x1F6E0;&#xFE0F; Tipos de tr&aacute;mites',
+        title: 'Tipos de tr&aacute;mites',
         text: 'Entre los principales tr&aacute;mites que realizamos se encuentran:',
         items: [
           'Transferencias.',
@@ -485,7 +483,7 @@ const GESTORIA_SERVICE_DETAILS = {
         ]
       },
       {
-        title: '&#x1F512; Prendas sobre el automotor',
+        title: 'Prendas sobre el automotor',
         text: 'Tambi&eacute;n gestionamos todo lo relacionado con prendas o garant&iacute;as prendarias sobre veh&iacute;culos.',
         items: [
           'Inscripci&oacute;n de prenda cuando se financia un veh&iacute;culo.',
@@ -494,7 +492,7 @@ const GESTORIA_SERVICE_DETAILS = {
         ]
       },
       {
-        title: '&#x23F3; Vigencia de la prenda',
+        title: 'Vigencia de la prenda',
         items: [
           'Las prendas tienen una vigencia de 5 a&ntilde;os.',
           'Luego de ese plazo, pueden reinscribirse.',
@@ -503,7 +501,7 @@ const GESTORIA_SERVICE_DETAILS = {
         listStyle: 'checks'
       },
       {
-        title: '&#x26A0;&#xFE0F; Importante',
+        title: 'Importante',
         tone: 'warning',
         items: [
           'Depende de la situaci&oacute;n jur&iacute;dica del veh&iacute;culo.',
@@ -524,29 +522,25 @@ const GESTORIA_SERVICE_DETAILS = {
     summary: 'Brindamos asesoramiento personalizado en tr&aacute;mites del automotor, adaptado a cada situaci&oacute;n en particular, para que tomes decisiones seguras y sin riesgos.',
     highlights: [
       {
-        icon: '&#x1F9FE;',
         label: 'An&aacute;lisis',
         value: 'Caso 100% personalizado'
       },
       {
-        icon: '&#x1F465;',
         label: 'Enfoque',
         value: 'Compra y venta segura'
       },
       {
-        icon: '&#x1F4BB;',
         label: 'Modalidad',
         value: 'Online o presencial'
       },
       {
-        icon: '&#x1F4B0;',
         label: 'Consulta',
         value: '$20.000'
       }
     ],
     detailSections: [
       {
-        title: '&#x1F4CC; &iquest;En qu&eacute; consiste?',
+        title: '&iquest;En qu&eacute; consiste?',
         text: 'El asesoramiento se basa en el an&aacute;lisis de tu caso espec&iacute;fico.',
         items: [
           'La documentaci&oacute;n disponible.',
@@ -558,7 +552,7 @@ const GESTORIA_SERVICE_DETAILS = {
         note: 'Cada caso es distinto, por eso el an&aacute;lisis es 100% personalizado.'
       },
       {
-        title: '&#x1F4DD; &iquest;Qu&eacute; necesito?',
+        title: '&iquest;Qu&eacute; necesito?',
         items: [
           'Toda la documentaci&oacute;n disponible del veh&iacute;culo.',
           'O la mayor cantidad de informaci&oacute;n posible.'
@@ -566,7 +560,7 @@ const GESTORIA_SERVICE_DETAILS = {
         note: 'Esto nos permite evaluar con precisi&oacute;n y brindarte la mejor soluci&oacute;n.'
       },
       {
-        title: '&#x1F464; &iquest;Para qui&eacute;n es?',
+        title: '&iquest;Para qui&eacute;n es?',
         items: [
           'Personas que van a comprar un veh&iacute;culo.',
           'Personas que quieren vender y desvincularse correctamente.',
@@ -575,15 +569,15 @@ const GESTORIA_SERVICE_DETAILS = {
         ]
       },
       {
-        title: '&#x1F4BB; Modalidad',
+        title: 'Modalidad',
         items: [
-          '&#x1F4F1; Online.',
-          '&#x1F3E2; Presencial en oficina.'
+          'Online.',
+          'Presencial en oficina.'
         ],
         listStyle: 'checks'
       },
       {
-        title: '&#x26A0;&#xFE0F; Importante',
+        title: 'Importante',
         tone: 'warning',
         items: [
           'Evitar problemas legales.',
@@ -593,13 +587,13 @@ const GESTORIA_SERVICE_DETAILS = {
         note: 'Un buen asesoramiento previo puede marcar la diferencia antes de avanzar.'
       },
       {
-        title: '&#x1F4B0; Costo',
+        title: 'Costo',
         prices: [
           { label: 'Consulta', value: '$20.000' }
         ]
       },
       {
-        title: '&#x1F4B3; Medios de pago',
+        title: 'Medios de pago',
         paymentMethods: [
           { type: 'mercado-pago', label: 'Mercado Pago' },
           { type: 'transfer', label: 'Transferencia bancaria' },
@@ -609,7 +603,6 @@ const GESTORIA_SERVICE_DETAILS = {
       }
     ],
     ctaLabel: 'Agenda asesoramiento',
-    ctaAnimatedHand: true,
     ctaHref: 'https://wa.me/543743668039?text=Hola,%20necesito%20asesoramiento%20para%20saber%20que%20tramite%20del%20automotor%20corresponde%20en%20mi%20caso.'
   },
   'boleto-compra-venta': {
@@ -620,29 +613,25 @@ const GESTORIA_SERVICE_DETAILS = {
     summary: 'Redactamos y revisamos boletos de compra venta para dejar por escrito una operacion clara, ordenada y bien respaldada antes de avanzar a la escritura.',
     highlights: [
       {
-        icon: '&#x1F3E0;',
         label: 'Operacion',
         value: 'Compra y venta'
       },
       {
-        icon: '&#x1F4DD;',
         label: 'Incluye',
         value: 'Redaccion y revision'
       },
       {
-        icon: '&#x1F4C4;',
         label: 'Apoyo clave',
         value: 'Sellado y respaldo'
       },
       {
-        icon: '&#x2705;',
         label: 'Objetivo',
         value: 'Operacion documentada'
       }
     ],
     detailSections: [
       {
-        title: '&#x1F4CC; &iquest;Que hacemos?',
+        title: '&iquest;Que hacemos?',
         items: [
           'Redaccion del boleto con los datos de comprador, vendedor e inmueble.',
           'Revision de condiciones de pago, plazos y entrega.',
@@ -651,7 +640,7 @@ const GESTORIA_SERVICE_DETAILS = {
         ]
       },
       {
-        title: '&#x1F4DD; Documentacion que suele hacer falta',
+        title: 'Documentacion que suele hacer falta',
         items: [
           'DNI de las partes.',
           'Datos catastrales o identificacion del inmueble.',
@@ -660,19 +649,19 @@ const GESTORIA_SERVICE_DETAILS = {
         ]
       },
       {
-        title: '&#x1F464; &iquest;Para quien es?',
+        title: '&iquest;Para quien es?',
         items: [
           'Personas que van a comprar o vender un inmueble y necesitan dejar constancia escrita de la operacion con respaldo documental.'
         ],
         listStyle: 'checks'
       },
       {
-        title: '&#x26A0;&#xFE0F; Importante',
+        title: 'Importante',
         tone: 'warning',
         text: 'El boleto ordena la operacion y protege a las partes, pero debe estar bien redactado y alineado con la documentacion real del inmueble.'
       },
       {
-        title: '&#x1F4B3; Medios de pago',
+        title: 'Medios de pago',
         paymentMethods: [
           { type: 'mercado-pago', label: 'Mercado Pago' },
           { type: 'transfer', label: 'Transferencia bancaria' },
@@ -692,29 +681,25 @@ const GESTORIA_SERVICE_DETAILS = {
     summary: 'Preparamos contratos de alquiler con clausulas claras, datos bien definidos y acompanamiento documental para propietarios e inquilinos.',
     highlights: [
       {
-        icon: '&#x1F3E1;',
         label: 'Operacion',
         value: 'Alquileres'
       },
       {
-        icon: '&#x1F4DD;',
         label: 'Incluye',
         value: 'Redaccion completa'
       },
       {
-        icon: '&#x1F4C5;',
         label: 'Se define',
         value: 'Plazo y condiciones'
       },
       {
-        icon: '&#x1F91D;',
         label: 'Objetivo',
         value: 'Acuerdo claro'
       }
     ],
     detailSections: [
       {
-        title: '&#x1F4CC; &iquest;Que hacemos?',
+        title: '&iquest;Que hacemos?',
         items: [
           'Redaccion del contrato de alquiler segun el acuerdo entre las partes.',
           'Ordenamiento de clausulas sobre plazo, monto, ajuste, deposito y obligaciones.',
@@ -723,7 +708,7 @@ const GESTORIA_SERVICE_DETAILS = {
         ]
       },
       {
-        title: '&#x1F4DD; Informacion necesaria',
+        title: 'Informacion necesaria',
         items: [
           'DNI de las partes.',
           'Datos del inmueble.',
@@ -733,19 +718,19 @@ const GESTORIA_SERVICE_DETAILS = {
         ]
       },
       {
-        title: '&#x1F464; &iquest;Para quien es?',
+        title: '&iquest;Para quien es?',
         items: [
           'Propietarios e inquilinos que buscan dejar por escrito condiciones claras para evitar confusiones futuras.'
         ],
         listStyle: 'checks'
       },
       {
-        title: '&#x26A0;&#xFE0F; Importante',
+        title: 'Importante',
         tone: 'warning',
         text: 'Un contrato bien armado ayuda a prevenir conflictos, ordenar obligaciones y dejar definidos los puntos sensibles desde el inicio.'
       },
       {
-        title: '&#x1F4B3; Medios de pago',
+        title: 'Medios de pago',
         paymentMethods: [
           { type: 'mercado-pago', label: 'Mercado Pago' },
           { type: 'transfer', label: 'Transferencia bancaria' },
@@ -1892,6 +1877,7 @@ function initGestoriaServicePage() {
   mount.innerHTML = renderGestoriaServiceDetail(service);
   initGestoriaServiceCalculatorReveal(mount);
   initGestoriaPaymentToggles(mount);
+  initDomainConsultationModal(mount);
 }
 
 function renderGestoriaServiceDetail(service) {
@@ -1936,28 +1922,27 @@ function renderGestoriaServiceDetail(service) {
       </div>
     `;
 
-  const secondaryHasAnimatedHand = Boolean(service.secondaryAnimatedHand);
   const secondaryLabelText = service.secondaryLabel || 'Abrir calculadora';
-  const secondaryLabelMarkup = secondaryHasAnimatedHand
-    ? `<span class="gestoria-service-press-hand" aria-hidden="true">&#x1F449;</span><span class="gestoria-service-cta-copy">${secondaryLabelText}</span>`
-    : secondaryLabelText;
-  const secondaryActionClass = secondaryHasAnimatedHand ? ' gestoria-service-cta--with-hand' : '';
+  const secondaryLabelMarkup = secondaryLabelText;
+  const secondaryActionClass = '';
   const secondaryVisualClass = service.secondaryClass ? ` ${service.secondaryClass}` : '';
   const secondaryLinkAttrs = service.secondaryTargetBlank ? ' target="_blank" rel="noopener"' : '';
   const calculatorActionMarkup = service.includeCalculator
     ? `<button type="button" class="btn btn-dark${secondaryVisualClass}${secondaryActionClass}" data-transfer-calculator-toggle aria-expanded="false" aria-controls="service-transfer-calculator">${secondaryLabelMarkup}</button>`
     : (service.secondaryHref ? `<a href="${service.secondaryHref}"${secondaryLinkAttrs} class="btn btn-dark${secondaryVisualClass}${secondaryActionClass}">${secondaryLabelMarkup}</a>` : '');
-  const ctaHasAnimatedHand = Boolean(service.ctaAnimatedHand || service.ctaLabel === 'Iniciar tu tr&aacute;mite');
-  const ctaLabelMarkup = ctaHasAnimatedHand
-    ? `<span class="gestoria-service-press-hand" aria-hidden="true">&#x1F449;</span><span class="gestoria-service-cta-copy">${service.ctaLabel}</span>`
-    : service.ctaLabel;
+  const ctaHasAnimatedHand = false;
+  const ctaLabelMarkup = service.ctaLabel;
+  const primaryCtaMarkup = service.domainConsultation
+    ? `<button type="button" class="btn btn-dark${service.secondaryHref ? '' : ' gestoria-service-cta'}" data-domain-consultation-open>${ctaLabelMarkup}</button>`
+    : `<a href="${service.ctaHref}" target="_blank" rel="noopener" class="btn btn-dark${service.secondaryHref ? '' : ' gestoria-service-cta'}${ctaHasAnimatedHand ? ' gestoria-service-cta--with-hand' : ''}">${ctaLabelMarkup}</a>`;
 
   const ctaMarkup = `
     <div class="gestoria-service-actions">
       ${calculatorActionMarkup}
-      ${service.hidePrimaryCta ? '' : `<a href="${service.ctaHref}" target="_blank" rel="noopener" class="btn btn-dark${service.secondaryHref ? '' : ' gestoria-service-cta'}${ctaHasAnimatedHand ? ' gestoria-service-cta--with-hand' : ''}">${ctaLabelMarkup}</a>`}
+      ${service.hidePrimaryCta ? '' : primaryCtaMarkup}
     </div>
   `;
+  const domainConsultationMarkup = service.domainConsultation ? renderDomainConsultationModal() : '';
 
   const detailCopy = `
     <div class="gestoria-service-detail-copy">
@@ -1968,6 +1953,7 @@ function renderGestoriaServiceDetail(service) {
       ${highlightsMarkup}
       ${sectionsMarkup}
       ${ctaMarkup}
+      ${domainConsultationMarkup}
     </div>
   `;
 
@@ -1994,7 +1980,79 @@ function renderGestoriaServiceHighlightIcon(item) {
     `;
   }
 
-  return `<span class="gestoria-service-highlight-icon" aria-hidden="true">${item.icon || ''}</span>`;
+  return item.icon ? `<span class="gestoria-service-highlight-icon" aria-hidden="true">${item.icon}</span>` : '';
+}
+
+function renderDomainConsultationModal() {
+  return `
+    <div class="domain-consultation-modal" data-domain-consultation-modal hidden>
+      <div class="domain-consultation-backdrop" data-domain-consultation-close></div>
+      <section class="domain-consultation-panel" role="dialog" aria-modal="true" aria-labelledby="domain-consultation-title">
+        <button type="button" class="domain-consultation-close" data-domain-consultation-close aria-label="Cerrar consulta">&times;</button>
+        <span class="domain-consultation-kicker">Consulta gratis</span>
+        <h3 id="domain-consultation-title">&iquest;Cu&aacute;l es el dominio del veh&iacute;culo que quer&eacute;s consultar?</h3>
+        <p>Ingres&aacute; la patente para iniciar la consulta por WhatsApp.</p>
+        <form class="domain-consultation-form" data-domain-consultation-form novalidate>
+          <label for="domain-consultation-input">Dominio del veh&iacute;culo</label>
+          <input id="domain-consultation-input" name="domain" type="text" autocomplete="off" autocapitalize="characters" maxlength="12" placeholder="Ej: AB123CD" required>
+          <p class="domain-consultation-error" data-domain-consultation-error role="status" aria-live="polite"></p>
+          <button type="submit" class="btn btn-dark">Consultar por WhatsApp</button>
+        </form>
+      </section>
+    </div>
+  `;
+}
+
+function initDomainConsultationModal(scope) {
+  const modal = scope.querySelector('[data-domain-consultation-modal]');
+  if (!modal) return;
+
+  const openButton = scope.querySelector('[data-domain-consultation-open]');
+  const closeButtons = Array.from(modal.querySelectorAll('[data-domain-consultation-close]'));
+  const form = modal.querySelector('[data-domain-consultation-form]');
+  const input = modal.querySelector('#domain-consultation-input');
+  const error = modal.querySelector('[data-domain-consultation-error]');
+  if (!openButton || !form || !input || !error) return;
+
+  const openModal = () => {
+    modal.hidden = false;
+    modal.classList.add('is-open');
+    document.body.classList.add('domain-consultation-open');
+    error.textContent = '';
+    requestAnimationFrame(() => input.focus());
+  };
+
+  const closeModal = () => {
+    modal.classList.remove('is-open');
+    modal.hidden = true;
+    document.body.classList.remove('domain-consultation-open');
+    openButton.focus();
+  };
+
+  openButton.addEventListener('click', openModal);
+  closeButtons.forEach(button => button.addEventListener('click', closeModal));
+
+  modal.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeModal();
+  });
+
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const domain = input.value.trim().replace(/\s+/g, ' ').toUpperCase();
+    if (!domain) {
+      error.textContent = 'Ingres&aacute; el dominio del veh&iacute;culo para continuar.';
+      input.focus();
+      return;
+    }
+
+    const message = [
+      'Hola, quiero hacer una consulta gratis por un informe de dominio.',
+      `Dominio del vehiculo: ${domain}.`,
+      'Quedo atento/a para continuar.'
+    ].join('\n');
+    window.open(`${WA_BASE}?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+    closeModal();
+  });
 }
 
 function initGestoriaServiceCalculatorReveal(scope) {
@@ -2087,8 +2145,15 @@ function renderGestoriaServiceSection(section) {
       <div class="gestoria-service-price-grid">
         ${section.prices.map(price => `
           <div class="gestoria-service-price-card">
-            <span class="gestoria-service-price-label">${price.label}</span>
-            <strong class="gestoria-service-price-value">${price.value}</strong>
+            ${price.iconImg ? `
+              <span class="gestoria-service-price-icon" aria-hidden="true">
+                <img src="${price.iconImg}" alt="${price.iconAlt || ''}" loading="lazy">
+              </span>
+            ` : ''}
+            <span>
+              <span class="gestoria-service-price-label">${price.label}</span>
+              <strong class="gestoria-service-price-value">${price.value}</strong>
+            </span>
           </div>
         `).join('')}
       </div>
@@ -2117,7 +2182,7 @@ function renderGestoriaServiceSection(section) {
   const titleMarkup = isPaymentAccordion
     ? `
       <button type="button" class="gestoria-service-block-toggle" data-payment-toggle aria-expanded="false">
-        <span class="gestoria-service-block-toggle-icon" data-payment-toggle-icon aria-hidden="true">&#9654;</span>
+        <span class="gestoria-service-block-toggle-icon" data-payment-toggle-icon aria-hidden="true"></span>
         <span>${section.title}</span>
       </button>
     `
@@ -2173,11 +2238,18 @@ function renderPaymentMethodIcon(type) {
 }
 
 function renderGestoriaServiceList(items, style = 'default') {
-  const modifierClass = style === 'checks' ? ' gestoria-service-list--checks' : '';
+  const modifierClass = style === 'checks'
+    ? ' gestoria-service-list--checks'
+    : style === 'dashes'
+    ? ' gestoria-service-list--dashes'
+    : style === 'numbered'
+    ? ' gestoria-service-list--numbered'
+    : '';
+  const tagName = style === 'numbered' ? 'ol' : 'ul';
   return `
-    <ul class="gestoria-service-list${modifierClass}">
+    <${tagName} class="gestoria-service-list${modifierClass}">
       ${items.map(item => `<li>${item}</li>`).join('')}
-    </ul>
+    </${tagName}>
   `;
 }
 

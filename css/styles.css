@@ -1180,7 +1180,7 @@ button { cursor: pointer; font-family: var(--font); }
   background:
     linear-gradient(180deg, rgba(10,8,7,0.18) 0%, rgba(10,8,7,0.42) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/transferencia-cover.png?v=20260427-000303');
+    url('../img/services/transferencia-cover.png?v=20260427-215721');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1248,7 +1248,7 @@ button { cursor: pointer; font-family: var(--font); }
   background:
     linear-gradient(180deg, rgba(10,8,7,0.18) 0%, rgba(10,8,7,0.42) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/informes-cover.png?v=20260427-000303');
+    url('../img/services/informes-cover.png?v=20260427-215721');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1271,7 +1271,7 @@ button { cursor: pointer; font-family: var(--font); }
   background:
     linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.38) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/denuncia-venta-cover.png?v=20260427-000303');
+    url('../img/services/denuncia-venta-cover.png?v=20260427-215721');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1280,7 +1280,7 @@ button { cursor: pointer; font-family: var(--font); }
   background:
     linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.36) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/cedula-titulo-cover.png?v=20260427-000303');
+    url('../img/services/cedula-titulo-cover.png?v=20260427-215721');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1289,7 +1289,7 @@ button { cursor: pointer; font-family: var(--font); }
   background:
     linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.34) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/inscripcion-0km-cover.png?v=20260427-000303');
+    url('../img/services/inscripcion-0km-cover.png?v=20260427-215721');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1298,7 +1298,7 @@ button { cursor: pointer; font-family: var(--font); }
   background:
     linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.38) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/prendas-registrales-cover.png?v=20260427-000303');
+    url('../img/services/prendas-registrales-cover.png?v=20260427-215721');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1307,7 +1307,7 @@ button { cursor: pointer; font-family: var(--font); }
   background:
     linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.36) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/asesoramiento-cover.png?v=20260427-000303');
+    url('../img/services/asesoramiento-cover.png?v=20260427-215721');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -2864,15 +2864,17 @@ button { cursor: pointer; font-family: var(--font); }
 }
 .gestoria-service-block-toggle-icon {
   flex: 0 0 auto;
-  font-size: 13px;
-  line-height: 1;
-  color: #111111;
-  transform: rotate(0deg);
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border: solid #111111;
+  border-width: 0 2px 2px 0;
+  transform: rotate(-135deg) translate(-1px, -1px);
   transform-origin: center;
   transition: transform 0.22s ease;
 }
 .gestoria-service-block-toggle[aria-expanded="true"] .gestoria-service-block-toggle-icon {
-  transform: rotate(90deg);
+  transform: rotate(45deg) translate(-1px, -1px);
 }
 .gestoria-service-block p {
   margin: 0;
@@ -3042,6 +3044,33 @@ button { cursor: pointer; font-family: var(--font); }
   background: var(--accent);
   box-shadow: 0 0 0 4px rgba(var(--accent-rgb),0.14);
 }
+.gestoria-service-list--dashes {
+  padding-left: 0;
+  list-style: none;
+}
+.gestoria-service-list--dashes li {
+  position: relative;
+  padding-left: 18px;
+}
+.gestoria-service-list--dashes li::before {
+  content: '-';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--gray-800);
+  font-weight: 800;
+}
+.gestoria-service-list--numbered {
+  padding-left: 24px;
+  list-style: decimal;
+}
+.gestoria-service-list--numbered li {
+  padding-left: 4px;
+}
+.gestoria-service-list--numbered li::marker {
+  color: var(--navy);
+  font-weight: 900;
+}
 .gestoria-service-group-grid,
 .gestoria-service-price-grid {
   display: grid;
@@ -3077,6 +3106,25 @@ button { cursor: pointer; font-family: var(--font); }
   background: linear-gradient(135deg, #1a1512 0%, #2e2520 100%);
   color: var(--white);
   box-shadow: 0 18px 30px rgba(15,10,8,0.1);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.gestoria-service-price-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 42px;
+  flex: 0 0 58px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.96);
+}
+.gestoria-service-price-icon img {
+  display: block;
+  max-width: 42px;
+  max-height: 28px;
+  object-fit: contain;
 }
 .gestoria-service-price-label {
   display: block;
@@ -3190,6 +3238,115 @@ button { cursor: pointer; font-family: var(--font); }
 .gestoria-service-actions .btn {
   min-height: 46px;
   justify-content: center;
+}
+.domain-consultation-open {
+  overflow: hidden;
+}
+.domain-consultation-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.domain-consultation-modal[hidden] {
+  display: none;
+}
+.domain-consultation-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 20, 28, 0.58);
+  backdrop-filter: blur(6px);
+}
+.domain-consultation-panel {
+  position: relative;
+  z-index: 1;
+  width: min(440px, 100%);
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 28px 70px rgba(14, 29, 56, 0.24);
+}
+.domain-consultation-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(17,17,17,0.1);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--ink);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+.domain-consultation-kicker {
+  display: inline-flex;
+  margin-bottom: 10px;
+  padding: 6px 10px;
+  border: 1px solid rgba(var(--accent-rgb),0.18);
+  border-radius: 999px;
+  background: rgba(var(--accent-rgb),0.08);
+  color: var(--gray-800);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.domain-consultation-panel h3 {
+  margin: 0 32px 10px 0;
+  color: var(--ink);
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+.domain-consultation-panel p {
+  margin: 0 0 18px;
+  color: var(--gray-500);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.domain-consultation-form {
+  display: grid;
+  gap: 12px;
+}
+.domain-consultation-form label {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 800;
+}
+.domain-consultation-form input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.domain-consultation-form input:focus {
+  outline: none;
+  border-color: var(--navy-soft);
+  box-shadow: 0 0 0 4px rgba(25, 47, 86, 0.1);
+}
+.domain-consultation-error {
+  min-height: 18px;
+  margin: -2px 0 2px !important;
+  color: var(--red-dark) !important;
+  font-size: 12px !important;
+  font-weight: 700;
+}
+.domain-consultation-form .btn {
+  width: 100%;
+  min-height: 50px;
 }
 .gestoria-transfer-form {
   height: 100%;
@@ -6218,21 +6375,21 @@ a:hover {
   background:
     linear-gradient(180deg, rgba(14, 29, 56, 0.18) 0%, rgba(14, 29, 56, 0.56) 100%),
     radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 26%),
-    url('../img/services/inmuebles-cover.jpg?v=20260427-000303');
+    url('../img/services/inmuebles-cover.jpg?v=20260427-215721');
 }
 
 .gestoria-inmobiliaria-rental-cover {
   background:
     linear-gradient(180deg, rgba(14, 29, 56, 0.18) 0%, rgba(14, 29, 56, 0.56) 100%),
     radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 26%),
-    url('../img/services/inmuebles-cover.jpg?v=20260427-000303');
+    url('../img/services/inmuebles-cover.jpg?v=20260427-215721');
 }
 
 .seguro-brand-cover {
   background:
     linear-gradient(180deg, rgba(14, 29, 56, 0.2) 0%, rgba(14, 29, 56, 0.6) 100%),
     radial-gradient(circle at 18% 18%, rgba(201, 166, 107, 0.18) 0%, rgba(201, 166, 107, 0) 26%),
-    url('../img/services/seguros-cover.jpg?v=20260427-000303');
+    url('../img/services/seguros-cover.jpg?v=20260427-215721');
 }
 
 .seguro-brand-cover .transfer-quote-cover-content strong {
