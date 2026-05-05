@@ -3,9 +3,9 @@
     <head> 
         <meta charset="UTF-8"> 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-        <link rel="icon" type="image/png" sizes="192x192" href="img/site-icon.png?v=20260501-133952"> 
-        <link rel="icon" type="image/png" sizes="32x32" href="img/favicon.png?v=20260501-133952"> 
-        <link rel="apple-touch-icon" href="img/site-icon.png?v=20260501-133952"> 
+        <link rel="icon" type="image/png" sizes="192x192" href="img/site-icon.png?v=20260505-180255"> 
+        <link rel="icon" type="image/png" sizes="32x32" href="img/favicon.png?v=20260505-180255"> 
+        <link rel="apple-touch-icon" href="img/site-icon.png?v=20260505-180255"> 
         <title>Gestoría, Seguros y Oportunidades en Jardín América | Gestoría Sonia</title>         
         <meta name="description" content="Gestoría Sonia en Jardín América, Misiones: gestoría del automotor, gestoría inmobiliaria, seguros y oportunidades de autos e inmuebles en un solo lugar."> 
         <link rel="canonical" href="https://gestoriasonia.ar/"> 
@@ -17,15 +17,14 @@
         <meta property="og:title" content="Gestoría, Seguros y Oportunidades en Jardín América | Gestoría Sonia"> 
         <meta property="og:description" content="Gestoría Sonia en Jardín América, Misiones: gestoría del automotor, gestoría inmobiliaria, seguros y oportunidades de autos e inmuebles en un solo lugar."> 
         <meta property="og:url" content="https://gestoriasonia.ar/"> 
-        <meta property="og:image" content="https://gestoriasonia.ar/img/site-icon.png?v=20260501-133952"> 
+        <meta property="og:image" content="https://gestoriasonia.ar/img/site-icon.png?v=20260505-180255"> 
         <meta property="og:image:alt" content="Gestoría, Seguros y Oportunidades en Jardín América | Gestoría Sonia"> 
         <meta name="twitter:card" content="summary_large_image"> 
         <meta name="twitter:title" content="Gestoría, Seguros y Oportunidades en Jardín América | Gestoría Sonia"> 
         <meta name="twitter:description" content="Gestoría Sonia en Jardín América, Misiones: gestoría del automotor, gestoría inmobiliaria, seguros y oportunidades de autos e inmuebles en un solo lugar."> 
-        <meta name="twitter:image" content="https://gestoriasonia.ar/img/site-icon.png?v=20260501-133952"> 
+        <meta name="twitter:image" content="https://gestoriasonia.ar/img/site-icon.png?v=20260505-180255"> 
         <!-- SEO:END -->         
-        <link rel="stylesheet" href="css/styles.css?v=20260501-133952"> 
-        <script src="https://elfsightcdn.com/platform.js" async></script>         
+        <link rel="stylesheet" href="css/styles.css?v=20260505-180255">
         <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -44,10 +43,10 @@
           "name": "Gestoría Sonia",
           "alternateName": "gestoriasonia.ar",
           "description": "Gestoría del automotor, gestoría inmobiliaria, seguros y oportunidades en Jardín América, Misiones.",
-          "logo": "https://gestoriasonia.ar/img/logo.png?v=20260501-133952",
+          "logo": "https://gestoriasonia.ar/img/logo.png?v=20260505-180255",
           "image": [
-            "https://gestoriasonia.ar/img/logo.png?v=20260501-133952",
-            "https://gestoriasonia.ar/img/site-icon.png?v=20260501-133952"
+            "https://gestoriasonia.ar/img/logo.png?v=20260505-180255",
+            "https://gestoriasonia.ar/img/site-icon.png?v=20260505-180255"
           ],
           "telephone": "+54 3743 66-8039",
           "email": "mailto:Gerasoal@gmail.com",
@@ -83,30 +82,41 @@
         <!-- ----------------------- NAVBAR --------------------------- -->         
         <nav class="navbar"> 
             <a href="/" class="nav-logo">  <div class="nav-logo-img-wrap"> 
-                    <img src="img/logo.png?v=20260501-133952" alt="Gestoría Sonia" class="nav-logo-img" onerror="this.classList.add('broken')"> 
+                    <img src="img/logo.png?v=20260505-180255" alt="Gestoría Sonia" class="nav-logo-img" onerror="this.classList.add('broken')"> 
                     <div class="nav-logo-fallback" style="flex-direction:column;align-items:center;line-height:1.1;"> 
                         <span style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:15px;color:#111;letter-spacing:0.5px;">GESTORÍA</span> 
                         <span style="font-family:'Montserrat',sans-serif;font-style:italic;font-size:17px;color:#111;font-weight:700;">Sonia</span> 
                     </div>                     
                 </div>  </a> 
-            <ul class="nav-links"> 
-                <li>
-                    <a href="/">Inicio</a>
-                </li>                 
-                <li>
-                    <a href="gestoria">Gestoría automotor</a>
-                </li>                 
-                <li>
-                    <a href="gestoria-inmobiliaria">Gestoría inmobiliaria</a>
-                </li>                 
-                <li>
-                    <a href="seguros">Seguros</a>
-                </li>                 
-                <li>
-                    <a href="mercado">Mercado</a>
-                </li>                 
-            </ul>             
-            <div class="nav-actions"> 
+              <ul class="nav-links">
+    <li><a href="/">Inicio</a></li>
+    <li class="nav-dropdown" data-nav-dropdown>
+      <button type="button" class="nav-dropdown-toggle" aria-expanded="false" data-nav-dropdown-toggle data-nav-section="gestoria">
+        <span>Gestor&iacute;a automotor</span>
+      </button>
+      <ul class="nav-dropdown-menu" aria-label="Servicios de gestor&iacute;a automotor">
+        <li><a href="transferencia-automotor">Transferencia automotor</a></li>
+        <li><a href="informe-de-dominio">Informe de dominio</a></li>
+        <li><a href="denuncia-de-venta">Denuncia de venta</a></li>
+        <li><a href="cedula-y-titulo-automotor">C&eacute;dula, t&iacute;tulo y duplicados</a></li>
+        <li><a href="inscripcion-0km">Inscripci&oacute;n 0 km</a></li>
+        <li><a href="prendas-y-tramites-registrales">Prendas y tr&aacute;mites registrales</a></li>
+        <li><a href="asesoramiento-automotor">Asesoramiento personalizado</a></li>
+      </ul>
+    </li>
+    <li class="nav-dropdown" data-nav-dropdown>
+      <button type="button" class="nav-dropdown-toggle" aria-expanded="false" data-nav-dropdown-toggle data-nav-section="gestoria-inmobiliaria">
+        <span>Gestor&iacute;a inmobiliaria</span>
+      </button>
+      <ul class="nav-dropdown-menu" aria-label="Servicios de gestor&iacute;a inmobiliaria">
+        <li><a href="boleto-compra-venta-inmuebles">Boleto de compra venta de inmuebles</a></li>
+        <li><a href="contratos-de-alquiler">Contratos de alquiler</a></li>
+      </ul>
+    </li>
+    <li><a href="seguros">Seguros</a></li>
+    <li><a href="mercado">Mercado</a></li>
+  </ul>
+  <div class="nav-actions"> 
                 <a href="#contacto" class="nav-search" aria-label="Ir a la sección de contacto">  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                     </svg>  <span>Contacto</span>  </a> 
@@ -131,7 +141,7 @@
             <div class="hero-bg"></div>             
             <div class="hero-content"> 
                 <span class="hero-tag">Mandataria nacional</span> 
-                <h1>Seguros ,Gestoría del&nbsp;<br><em>Automor e Inmobiliaria,</em><br>en un solo lugar.</h1> 
+                <h1>Seguros, gestoría del&nbsp;<br><em>automotor e inmobiliaria</em><br>en un solo lugar.</h1> 
             </div>             
         </section>         
         <!-- ----------------------- SERVICIOS ------------------------ -->         
@@ -141,29 +151,42 @@
                 <p>Cuatro servicios bajo un mismo techo, con atención personalizada y conocimiento local.</p> 
             </div>             
             <div class="services-grid"> 
-                <a href="gestoria" class="service-card" style="text-decoration:none;color:inherit;">  <div class="service-card-img"> 
-                        <img src="img/services/gestoria-cover.jpg?v=20260501-133952" alt="Documentación y trámites de gestoría del automotor" loading="lazy"> 
+                <article class="service-card home-service-dropdown-card" data-home-service-dropdown data-home-service-title="Gestor&iacute;a del automotor">  <div class="service-card-img"> 
+                        <img src="img/services/gestoria-cover.jpg?v=20260505-180255" alt="Documentación y trámites de gestoría del automotor" loading="lazy"> 
                     </div>  <div class="service-card-body"> 
                         <h3>Gestoría del automotor</h3> 
                         <p>Transferencia digital, informes, cédulas, título, 0 km, prendas, turnos y cambios registrales alineados con DNRPA.</p> 
-                        <span class="btn btn-dark btn-sm">Ver servicios</span> 
-                    </div>  </a> 
-                <a href="gestoria-inmobiliaria" class="service-card" style="text-decoration:none;color:inherit;">  <div class="service-card-img"> 
-                        <img src="img/services/inmuebles-cover.jpg?v=20260501-133952" alt="Gestoría inmobiliaria, compra, venta y alquiler de propiedades" loading="lazy"> 
+                        <button type="button" class="btn btn-dark btn-sm home-service-dropdown-toggle" aria-expanded="false" data-home-service-dropdown-toggle>Ver servicios</button>
+                        <div class="home-service-dropdown-menu" data-home-service-dropdown-menu>
+                            <a href="transferencia-automotor">Transferencia automotor</a>
+                            <a href="informe-de-dominio">Informe de dominio</a>
+                            <a href="denuncia-de-venta">Denuncia de venta</a>
+                            <a href="cedula-y-titulo-automotor">C&eacute;dula, t&iacute;tulo y duplicados</a>
+                            <a href="inscripcion-0km">Inscripci&oacute;n 0 km</a>
+                            <a href="prendas-y-tramites-registrales">Prendas y tr&aacute;mites registrales</a>
+                            <a href="asesoramiento-automotor">Asesoramiento personalizado</a>
+                        </div>
+                    </div>  </article> 
+                <article class="service-card home-service-dropdown-card" data-home-service-dropdown data-home-service-title="Gestor&iacute;a inmobiliaria">  <div class="service-card-img"> 
+                        <img src="img/services/inmuebles-cover.jpg?v=20260505-180255" alt="Gestoría inmobiliaria, compra, venta y alquiler de propiedades" loading="lazy"> 
                     </div>  <div class="service-card-body"> 
                         <h3>Gestoría inmobiliaria</h3> 
                         <p>Acompañamos compras, ventas y alquileres con toda la documentación: boletos, escrituras y trámites registrales.</p> 
-                        <span class="btn btn-dark btn-sm">Ver servicios</span> 
-                    </div>  </a> 
+                        <button type="button" class="btn btn-dark btn-sm home-service-dropdown-toggle" aria-expanded="false" data-home-service-dropdown-toggle>Ver servicios</button>
+                        <div class="home-service-dropdown-menu" data-home-service-dropdown-menu>
+                            <a href="boleto-compra-venta-inmuebles">Boleto de compra venta de inmuebles</a>
+                            <a href="contratos-de-alquiler">Contratos de alquiler</a>
+                        </div>
+                    </div>  </article> 
                 <a href="seguros" class="service-card" style="text-decoration:none;color:inherit;">  <div class="service-card-img"> 
-                        <img src="img/services/seguros-cover.jpg?v=20260501-133952" alt="Seguros del automotor con Liderar" loading="lazy"> 
+                        <img src="img/services/seguros-cover.jpg?v=20260505-180255" alt="Seguros del automotor con Liderar" loading="lazy"> 
                     </div>  <div class="service-card-body"> 
                         <h3>Seguros</h3> 
                         <p>Cotizá tu seguro vehicular con Liderar Seguros y recibí asesoramiento personalizado desde Jardín América.</p> 
                         <span class="btn btn-dark btn-sm">Ver seguros</span> 
                     </div>  </a> 
                 <a href="mercado" class="service-card" style="text-decoration:none;color:inherit;">  <div class="service-card-img"> 
-                        <img src="img/services/autos-cover.jpg?v=20260501-133952" alt="Mercado de autos e inmuebles" loading="lazy"> 
+                        <img src="img/services/autos-cover.jpg?v=20260505-180255" alt="Mercado de autos e inmuebles" loading="lazy"> 
                     </div>  <div class="service-card-body"> 
                         <h3>Mercado</h3> 
                         <p>Autos, casas, departamentos, lotes y locales para venta y alquiler en Jardín América y alrededores.</p> 
@@ -171,6 +194,17 @@
                     </div>  </a> 
             </div>             
         </section>         
+        <div class="home-service-modal" data-home-service-modal hidden>
+            <div class="home-service-modal-backdrop" data-home-service-modal-close></div>
+            <section class="home-service-modal-panel" role="dialog" aria-modal="true" aria-labelledby="home-service-modal-title" tabindex="-1">
+                <button type="button" class="home-service-modal-close" aria-label="Cerrar servicios" data-home-service-modal-close>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p class="home-service-modal-eyebrow">Servicios disponibles</p>
+                <h2 id="home-service-modal-title" data-home-service-modal-title>Servicios</h2>
+                <div class="home-service-modal-list" data-home-service-modal-list></div>
+            </section>
+        </div>
         <!-- ----------------------- QUIÉNES SOMOS -------------------- -->         
         <section class="section quienes-section"> 
             <div class="section-header"> 
@@ -180,10 +214,10 @@
             <div class="quienes-grid"> 
                 <div class="quienes-fotos"> 
                     <div class="quienes-foto-wrap quienes-foto-wrap--top"> 
-                        <img src="img/team/sonia.jpeg?v=20260501-133952" alt="Sonia Altamirano, gestora matriculada del automotor" loading="lazy"> 
+                        <img src="img/team/sonia.jpeg?v=20260505-180255" alt="Sonia Altamirano, gestora matriculada del automotor" loading="lazy"> 
                     </div>                     
                     <div class="quienes-foto-wrap quienes-foto-wrap--bottom"> 
-                        <img src="img/team/sonia-jose.jpeg?v=20260501-133952" alt="Sonia Altamirano y José Luis Makoski" loading="lazy"> 
+                        <img src="img/team/sonia-jose.jpeg?v=20260505-180255" alt="Sonia Altamirano y José Luis Makoski" loading="lazy"> 
                     </div>                     
                 </div>                 
                 <div class="quienes-texto"> 
@@ -227,7 +261,8 @@
                                     <path d="M9 12h6"/>
                                     <path d="M9 15h6"/>
                                 </svg> 
-          Ver títulos y capacitaciones </a> 
+          Ver títulos y capacitaciones
+ </a>
                         </div>                         
                     </div>                     
                     <button class="quienes-read-more" type="button" aria-expanded="false" aria-controls="quienes-biografia" data-quienes-read-more>Leer más</button>                     
@@ -235,13 +270,43 @@
             </div>             
         </section>         
         <!-- ----------------------- RESEÑAS ------------------------- -->         
-        <section class="section reviews-home" aria-label="Reseñas en Google"> 
-            <div class="reviews-shell reviews-shell--full"> 
-                <div class="reviews-elfsight-wrap"> 
-                    <div class="elfsight-app-3ec0fc03-2746-4e93-b728-67ca9a7fbd28" data-elfsight-app-lazy></div>                     
-                </div>                 
-            </div>             
-        </section>         
+        <section class="section reviews-home local-reviews" aria-labelledby="reviews-title" data-reviews-carousel>
+            <div class="section-header reviews-section-header">
+                <span class="reviews-eyebrow">Rese&ntilde;as en Google</span>
+                <h2 id="reviews-title">Qu&eacute; dicen nuestros clientes</h2>
+            </div>
+            <div class="reviews-local-widget">
+                <div class="reviews-rating-card">
+                    <div class="reviews-rating-score">
+                        <strong data-reviews-rating>4.8</strong>
+                        <span data-reviews-total>valoraci&oacute;n promedio</span>
+                    </div>
+                    <div class="reviews-rating-meta">
+                        <div class="reviews-rating-stars" aria-label="4,8 de 5 estrellas" data-reviews-stars>
+                            <span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                        </div>
+                    </div>
+                    <a class="reviews-google-btn" href="https://maps.app.goo.gl/nKTV4h44HSK61qzRA" target="_blank" rel="noopener" data-reviews-link>Opinar en Google</a>
+                </div>
+                <div class="reviews-carousel">
+                    <button class="reviews-carousel-btn reviews-carousel-btn--prev" type="button" aria-label="Ver rese&ntilde;as anteriores" data-review-prev>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M15 18 9 12l6-6"/>
+                        </svg>
+                    </button>
+                    <div class="reviews-carousel-viewport">
+                        <div class="reviews-track" data-reviews-track></div>
+                        <div class="reviews-empty-state" data-reviews-empty hidden>No se pudieron cargar las rese&ntilde;as de Google en este momento.</div>
+                    </div>
+                    <button class="reviews-carousel-btn reviews-carousel-btn--next" type="button" aria-label="Ver m&aacute;s rese&ntilde;as" data-review-next>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="m9 18 6-6-6-6"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="reviews-carousel-dots" aria-label="P&aacute;ginas de rese&ntilde;as" data-review-dots></div>
+            </div>
+        </section>
         <!-- ----------------------- AUTOS DESTACADOS ---------------- -->         
         <section class="section section-gray"> 
             <div class="section-header"> 
@@ -249,7 +314,7 @@
                 <p>Autos, casas, lotes y alquileres reunidos en una sola vidriera.</p> 
             </div>             
             <div class="listings-grid market-grid" id="home-mercado" style="max-width:1200px;margin:0 auto;"></div>             
-            <a href="mercado" class="section-link">Ver todo el mercado ?</a> 
+            <a href="mercado" class="section-link">Ver todo el mercado →</a> 
         </section>         
         <!-- ----------------------- INMUEBLES DESTACADOS ------------ -->         
         <section class="section" style="display:none;"> 
@@ -258,7 +323,7 @@
                 <p>Los mejores inmuebles en Jardín América para venta y alquiler.</p> 
             </div>             
             <div class="listings-grid" data-legacy-home-inmuebles style="max-width:1200px;margin:0 auto;"></div>             
-            <a href="mercado?tipo=inmueble" class="section-link">Ver inmuebles en mercado ?</a> 
+            <a href="mercado?tipo=inmueble" class="section-link">Ver inmuebles en mercado →</a> 
         </section>         
         <!-- ----------------------- POR QUÉ ELEGIRNOS -------------- -->         
         <section class="section section-dark"> 
@@ -347,7 +412,7 @@
                         </div>                         
                         <div class="contact-item-text"> 
                             <label>Horario de atención</label>                             
-                            <span>Lunes a viernes 8:00-18:00<br>Sábados 8:00-13:00</span> 
+                            <span>Lunes a viernes 8:00-18:00<br>Síbados 8:00-13:00</span> 
                         </div>                         
                     </div>                     
                     <div class="contact-item"> 
@@ -391,33 +456,43 @@
                 <div class="footer-brand"> 
                     <div class="nav-logo"> 
                         <div class="nav-logo-img-wrap"> 
-                            <img src="img/logo.png?v=20260501-133952" alt="Gestoría Sonia" class="nav-logo-img"> 
+                            <img src="img/logo.png?v=20260505-180255" alt="Gestoría Sonia" class="nav-logo-img"> 
                         </div>                         
                     </div>                     
                     <p>Compra, venta y alquiler de autos e inmuebles. Gestoría del automotor. Trabajamos con honestidad y conocimiento local.</p> 
                     <div class="footer-dnrpa-badge" aria-label="DNRPA - Registro de la Propiedad del Automotor de la Nacion"> 
-                        <img src="img/dnrpa-badge.png?v=20260501-133952" alt="DNRPA - Registro de la Propiedad del Automotor de la Nacion"> 
+                        <img src="img/dnrpa-badge.png?v=20260505-180255" alt="DNRPA - Registro de la Propiedad del Automotor de la Nacion"> 
                     </div>                     
                 </div>                 
-                <div class="footer-col"> 
-                    <h5>Servicios</h5> 
-                    <a href="gestoria">Gestoría del automotor</a> 
-                    <a href="seguros">Seguros del automotor</a> 
-                    <a href="mercado?tipo=auto">Autos en mercado</a> 
-                    <a href="mercado?tipo=inmueble">Inmuebles en mercado</a> 
-                    <a href="mercado?tipo=inmueble&operacion=alquiler">Alquileres en mercado</a> 
-                </div>                 
-                <div class="footer-col"> 
-                    <h5>Navegación</h5> 
-                    <a href="/">Inicio</a> 
-                    <a href="gestoria">Gestoría</a> 
-                    <a href="mercado">Mercado</a> 
-                    <a href="#contacto">Contacto</a> 
+                                <div class="footer-col">
+                    <h5>Servicios</h5>
+                    <a href="transferencia-automotor">Transferencia automotor</a>
+                    <a href="informe-de-dominio">Informe de dominio</a>
+                    <a href="boleto-compra-venta-inmuebles">Gestor&iacute;a inmobiliaria</a>
+                    <a href="seguros">Seguros</a>
+                    <a href="mercado">Mercado</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Navegaci&oacute;n</h5>
+                    <a href="/">Inicio</a>
+                    <button type="button" class="footer-link-button" data-service-modal-trigger="gestoria" aria-expanded="false">Gestor&iacute;a automotor</button>
+                    <button type="button" class="footer-link-button" data-service-modal-trigger="gestoria-inmobiliaria" aria-expanded="false">Gestor&iacute;a inmobiliaria</button>
+                    <a href="seguros">Seguros</a>
+                    <a href="mercado">Mercado</a>
+                    <a href="/#contacto">Contacto</a>
                 </div>                 
                 <div class="footer-col"> 
                     <h5>Contacto</h5> 
                     <a href="https://wa.me/543743668039" target="_blank" rel="noopener">+54 3743 66-8039</a> 
-                    <a href="mailto:Gerasoal@gmail.com">Gerasoal@gmail.com</a> 
+                    <a href="mailto:Gerasoal@gmail.com">Gerasoal@gmail.com</a>
+      <a href="https://www.instagram.com/gestoriasonia" target="_blank" rel="noopener" class="footer-social-link" aria-label="Instagram de Gestoria Sonia">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+          <circle cx="12" cy="12" r="4"></circle>
+          <circle cx="17.2" cy="6.8" r="1.1"></circle>
+        </svg>
+        <span>Instagram</span>
+      </a> 
                     <span style="color:rgba(255,255,255,0.4);font-size:13px;"><a href="https://maps.app.goo.gl/nKTV4h44HSK61qzRA" target="_blank" rel="noopener">Av. Antártida Argentina 564, Jardín América, Misiones</a></span> 
                 </div>                 
                 <div class="footer-col"> 
@@ -438,6 +513,6 @@
         <a href="https://wa.me/543743668039" target="_blank" rel="noopener" class="wa-float" aria-label="Contactar por WhatsApp">  <span class="wa-tooltip">Escribinos</span>  <svg viewBox="0 0 24 24">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
             </svg> </a> 
-        <script src="js/site.js?v=20260501-133952"></script>         
+        <script src="js/site.js?v=20260505-180255"></script>
     </body>     
 </html>

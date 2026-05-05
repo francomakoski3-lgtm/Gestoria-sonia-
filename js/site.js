@@ -952,7 +952,10 @@ function syncServicePageHead(service) {
 document.addEventListener('DOMContentLoaded', async () => {
   initNavbar();
   initContactForm();
+  initSegurosConsultaForm();
   initQuienesReadMore();
+  initReviewsCarousel();
+  initHomeServiceDropdowns();
   initGestoriaServiceGallery();
   initGestoriaServicePage();
   initAnalyticsTracking();
@@ -2384,10 +2387,357 @@ function renderTransferCalculator() {
   `;
 }
 
+async function initReviewsCarousel() {
+  const root = document.querySelector('[data-reviews-carousel]');
+  if (!root) return;
+
+  const track = root.querySelector('[data-reviews-track]');
+  const prevButton = root.querySelector('[data-review-prev]');
+  const nextButton = root.querySelector('[data-review-next]');
+  const dotsContainer = root.querySelector('[data-review-dots]');
+  const emptyState = root.querySelector('[data-reviews-empty]');
+  const ratingValue = root.querySelector('[data-reviews-rating]');
+  const totalValue = root.querySelector('[data-reviews-total]');
+  const ratingStars = root.querySelector('[data-reviews-stars]');
+  const reviewsLink = root.querySelector('[data-reviews-link]');
+
+  if (!track) return;
+
+  const defaultReviewsUrl = reviewsLink?.getAttribute('href') || 'https://maps.app.goo.gl/nKTV4h44HSK61qzRA';
+  let reviewsUrl = defaultReviewsUrl;
+
+  try {
+    const data = await fetchJson('/api/reviews');
+    reviewsUrl = safeUrl(data.reviewsUrl || defaultReviewsUrl, defaultReviewsUrl);
+    const reviews = Array.isArray(data.reviews) ? data.reviews.filter(review => review?.text || review?.author) : [];
+
+    if (reviewsLink) reviewsLink.href = reviewsUrl;
+    updateReviewsSummary(root, data, ratingValue, totalValue, ratingStars);
+
+    if (reviews.length > 0 && !data.fallback) {
+      track.innerHTML = reviews.map(review => renderGoogleReviewCard(review, reviewsUrl)).join('');
+      if (emptyState) emptyState.hidden = true;
+    } else {
+      track.innerHTML = '';
+      if (emptyState) emptyState.hidden = false;
+      root.classList.add('reviews-carousel--empty');
+      return;
+    }
+  } catch (error) {
+    console.warn('No se pudieron cargar las rese\u00f1as de Google.', error);
+    track.innerHTML = '';
+    if (reviewsLink) reviewsLink.href = reviewsUrl;
+    if (emptyState) emptyState.hidden = false;
+    root.classList.add('reviews-carousel--empty');
+    return;
+  }
+
+  const cards = Array.from(root.querySelectorAll('[data-review-card]'));
+  if (cards.length === 0) return;
+
+  let page = 0;
+  let pages = 1;
+  let resizeFrame = 0;
+
+  const getPerPage = () => {
+    const value = Number.parseInt(getComputedStyle(root).getPropertyValue('--reviews-per-page'), 10);
+    return Number.isFinite(value) && value > 0 ? value : 3;
+  };
+
+  const buildDots = () => {
+    if (!dotsContainer) return;
+
+    dotsContainer.innerHTML = '';
+    for (let index = 0; index < pages; index += 1) {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'reviews-carousel-dot';
+      dot.setAttribute('aria-label', `Ir a la p\u00e1gina ${index + 1} de rese\u00f1as`);
+      dot.addEventListener('click', () => {
+        page = index;
+        updateCarousel();
+      });
+      dotsContainer.appendChild(dot);
+    }
+  };
+
+  function updateCarousel() {
+    const perPage = getPerPage();
+    const nextPages = Math.max(1, Math.ceil(cards.length / perPage));
+
+    if (nextPages !== pages) {
+      pages = nextPages;
+      buildDots();
+    }
+
+    page = Math.min(Math.max(page, 0), pages - 1);
+    const target = cards[page * perPage] || cards[0];
+    const offset = Math.max(0, target.offsetLeft - track.offsetLeft);
+    track.style.transform = `translateX(-${offset}px)`;
+    root.classList.toggle('reviews-carousel--single', pages <= 1);
+
+    if (prevButton) prevButton.disabled = page === 0;
+    if (nextButton) nextButton.disabled = page >= pages - 1;
+
+    dotsContainer?.querySelectorAll('.reviews-carousel-dot').forEach((dot, index) => {
+      const isActive = index === page;
+      dot.classList.toggle('is-active', isActive);
+      dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+    });
+  }
+
+  prevButton?.addEventListener('click', () => {
+    page -= 1;
+    updateCarousel();
+  });
+
+  nextButton?.addEventListener('click', () => {
+    page += 1;
+    updateCarousel();
+  });
+
+  window.addEventListener('resize', () => {
+    window.cancelAnimationFrame(resizeFrame);
+    resizeFrame = window.requestAnimationFrame(updateCarousel);
+  });
+
+  updateCarousel();
+}
+
+function updateReviewsSummary(root, data, ratingValue, totalValue, ratingStars) {
+  const rating = Number(data.rating);
+  if (Number.isFinite(rating) && rating > 0) {
+    const formattedRating = rating.toFixed(1);
+    if (ratingValue) ratingValue.textContent = formattedRating;
+    if (ratingStars) ratingStars.setAttribute('aria-label', `${formattedRating.replace('.', ',')} de 5 estrellas`);
+  }
+
+  const totalReviewCount = Number(data.totalReviewCount);
+  if (Number.isFinite(totalReviewCount) && totalReviewCount > 0 && totalValue) {
+    totalValue.textContent = `${totalReviewCount} rese\u00f1as en Google`;
+  }
+
+  root.classList.toggle('reviews-carousel--fallback', Boolean(data.fallback));
+}
+
+function renderGoogleReviewCard(review, reviewsUrl) {
+  const author = review.author || 'Cliente';
+  const rating = Number.isFinite(Number(review.rating)) ? Math.max(1, Math.min(5, Math.round(Number(review.rating)))) : 5;
+  const photoUrl = safeUrl(review.photoUrl || '', '');
+  const relativeTime = review.relativeTime || formatReviewDate(review.createTime);
+  const cardUrl = safeUrl(reviewsUrl, '#');
+  const avatar = photoUrl
+    ? `<img class="google-review-avatar" src="${escapeHtml(photoUrl)}" alt="Foto de perfil de ${escapeHtml(author)}" loading="lazy" referrerpolicy="no-referrer">`
+    : `<span class="google-review-avatar google-review-avatar-fallback" aria-hidden="true">${escapeHtml(getReviewInitials(author))}</span>`;
+
+  return `
+    <a class="google-review-card" href="${escapeHtml(cardUrl)}" target="_blank" rel="noopener" aria-label="Abrir rese\u00f1a de ${escapeHtml(author)} en Google" data-review-card>
+      <header class="google-review-header">
+        ${avatar}
+        <div class="google-review-author">
+          <h3>${escapeHtml(author)}</h3>
+          ${relativeTime ? `<span>${escapeHtml(relativeTime)}</span>` : ''}
+        </div>
+        <span class="google-review-source" aria-label="Rese\u00f1a en Google">
+          <img src="img/reviews/google-g.svg?v=20260501-154717" alt="" aria-hidden="true" loading="lazy">
+        </span>
+      </header>
+      <div class="google-review-stars" aria-label="${rating} de 5 estrellas">
+        <span aria-hidden="true">${'&#9733;'.repeat(rating)}</span>
+      </div>
+      <p>${escapeHtml(review.text || '')}</p>
+    </a>
+  `;
+}
+
+function getReviewInitials(value) {
+  return String(value || 'Cliente')
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map(part => part.charAt(0).toUpperCase())
+    .join('') || 'C';
+}
+
+function formatReviewDate(value) {
+  const date = value ? new Date(value) : null;
+  if (!date || Number.isNaN(date.getTime())) return '';
+  return date.toLocaleDateString('es-AR', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+const SERVICE_MODAL_GROUPS = {
+  gestoria: {
+    title: 'Gestor&iacute;a del automotor',
+    links: [
+      ['transferencia-automotor', 'Transferencia automotor'],
+      ['informe-de-dominio', 'Informe de dominio'],
+      ['denuncia-de-venta', 'Denuncia de venta'],
+      ['cedula-y-titulo-automotor', 'C&eacute;dula, t&iacute;tulo y duplicados'],
+      ['inscripcion-0km', 'Inscripci&oacute;n 0 km'],
+      ['prendas-y-tramites-registrales', 'Prendas y tr&aacute;mites registrales'],
+      ['asesoramiento-automotor', 'Asesoramiento personalizado']
+    ]
+  },
+  'gestoria-inmobiliaria': {
+    title: 'Gestor&iacute;a inmobiliaria',
+    links: [
+      ['boleto-compra-venta-inmuebles', 'Boleto de compra venta de inmuebles'],
+      ['contratos-de-alquiler', 'Contratos de alquiler']
+    ]
+  }
+};
+
+function ensureServiceModal() {
+  let modal = document.querySelector('[data-home-service-modal]');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.className = 'home-service-modal';
+    modal.setAttribute('data-home-service-modal', '');
+    modal.hidden = true;
+    modal.innerHTML = `
+      <div class="home-service-modal-backdrop" data-home-service-modal-close></div>
+      <section class="home-service-modal-panel" role="dialog" aria-modal="true" aria-labelledby="home-service-modal-title" tabindex="-1">
+        <button type="button" class="home-service-modal-close" aria-label="Cerrar servicios" data-home-service-modal-close>
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p class="home-service-modal-eyebrow">Servicios disponibles</p>
+        <h2 id="home-service-modal-title" data-home-service-modal-title>Servicios</h2>
+        <div class="home-service-modal-list" data-home-service-modal-list></div>
+      </section>
+    `;
+    document.body.appendChild(modal);
+  }
+  return modal;
+}
+
+function initHomeServiceDropdowns() {
+  const cards = Array.from(document.querySelectorAll('[data-home-service-dropdown]'));
+  const triggers = Array.from(document.querySelectorAll('[data-service-modal-trigger]'));
+  if (cards.length === 0 && triggers.length === 0) return;
+
+  const modal = ensureServiceModal();
+  const modalPanel = modal?.querySelector('.home-service-modal-panel');
+  const modalTitle = modal?.querySelector('[data-home-service-modal-title]');
+  const modalList = modal?.querySelector('[data-home-service-modal-list]');
+  let activeToggle = null;
+
+  if (!modal || !modalPanel || !modalTitle || !modalList) return;
+
+  const closeModal = () => {
+    modal.hidden = true;
+    document.body.classList.remove('home-service-modal-open');
+    if (activeToggle) {
+      activeToggle.setAttribute('aria-expanded', 'false');
+      activeToggle.focus();
+    }
+    activeToggle = null;
+    modalList.innerHTML = '';
+  };
+
+  const openModal = ({ title, links, toggle }) => {
+    if (links.length === 0) return;
+
+    activeToggle = toggle;
+    modalTitle.innerHTML = title || 'Servicios';
+    modalList.innerHTML = '';
+
+    links.forEach(link => {
+      const item = Array.isArray(link) ? document.createElement('a') : link.cloneNode(true);
+      if (Array.isArray(link)) {
+        item.href = link[0];
+        item.innerHTML = link[1];
+      }
+      item.addEventListener('click', closeModal);
+      modalList.appendChild(item);
+    });
+
+    modal.hidden = false;
+    document.body.classList.add('home-service-modal-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    requestAnimationFrame(() => modalPanel.focus());
+  };
+
+  cards.forEach(card => {
+    const toggle = card.querySelector('[data-home-service-dropdown-toggle]');
+    if (!toggle) return;
+
+    toggle.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (!modal.hidden && activeToggle === toggle) {
+        closeModal();
+        return;
+      }
+
+      if (activeToggle) activeToggle.setAttribute('aria-expanded', 'false');
+      openModal({
+        title: card.dataset.homeServiceTitle || card.querySelector('h3')?.innerHTML || 'Servicios',
+        links: Array.from(card.querySelectorAll('[data-home-service-dropdown-menu] a')),
+        toggle
+      });
+    });
+  });
+
+  triggers.forEach(trigger => {
+    trigger.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const group = SERVICE_MODAL_GROUPS[trigger.dataset.serviceModalTrigger];
+      if (!group) return;
+
+      if (!modal.hidden && activeToggle === trigger) {
+        closeModal();
+        return;
+      }
+
+      if (activeToggle) activeToggle.setAttribute('aria-expanded', 'false');
+      openModal({
+        title: group.title,
+        links: group.links,
+        toggle: trigger
+      });
+    });
+  });
+
+  modal.querySelectorAll('[data-home-service-modal-close]').forEach(trigger => {
+    trigger.addEventListener('click', closeModal);
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !modal.hidden) closeModal();
+  });
+}
+
 function initNavbar() {
   const toggle = document.querySelector('.nav-toggle');
   const links = document.querySelector('.nav-links');
   const navbar = document.querySelector('.navbar');
+  const dropdowns = links ? Array.from(links.querySelectorAll('[data-nav-dropdown]')) : [];
+  const dropdownToggles = dropdowns
+    .map(dropdown => dropdown.querySelector('[data-nav-dropdown-toggle]'))
+    .filter(Boolean);
+
+  const closeDropdown = dropdown => {
+    const dropdownToggle = dropdown.querySelector('[data-nav-dropdown-toggle]');
+    dropdown.classList.remove('is-open');
+    if (dropdownToggle) dropdownToggle.setAttribute('aria-expanded', 'false');
+  };
+
+  const closeAllDropdowns = except => {
+    dropdowns.forEach(dropdown => {
+      if (dropdown !== except) closeDropdown(dropdown);
+    });
+  };
+
+  const closeMobileMenu = () => {
+    if (!links || !navbar || !toggle) return;
+    links.classList.remove('open');
+    navbar.classList.remove('menu-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    closeAllDropdowns();
+  };
 
   if (navbar) {
     const syncNavbarScrollState = () => {
@@ -2403,35 +2753,70 @@ function initNavbar() {
       const isOpen = links.classList.toggle('open');
       navbar.classList.toggle('menu-open', isOpen);
       toggle.setAttribute('aria-expanded', String(isOpen));
+      if (!isOpen) closeAllDropdowns();
+    });
+
+    dropdownToggles.forEach(dropdownToggle => {
+      dropdownToggle.addEventListener('click', event => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const dropdown = dropdownToggle.closest('[data-nav-dropdown]');
+        if (!dropdown) return;
+
+        const isOpen = dropdown.classList.toggle('is-open');
+        dropdownToggle.setAttribute('aria-expanded', String(isOpen));
+        closeAllDropdowns(dropdown);
+      });
     });
 
     links.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
-        links.classList.remove('open');
-        navbar.classList.remove('menu-open');
-        toggle.setAttribute('aria-expanded', 'false');
+        closeMobileMenu();
       });
     });
 
     document.addEventListener('click', event => {
-      if (!links.classList.contains('open')) return;
       if (navbar.contains(event.target)) return;
-      links.classList.remove('open');
-      navbar.classList.remove('menu-open');
-      toggle.setAttribute('aria-expanded', 'false');
+      closeAllDropdowns();
+      if (links.classList.contains('open')) closeMobileMenu();
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Escape') return;
+      closeAllDropdowns();
+      if (links.classList.contains('open')) closeMobileMenu();
     });
   }
 
-  let current = getCurrentPageFile();
-  const currentServiceMeta = Object.values(SERVICE_PAGE_METADATA).find(service => service.pagePath === current);
+  const currentPage = getCurrentPageFile();
+  let current = currentPage;
+  let currentSection = '';
+  const params = new URLSearchParams(window.location.search);
+  const requestedService = params.get('servicio') || '';
+  const currentServiceMeta =
+    Object.values(SERVICE_PAGE_METADATA).find(service => service.pagePath === currentPage) ||
+    (GENERIC_SERVICE_TEMPLATES.has(currentPage) && requestedService
+      ? SERVICE_PAGE_METADATA[requestedService]
+      : null);
+
   if (currentServiceMeta?.serviceHome) {
-    current = currentServiceMeta.serviceHome;
+    currentSection = currentServiceMeta.serviceHome;
+    current = currentServiceMeta.pagePath || current;
+  } else if (currentPage === 'gestoria' || currentPage === 'gestoria-inmobiliaria') {
+    currentSection = currentPage;
   }
 
   document.querySelectorAll('.nav-links a').forEach(link => {
     const href = link.getAttribute('href');
-    if (href === current || (current === '' && href === '/')) {
+    if (href === current || href === currentPage || (currentPage === '/' && href === '/')) {
       link.classList.add('active');
+    }
+  });
+
+  dropdownToggles.forEach(dropdownToggle => {
+    if (dropdownToggle.dataset.navSection === currentSection) {
+      dropdownToggle.classList.add('active');
     }
   });
 }
@@ -2504,6 +2889,74 @@ function initContactForm() {
     } finally {
       submitButton?.classList.remove('is-loading');
       if (submitButton) submitButton.disabled = false;
+    }
+  });
+}
+
+function initSegurosConsultaForm() {
+  const form = document.getElementById('seguro-consulta-form');
+  if (!form) return;
+
+  form.querySelectorAll('.vehicle-type-switch').forEach(group => {
+    group.addEventListener('change', event => {
+      const input = event.target;
+      if (!(input instanceof HTMLInputElement) || input.type !== 'radio') return;
+      group.querySelectorAll('.vehicle-type-option').forEach(option => {
+        option.classList.toggle('is-active', option.contains(input));
+      });
+    });
+  });
+
+  form.querySelectorAll('.seguro-company-option input').forEach(input => {
+    input.addEventListener('change', () => {
+      const option = input.closest('.seguro-company-option');
+      option?.classList.toggle('is-active', input.checked);
+    });
+  });
+
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const statusEl = document.getElementById('seguro-consulta-status');
+    const selectedCompanies = Array.from(form.querySelectorAll('input[name="companies"]:checked'))
+      .map(input => input.value);
+
+    if (!selectedCompanies.length) {
+      if (statusEl) {
+        statusEl.textContent = 'Selecciona al menos un seguro para cotizar.';
+        statusEl.classList.add('is-error');
+      }
+      return;
+    }
+
+    if (!form.reportValidity()) {
+      if (statusEl) {
+        statusEl.textContent = 'Completa los datos obligatorios para enviar la consulta.';
+        statusEl.classList.add('is-error');
+      }
+      return;
+    }
+
+    const data = new FormData(form);
+    const lines = [
+      'Hola, quiero consultar gratis por un seguro.',
+      `Tipo de vehiculo: ${data.get('vehicleType') || '-'}`,
+      `Seguros de interes: ${selectedCompanies.join(', ')}`,
+      `Nombre: ${data.get('clientName') || '-'}`,
+      `WhatsApp: ${data.get('clientWhatsapp') || '-'}`,
+      `Marca y modelo: ${data.get('vehicleModel') || '-'}`,
+      `Localidad: ${data.get('location') || '-'}`,
+      `Consulta: ${data.get('message') || '-'}`
+    ];
+
+    if (statusEl) {
+      statusEl.textContent = 'Abriendo WhatsApp para enviar la consulta.';
+      statusEl.classList.remove('is-error');
+    }
+
+    window.open(waLink(lines.join('\n')), '_blank', 'noopener');
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'conversion', { 'send_to': 'AW-18100857997/wTOLCMunu6AcEI3ZlLdD' });
     }
   });
 }

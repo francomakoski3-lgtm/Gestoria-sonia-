@@ -1,0 +1,12 @@
+(node:25004) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+Error: Archivo no encontrado.
+    at createHttpError (C:\Users\franc_tcymweq\Desktop\Pagina web Mama\server.js:1711:17)
+    at serveStatic (C:\Users\franc_tcymweq\Desktop\Pagina web Mama\server.js:934:11)
+    at Server.<anonymous> (C:\Users\franc_tcymweq\Desktop\Pagina web Mama\server.js:189:11)
+    at Server.emit (node:events:508:28)
+    at parserOnIncoming (node:_http_server:1210:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17) {
+  statusCode: 404,
+  expose: true
+}

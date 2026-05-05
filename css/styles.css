@@ -46,7 +46,7 @@
 *,
 *::before,
 *::after {
-    /* box-sizing: border-box */
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
@@ -182,7 +182,8 @@ button {
     flex-wrap: nowrap;
 }
 
-.nav-links a {
+.nav-links a,
+.nav-dropdown-toggle {
     color: var(--black);
     font-size: 15px;
     font-weight: 700;
@@ -195,7 +196,15 @@ button {
     transition: color 0.2s ease;
 }
 
-.nav-links a::after {
+.nav-dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    border: 0;
+    background: transparent;
+}
+
+.nav-links a::after,
+.nav-dropdown-toggle::after {
     content: '';
     position: absolute;
     left: 0;
@@ -209,16 +218,77 @@ button {
 }
 
 .nav-links a:hover,
-.nav-links a.active {
+.nav-dropdown-toggle:hover,
+.nav-dropdown.is-open > .nav-dropdown-toggle,
+.nav-dropdown:hover > .nav-dropdown-toggle,
+.nav-links a.active,
+.nav-dropdown-toggle.active {
     background: none;
-    color: var(--black);
+    color: #ff8a00;
 }
 
 .nav-links a:hover::after,
-.nav-links a.active::after {
+.nav-dropdown-toggle:hover::after,
+.nav-dropdown.is-open > .nav-dropdown-toggle::after,
+.nav-dropdown:hover > .nav-dropdown-toggle::after,
+.nav-links a.active::after,
+.nav-dropdown-toggle.active::after {
     transform: scaleX(1);
 }
 
+.nav-dropdown {
+    position: relative;
+}
+
+.nav-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 1010;
+    min-width: 268px;
+    padding: 8px 0;
+    background: #ffffff;
+    border: 1px solid rgba(17,17,17,0.08);
+    border-radius: 8px;
+    box-shadow: 0 14px 30px rgba(0,0,0,0.14);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s ease;
+}
+
+.nav-dropdown-menu a {
+    display: block;
+    width: 100%;
+    padding: 7px 20px;
+    color: #5f5f5f;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.35;
+    white-space: nowrap;
+}
+
+.nav-dropdown-menu a::after {
+    display: none;
+}
+
+.nav-dropdown-menu a:hover,
+.nav-dropdown-menu a.active {
+    color: #ff8a00;
+    background: rgba(255,138,0,0.07);
+}
+
+@media (min-width: 901px) {
+    .nav-dropdown:hover > .nav-dropdown-menu,
+    .nav-dropdown:focus-within > .nav-dropdown-menu,
+    .nav-dropdown.is-open > .nav-dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+}
 .nav-actions {
     display: flex;
     align-items: center;
@@ -1379,6 +1449,130 @@ button {
     align-self: flex-start;
 }
 
+.home-service-dropdown-card {
+    overflow: hidden;
+}
+
+.home-service-dropdown-toggle {
+    border: 0;
+}
+
+.home-service-dropdown-menu {
+    display: none;
+}
+
+body.home-service-modal-open {
+    overflow: hidden;
+}
+
+.home-service-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+}
+
+.home-service-modal[hidden] {
+    display: none;
+}
+
+.home-service-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(14,29,56,0.34);
+    backdrop-filter: blur(9px);
+}
+
+.home-service-modal-panel {
+    position: relative;
+    z-index: 1;
+    width: min(720px, 100%);
+    max-height: min(78vh, 720px);
+    overflow: auto;
+    padding: clamp(28px, 4vw, 44px);
+    background: #ffffff;
+    border: 1px solid rgba(17,17,17,0.08);
+    border-radius: 8px;
+    box-shadow: 0 24px 70px rgba(0,0,0,0.26);
+}
+
+.home-service-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(17,17,17,0.1);
+    border-radius: 50%;
+    background: #ffffff;
+    color: var(--ink);
+    font-size: 30px;
+    line-height: 1;
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.home-service-modal-close:hover {
+    color: #ff8a00;
+    border-color: rgba(255,138,0,0.3);
+    background: rgba(255,138,0,0.07);
+}
+
+.home-service-modal-eyebrow {
+    margin-bottom: 10px;
+    color: #ff8a00;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.home-service-modal-panel h2 {
+    max-width: calc(100% - 48px);
+    margin-bottom: 24px;
+    color: var(--ink);
+    font-size: clamp(28px, 5vw, 42px);
+    line-height: 1.05;
+}
+
+.home-service-modal-list {
+    display: grid;
+    gap: 10px;
+}
+
+.home-service-modal-list a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 54px;
+    padding: 14px 18px;
+    color: #4f4f4f;
+    border: 1px solid rgba(17,17,17,0.08);
+    border-radius: 8px;
+    background: #ffffff;
+    font-size: 17px;
+    font-weight: 650;
+    line-height: 1.25;
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.home-service-modal-list a::after {
+    content: '>';
+    color: #ff8a00;
+    font-weight: 800;
+}
+
+.home-service-modal-list a:hover {
+    color: #ff8a00;
+    border-color: rgba(255,138,0,0.3);
+    background: rgba(255,138,0,0.07);
+    transform: translateY(-1px);
+}
+
 .services-empty-state {
     grid-column: 1 / -1;
     padding: 34px 24px;
@@ -1402,7 +1596,7 @@ button {
 .transfer-quote-cover {
     background: linear-gradient(180deg, rgba(10,8,7,0.18) 0%, rgba(10,8,7,0.42) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/transferencia-cover.png?v=20260501-133952');
+    url('../img/services/transferencia-cover.png?v=20260505-180255');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1460,9 +1654,304 @@ button {
     padding: 24px;
 }
 
+.seguro-brand-cover .transfer-quote-cover-content,
+.seguro-brand-initials,
+.seguro-brand-logo {
+    position: relative;
+    z-index: 1;
+}
+
+.service-card-img .seguro-brand-logo {
+    width: min(78%, 330px);
+    height: auto;
+    max-height: 118px;
+    object-fit: contain;
+    padding: 20px 24px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.94);
+    box-shadow: 0 16px 44px rgba(0,0,0,0.14);
+}
+
+.seguro-brand-cover--atm .seguro-brand-logo {
+    max-height: 130px;
+}
+
 .seguro-brand-cover .transfer-quote-cover-content strong {
     color: #5d2f84;
     text-shadow: none;
+}
+
+.seguro-carrier-card {
+    min-width: 0;
+}
+
+.seguro-carrier-card .service-card-body {
+    min-height: 250px;
+}
+
+.seguro-carrier-card .service-card-body h3 {
+    overflow-wrap: anywhere;
+}
+
+.seguro-carrier-pill {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    margin-bottom: 14px;
+    padding: 8px 11px;
+    border: 1px solid rgba(var(--accent-rgb),0.18);
+    border-radius: 999px;
+    background: rgba(var(--accent-rgb),0.08);
+    color: var(--red-dark);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.seguro-brand-initials {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+    padding: 0 10px;
+    border: 1px solid rgba(255,255,255,0.34);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.22);
+    color: rgba(255,255,255,0.96);
+    font-size: 13px;
+    font-weight: 900;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.14);
+}
+
+.seguro-brand-cover--liderar {
+    background: linear-gradient(180deg, rgba(62,39,88,0.12) 0%, rgba(62,39,88,0.3) 100%),
+    radial-gradient(circle at 18% 18%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 26%),
+    linear-gradient(135deg, #f4eff9 0%, #e8def4 50%, #d8d0e8 100%);
+}
+
+.seguro-brand-cover--federacion {
+    background: linear-gradient(180deg, rgba(17,83,54,0.12) 0%, rgba(17,83,54,0.34) 100%),
+    radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 28%),
+    linear-gradient(135deg, #1f7b4d 0%, #16613e 54%, #0f3e31 100%);
+}
+
+.seguro-brand-cover--sancristobal {
+    background: linear-gradient(180deg, rgba(22,87,142,0.12) 0%, rgba(22,87,142,0.34) 100%),
+    radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 28%),
+    linear-gradient(135deg, #0e8ac0 0%, #116090 52%, #173c62 100%);
+}
+
+.seguro-brand-cover--mercantil {
+    background: linear-gradient(180deg, rgba(98,42,26,0.12) 0%, rgba(98,42,26,0.35) 100%),
+    radial-gradient(circle at 18% 18%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 28%),
+    linear-gradient(135deg, #c65328 0%, #8f3727 52%, #4f2626 100%);
+}
+
+.seguro-brand-cover--sancor {
+    background: linear-gradient(180deg, rgba(30,82,146,0.12) 0%, rgba(30,82,146,0.34) 100%),
+    radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 28%),
+    linear-gradient(135deg, #274f9f 0%, #1e3778 52%, #192749 100%);
+}
+
+.seguro-brand-cover--atm {
+    background: linear-gradient(180deg, rgba(64,71,78,0.12) 0%, rgba(64,71,78,0.35) 100%),
+    radial-gradient(circle at 18% 18%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 28%),
+    linear-gradient(135deg, #6f7d86 0%, #3f4c55 54%, #1f252b 100%);
+}
+
+.seguro-brand-cover--federacion .transfer-quote-cover-content strong,
+.seguro-brand-cover--sancristobal .transfer-quote-cover-content strong,
+.seguro-brand-cover--mercantil .transfer-quote-cover-content strong,
+.seguro-brand-cover--sancor .transfer-quote-cover-content strong,
+.seguro-brand-cover--atm .transfer-quote-cover-content strong {
+    color: var(--white);
+    text-shadow: 0 2px 16px rgba(0,0,0,0.24);
+}
+
+.seguros-logo-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: center;
+    gap: clamp(34px, 5vw, 76px) clamp(44px, 7vw, 104px);
+    width: min(100%, 1080px);
+    margin: 48px auto 0;
+}
+
+.seguros-logo-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 108px;
+    padding: 8px;
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.seguros-logo-link:hover {
+    opacity: 0.82;
+    transform: translateY(-2px);
+}
+
+.seguros-logo-link:focus-visible {
+    outline: 2px solid var(--black);
+    outline-offset: 8px;
+}
+
+.seguros-logo-link img {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    max-height: 108px;
+    object-fit: contain;
+}
+
+.seguros-logo-link[href*="ATM"] img,
+.seguros-logo-link[aria-label*="ATM"] img {
+    max-height: 126px;
+}
+
+.seguros-hero .hero-tag {
+    color: #ffffff;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.28);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.16);
+}
+
+.seguro-consulta-section {
+    background: linear-gradient(180deg, #ffffff 0%, rgba(247,243,238,0.72) 100%);
+    scroll-margin-top: calc(var(--nav-h) + 22px);
+}
+
+.seguro-consulta-card {
+    border-color: rgba(201,166,107,0.32);
+    box-shadow: 0 18px 52px rgba(14,29,56,0.1);
+}
+
+.seguro-consulta-cta {
+    width: min(100%, 760px);
+    margin: 0 auto;
+    text-align: center;
+}
+
+.seguro-consulta-cta h2 {
+    margin-bottom: 12px;
+    color: var(--navy);
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 900;
+    letter-spacing: -0.8px;
+    line-height: 1.08;
+}
+
+.seguro-consulta-cta p {
+    max-width: 620px;
+    margin: 0 auto 24px;
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+.seguro-company-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.seguro-company-option {
+    position: relative;
+    display: flex;
+    min-width: 0;
+}
+
+.seguro-company-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.seguro-company-option > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 104px;
+    padding: 18px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 10px;
+    background: #ffffff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.seguro-company-option img {
+    display: block;
+    width: 100%;
+    max-width: 180px;
+    max-height: 72px;
+    object-fit: contain;
+}
+
+.seguro-company-option:hover > span {
+    border-color: rgba(201,166,107,0.55);
+    transform: translateY(-1px);
+}
+
+.seguro-company-option.is-active > span {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(var(--accent-rgb),0.16);
+}
+
+.seguro-company-option.is-active::after {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.vehicle-type-switch--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.seguro-vehicle-text-icon {
+    display: grid;
+    place-items: center;
+    width: min(92px, 100%);
+    height: 54px;
+    border-radius: 12px;
+    background: rgba(14,29,56,0.08);
+    color: var(--navy);
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 0;
+}
+
+.vehicle-type-option.is-active .seguro-vehicle-text-icon {
+    background: rgba(255,255,255,0.18);
+    color: #ffffff;
+}
+
+.seguro-consulta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.seguro-consulta-grid > div {
+    min-width: 0;
 }
 
 .transfer-service-card .service-card-body h3 {
@@ -1476,7 +1965,7 @@ button {
 .domain-report-cover {
     background: linear-gradient(180deg, rgba(10,8,7,0.18) 0%, rgba(10,8,7,0.42) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/informes-cover.png?v=20260501-133952');
+    url('../img/services/informes-cover.png?v=20260505-180255');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1500,7 +1989,7 @@ button {
 .gestoria-sale-cover {
     background: linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.38) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/denuncia-venta-cover.png?v=20260501-133952');
+    url('../img/services/denuncia-venta-cover.png?v=20260505-180255');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1509,7 +1998,7 @@ button {
 .gestoria-documents-cover {
     background: linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.36) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/cedula-titulo-cover.png?v=20260501-133952');
+    url('../img/services/cedula-titulo-cover.png?v=20260505-180255');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1518,7 +2007,7 @@ button {
 .gestoria-zero-cover {
     background: linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.34) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/inscripcion-0km-cover.png?v=20260501-133952');
+    url('../img/services/inscripcion-0km-cover.png?v=20260505-180255');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1527,7 +2016,7 @@ button {
 .gestoria-registral-cover {
     background: linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.38) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/prendas-registrales-cover.png?v=20260501-133952');
+    url('../img/services/prendas-registrales-cover.png?v=20260505-180255');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1536,7 +2025,7 @@ button {
 .gestoria-guidance-cover {
     background: linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.36) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/asesoramiento-cover.png?v=20260501-133952');
+    url('../img/services/asesoramiento-cover.png?v=20260505-180255');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1879,14 +2368,6 @@ button {
 .reviews-shell--full {
     grid-template-columns: 1fr;
     max-width: 860px;
-}
-
-/* Elfsight wrapper */
-.reviews-elfsight-wrap {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 300px;
 }
 
 /* ── Filtros ───────────────────────────────────────────────── */
@@ -4399,7 +4880,9 @@ button {
 
 .vehicle-type-option {
     position: relative;
-    display: inline-flex;
+    display: flex;
+    min-width: 0;
+    width: 100%;
 }
 
 .vehicle-type-option input {
@@ -4410,6 +4893,7 @@ button {
 
 .vehicle-type-option > span {
     width: 100%;
+    min-width: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -4816,6 +5300,13 @@ button {
     margin: 0 auto;
 }
 
+.contact-section,
+.contact-section *,
+.contact-section *::before,
+.contact-section *::after {
+    box-sizing: border-box;
+}
+
 .contact-section {
     padding-top: 72px;
 }
@@ -5189,7 +5680,8 @@ button {
     margin-bottom: 16px;
 }
 
-.footer-col a {
+.footer-col a,
+.footer-link-button {
     display: block;
     font-size: 13px;
     color: rgba(255,255,255,0.6);
@@ -5197,8 +5689,36 @@ button {
     transition: color 0.2s;
 }
 
-.footer-col a:hover {
+.footer-link-button {
+    width: fit-content;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.footer-col a:hover,
+.footer-link-button:hover,
+.footer-link-button[aria-expanded="true"] {
     color: var(--white);
+}
+
+.footer-col a.footer-social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+}
+
+.footer-social-link svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .footer-bottom {
@@ -5633,7 +6153,8 @@ button {
         gap: 14px;
     }
 
-    .nav-links a {
+    .nav-links a,
+    .nav-dropdown-toggle {
         font-size: 14px;
     }
 
@@ -5690,8 +6211,11 @@ button {
         position: absolute;
         top: calc(100% + 10px);
         right: 16px;
-        left: auto;
-        width: min(320px, calc(100vw - 32px));
+        left: 16px;
+        width: auto;
+        max-width: 320px;
+        margin-left: auto;
+        justify-self: stretch;
         background: rgba(255,255,255,0.98);
         padding: 10px;
         border: 1px solid rgba(17,17,17,0.08);
@@ -5703,9 +6227,11 @@ button {
 
     .nav-links.open li {
         width: 100%;
+        min-width: 0;
     }
 
-    .nav-links.open a {
+    .nav-links.open a,
+    .nav-links.open .nav-dropdown-toggle {
         width: 100%;
         display: flex;
         align-items: center;
@@ -5717,13 +6243,75 @@ button {
         font-weight: 800;
     }
 
-    .nav-links.open a::after {
+    .nav-links.open a::after,
+    .nav-links.open .nav-dropdown-toggle::after {
         display: none;
     }
 
     .nav-links.open a:hover,
-      .nav-links.open a.active {
+    .nav-links.open .nav-dropdown-toggle:hover,
+    .nav-links.open .nav-dropdown.is-open > .nav-dropdown-toggle,
+    .nav-links.open a.active,
+    .nav-links.open .nav-dropdown-toggle.active {
         background: #f4f4f4;
+        color: #ff8a00;
+    }
+
+    .nav-links.open .nav-dropdown-menu {
+        position: static;
+        display: none;
+        min-width: 0;
+        width: 100%;
+        padding: 0 0 4px 12px;
+        margin-top: -2px;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        pointer-events: auto;
+        background: transparent;
+    }
+
+    .nav-links.open .nav-dropdown.is-open > .nav-dropdown-menu {
+        display: block;
+    }
+
+    .nav-links.open .nav-dropdown-menu a {
+        padding: 10px 14px;
+        color: #5f5f5f;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.35;
+        white-space: normal;
+    }
+
+    .nav-links.open .nav-dropdown-menu a:hover,
+    .nav-links.open .nav-dropdown-menu a.active {
+        color: #ff8a00;
+        background: rgba(255,138,0,0.07);
+    }
+
+    .home-service-modal {
+        align-items: stretch;
+        padding: 12px;
+    }
+
+    .home-service-modal-panel {
+        width: 100%;
+        max-height: calc(100vh - 24px);
+        padding: 28px 18px 22px;
+    }
+
+    .home-service-modal-panel h2 {
+        font-size: 30px;
+    }
+
+    .home-service-modal-list a {
+        min-height: 52px;
+        padding: 13px 14px;
+        font-size: 16px;
     }
 
     .nav-actions {
@@ -6500,11 +7088,17 @@ button {
     }
 
     .nav-links.open {
+        left: 12px;
         right: 12px;
-        width: calc(100vw - 24px);
+        width: auto;
+        max-width: none;
+        margin-left: 0;
+        margin-right: 0;
+        justify-self: stretch;
     }
 
-    .nav-links.open a {
+    .nav-links.open a,
+    .nav-links.open .nav-dropdown-toggle {
         padding: 13px 14px;
         font-size: 16px;
     }
@@ -6798,6 +7392,39 @@ button {
         border-radius: 16px;
         justify-content: center;
     }
+
+    .seguros-logo-gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 30px 36px;
+        margin-top: 36px;
+    }
+
+    .seguros-logo-link {
+        min-height: 92px;
+    }
+
+    .seguros-logo-link img {
+        max-width: 230px;
+        max-height: 92px;
+    }
+
+    .vehicle-type-switch--3 {
+        grid-template-columns: 1fr;
+    }
+
+    .seguro-company-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .seguro-consulta-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+        margin-bottom: 0;
+    }
+
+    .seguro-consulta-grid > div {
+        margin-bottom: 16px;
+    }
 }
 
 /* ── Optimización iPhone / móvil compacto ───────────────────── */
@@ -6879,6 +7506,30 @@ button {
 
     .services-grid {
         gap: 16px;
+    }
+
+    .seguros-logo-gallery {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        margin-top: 32px;
+    }
+
+    .seguros-logo-link {
+        min-height: 76px;
+        padding: 0;
+    }
+
+    .seguros-logo-link img {
+        max-width: 240px;
+        max-height: 82px;
+    }
+
+    .seguro-company-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .seguro-company-option > span {
+        min-height: 88px;
     }
 
     /* "¿Por qué elegirnos?" — 2 columnas compactas */
@@ -7261,6 +7912,18 @@ button {
     justify-content: center;
 }
 
+.contact-section .contact-info,
+.contact-section .contact-form {
+    min-width: 0;
+}
+
+.contact-section .contact-form form,
+.contact-section .form-group,
+.contact-section .form-group input,
+.contact-section .form-group textarea {
+    max-width: 100%;
+}
+
 .contact-section .contact-intro {
     color: var(--gray-500);
 }
@@ -7311,18 +7974,26 @@ a:hover {
     box-shadow: 0 4px 12px rgba(25, 47, 86, 0.08);
 }
 
-.nav-links a {
+.nav-links a,
+.nav-dropdown-toggle {
     color: var(--ink);
     font-weight: 600;
 }
 
-.nav-links a::after {
+.nav-links a::after,
+.nav-dropdown-toggle::after {
     background: var(--gold);
 }
 
 .nav-links a:hover,
-.nav-links a.active {
-    color: var(--navy);
+.nav-dropdown-toggle:hover,
+.nav-dropdown.is-open > .nav-dropdown-toggle,
+.nav-dropdown:hover > .nav-dropdown-toggle,
+.nav-links a.active,
+.nav-dropdown-toggle.active,
+.nav-dropdown-menu a:hover,
+.nav-dropdown-menu a.active {
+    color: #ff8a00;
 }
 
 .nav-search,
@@ -7607,19 +8278,19 @@ a:hover {
 .gestoria-inmobiliaria-sale-cover {
     background: linear-gradient(180deg, rgba(14, 29, 56, 0.18) 0%, rgba(14, 29, 56, 0.56) 100%),
     radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 26%),
-    url('../img/services/inmuebles-cover.jpg?v=20260501-133952');
+    url('../img/services/inmuebles-cover.jpg?v=20260505-180255');
 }
 
 .gestoria-inmobiliaria-rental-cover {
     background: linear-gradient(180deg, rgba(14, 29, 56, 0.18) 0%, rgba(14, 29, 56, 0.56) 100%),
     radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 26%),
-    url('../img/services/inmuebles-cover.jpg?v=20260501-133952');
+    url('../img/services/inmuebles-cover.jpg?v=20260505-180255');
 }
 
 .seguro-brand-cover {
     background: linear-gradient(180deg, rgba(14, 29, 56, 0.2) 0%, rgba(14, 29, 56, 0.6) 100%),
     radial-gradient(circle at 18% 18%, rgba(201, 166, 107, 0.18) 0%, rgba(201, 166, 107, 0) 26%),
-    url('../img/services/seguros-cover.jpg?v=20260501-133952');
+    url('../img/services/seguros-cover.jpg?v=20260505-180255');
 }
 
 .seguro-brand-cover .transfer-quote-cover-content strong {
@@ -7656,6 +8327,8 @@ a:hover {
 }
 
 .footer-col a:hover,
+.footer-link-button:hover,
+.footer-link-button[aria-expanded="true"],
 .footer a:hover {
     color: var(--gold);
 }
@@ -7857,5 +8530,408 @@ a:hover {
 
 .titulos-page-hero .titulos-hero-panel p {
     color: var(--ink-soft);
+}
+
+.local-reviews,
+.local-reviews * {
+    box-sizing: border-box;
+}
+
+.local-reviews {
+    --reviews-gap: 22px;
+    --reviews-per-page: 3;
+    overflow: hidden;
+    background: var(--cream);
+}
+
+.local-reviews .reviews-section-header {
+    margin-bottom: 28px;
+}
+
+.local-reviews .reviews-eyebrow {
+    margin-bottom: 14px;
+}
+
+.reviews-local-widget {
+    display: grid;
+    gap: 22px;
+    width: min(100%, 1080px);
+    margin: 0 auto;
+}
+
+.reviews-rating-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 22px;
+    padding: 24px 28px;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+}
+
+.reviews-rating-score {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    min-width: 0;
+}
+
+.reviews-rating-score strong {
+    font-size: clamp(44px, 5vw, 58px);
+    line-height: 1;
+    color: var(--navy);
+}
+
+.reviews-rating-score span {
+    max-width: 120px;
+    color: var(--ink-soft);
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.25;
+    text-transform: uppercase;
+}
+
+.reviews-rating-meta {
+    display: grid;
+    gap: 5px;
+    min-width: 0;
+}
+
+.reviews-rating-stars {
+    color: #f4b400;
+    font-size: 20px;
+    letter-spacing: 2px;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.reviews-google-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 12px 20px;
+    border: 1px solid var(--cta);
+    border-radius: 8px;
+    background: var(--cta);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.reviews-google-btn:hover {
+    background: var(--cta-dark);
+    border-color: var(--cta-dark);
+    transform: translateY(-1px);
+}
+
+.reviews-carousel {
+    position: relative;
+    padding: 0 48px;
+}
+
+.reviews-carousel-viewport {
+    overflow: hidden;
+}
+
+.reviews-track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - 44px) / 3);
+    gap: var(--reviews-gap);
+    align-items: stretch;
+    transition: transform 0.34s ease;
+    will-change: transform;
+}
+
+.google-review-card {
+    min-height: 198px;
+    padding: 22px 24px;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-decoration: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.google-review-card:hover {
+    border-color: rgba(25,47,86,0.2);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.google-review-header {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+}
+
+.google-review-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(25,47,86,0.12);
+    box-shadow: 0 4px 10px rgba(25,47,86,0.12);
+}
+
+.google-review-avatar-fallback {
+    display: grid;
+    place-items: center;
+    background: var(--cream);
+    color: var(--navy);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.google-review-author {
+    min-width: 0;
+}
+
+.google-review-author h3 {
+    margin: 0;
+    overflow: hidden;
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.google-review-author span {
+    display: block;
+    margin-top: 2px;
+    color: var(--ink-soft);
+    font-size: 12px;
+}
+
+.google-review-source {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #ffffff;
+    border: 1px solid rgba(25,47,86,0.12);
+}
+
+.google-review-source img {
+    width: 18px;
+    height: 18px;
+}
+
+.google-review-stars {
+    color: #f4b400;
+    font-size: 18px;
+    letter-spacing: 1px;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.google-review-card p {
+    margin: 0;
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+.reviews-carousel-btn {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(25,47,86,0.16);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #ffffff;
+    color: var(--navy);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-50%);
+    transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.reviews-carousel-btn:hover {
+    background: var(--navy);
+    color: #ffffff;
+}
+
+.reviews-carousel-btn:disabled {
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+.reviews-carousel-btn--prev {
+    left: 0;
+}
+
+.reviews-carousel-btn--next {
+    right: 0;
+}
+
+.reviews-carousel-btn svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.reviews-carousel--single .reviews-carousel-btn,
+.reviews-carousel--single .reviews-carousel-dots,
+.reviews-carousel--empty .reviews-carousel-btn,
+.reviews-carousel--empty .reviews-carousel-dots {
+    display: none;
+}
+
+.reviews-carousel--single .reviews-carousel,
+.reviews-carousel--empty .reviews-carousel {
+    padding: 0;
+}
+
+.reviews-empty-state {
+    min-height: 120px;
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--ink-soft);
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.reviews-empty-state[hidden] {
+    display: none;
+}
+
+.reviews-carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    min-height: 14px;
+}
+
+.reviews-carousel-dot {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(25,47,86,0.28);
+}
+
+.reviews-carousel-dot.is-active {
+    background: var(--navy);
+}
+
+@media (max-width: 960px) {
+    .local-reviews {
+        --reviews-gap: 18px;
+        --reviews-per-page: 2;
+    }
+
+    .reviews-rating-card {
+        grid-template-columns: 1fr;
+        align-items: start;
+    }
+
+    .reviews-google-btn {
+        justify-self: start;
+    }
+
+    .reviews-track {
+        grid-auto-columns: calc((100% - 18px) / 2);
+    }
+}
+
+@media (max-width: 640px) {
+    .local-reviews {
+        --reviews-gap: 16px;
+        --reviews-per-page: 1;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .reviews-local-widget {
+        width: 100%;
+        max-width: calc(100vw - 32px);
+    }
+
+    .reviews-rating-card {
+        width: 100%;
+        max-width: 360px;
+        margin-right: 0;
+        margin-left: 0;
+        padding: 20px;
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .local-reviews .section-header h2 {
+        max-width: 12ch;
+        margin-right: auto;
+        margin-left: auto;
+        font-size: 28px;
+        line-height: 1.15;
+    }
+
+    .reviews-rating-score {
+        flex-wrap: wrap;
+    }
+
+    .reviews-google-btn {
+        display: block;
+        width: 100%;
+        min-height: 0;
+        padding: 12px 14px;
+        font-size: 12px;
+        text-align: center;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .reviews-carousel {
+        padding: 0 38px;
+    }
+
+    .reviews-track {
+        grid-auto-columns: 100%;
+    }
+
+    .google-review-card {
+        min-height: 188px;
+        padding: 20px;
+    }
+
+    .reviews-carousel-btn {
+        width: 34px;
+        height: 34px;
+    }
+}
+
+.seguros-hero .hero-tag {
+    color: #ffffff;
+    background: rgba(255,255,255,0.16);
+    border: 1px solid rgba(255,255,255,0.38);
 }
 

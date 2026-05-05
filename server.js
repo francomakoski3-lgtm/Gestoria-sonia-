@@ -29,8 +29,12 @@ const UPLOADS_DIR = path.join(ROOT_DIR, 'uploads');
 const PORT = Number.parseInt(process.env.PORT || '3000', 10);
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const COOKIE_NAME = 'gs_admin_session';
-const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY || '';
-const GOOGLE_PLACE_ID_ENV = process.env.GOOGLE_PLACE_ID || '';
+const GOOGLE_BUSINESS_ACCOUNT_ID = process.env.GOOGLE_BUSINESS_ACCOUNT_ID || '';
+const GOOGLE_BUSINESS_LOCATION_ID = process.env.GOOGLE_BUSINESS_LOCATION_ID || '';
+const GOOGLE_BUSINESS_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
+const GOOGLE_BUSINESS_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '';
+const GOOGLE_BUSINESS_REFRESH_TOKEN = process.env.GOOGLE_REFRESH_TOKEN || '';
+const GOOGLE_REVIEWS_URL = process.env.GOOGLE_REVIEWS_URL || 'https://maps.app.goo.gl/nKTV4h44HSK61qzRA';
 
 const GMAIL_CLIENT_ID = process.env.GMAIL_CLIENT_ID || '';
 const GMAIL_CLIENT_SECRET = process.env.GMAIL_CLIENT_SECRET || '';
@@ -39,7 +43,7 @@ const GMAIL_FROM_EMAIL = process.env.GMAIL_FROM_EMAIL || 'francomakoski4@gmail.c
 const GMAIL_TO_EMAIL = process.env.GMAIL_TO_EMAIL || 'francomakoski4@gmail.com';
 
 // Cache de reseñas en memoria (se renueva cada 24 horas)
-const reviewsCache = { data: null, expiresAt: 0, placeId: GOOGLE_PLACE_ID_ENV };
+const reviewsCache = { data: null, expiresAt: 0 };
 const REVIEWS_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
 // Cache de geolocalización por IP (evita llamadas repetidas a ip-api.com)
@@ -2146,8 +2150,16 @@ async function getGeoForIp(ip) {
 }
 
 async function getGoogleReviews() {
-  if (!GOOGLE_PLACES_API_KEY) {
-    return { fallback: true };
+  const hasBusinessConfig = Boolean(
+    GOOGLE_BUSINESS_ACCOUNT_ID &&
+    GOOGLE_BUSINESS_LOCATION_ID &&
+    GOOGLE_BUSINESS_CLIENT_ID &&
+    GOOGLE_BUSINESS_CLIENT_SECRET &&
+    GOOGLE_BUSINESS_REFRESH_TOKEN
+  );
+
+  if (!hasBusinessConfig) {
+    return buildGoogleReviewsFallback('missing_credentials');
   }
 
   if (reviewsCache.data && Date.now() < reviewsCache.expiresAt) {
@@ -2155,45 +2167,51 @@ async function getGoogleReviews() {
   }
 
   try {
-    if (!reviewsCache.placeId) {
-      const searchRes = await fetch('https://places.googleapis.com/v1/places:searchText', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Goog-Api-Key': GOOGLE_PLACES_API_KEY,
-          'X-Goog-FieldMask': 'places.id'
-        },
-        body: JSON.stringify({ textQuery: 'GESTORÍA Sonia Altamirano Jardín América Misiones' })
+    const accessToken = await getGoogleBusinessAccessToken();
+    if (!accessToken) return buildGoogleReviewsFallback('missing_access_token');
+
+    const reviews = [];
+    let pageToken = '';
+    let averageRating = null;
+    let totalReviewCount = null;
+
+    do {
+      const params = new URLSearchParams({
+        pageSize: '50',
+        orderBy: 'updateTime desc'
       });
-      const searchData = await searchRes.json();
-      const placeId = searchData?.places?.[0]?.id;
-      if (!placeId) return { fallback: true };
-      reviewsCache.placeId = placeId;
-    }
+      if (pageToken) params.set('pageToken', pageToken);
 
-    const detailRes = await fetch(
-      `https://places.googleapis.com/v1/places/${reviewsCache.placeId}`,
-      {
-        headers: {
-          'X-Goog-Api-Key': GOOGLE_PLACES_API_KEY,
-          'X-Goog-FieldMask': 'id,rating,userRatingsTotal,reviews'
-        }
+      const accountId = normalizeGoogleBusinessId(GOOGLE_BUSINESS_ACCOUNT_ID, 'accounts/');
+      const locationId = normalizeGoogleBusinessId(GOOGLE_BUSINESS_LOCATION_ID, 'locations/');
+      const endpoint = `https://mybusiness.googleapis.com/v4/accounts/${encodeURIComponent(accountId)}/locations/${encodeURIComponent(locationId)}/reviews?${params.toString()}`;
+      const reviewsRes = await fetch(endpoint, {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      });
+
+      const reviewsData = await reviewsRes.json().catch(() => ({}));
+      if (!reviewsRes.ok) {
+        const message = reviewsData?.error?.message || `HTTP ${reviewsRes.status}`;
+        throw new Error(message);
       }
-    );
-    const detail = await detailRes.json();
 
-    const reviews = (detail.reviews || []).map(r => ({
-      author: r.authorAttribution?.displayName || 'Cliente',
-      photoUrl: r.authorAttribution?.photoUri || null,
-      rating: r.rating || 5,
-      text: r.text?.text || '',
-      relativeTime: r.relativePublishTimeDescription || ''
-    }));
+      if (Number.isFinite(Number(reviewsData.averageRating))) {
+        averageRating = Number(reviewsData.averageRating);
+      }
+      if (Number.isFinite(Number(reviewsData.totalReviewCount))) {
+        totalReviewCount = Number(reviewsData.totalReviewCount);
+      }
+
+      reviews.push(...(reviewsData.reviews || []).map(normalizeGoogleBusinessReview));
+      pageToken = reviewsData.nextPageToken || '';
+    } while (pageToken);
 
     const result = {
-      rating: detail.rating || null,
-      totalRatings: detail.userRatingsTotal || null,
+      fallback: false,
+      rating: averageRating,
+      totalReviewCount,
       reviews,
+      reviewsUrl: GOOGLE_REVIEWS_URL,
       fetchedAt: new Date().toISOString()
     };
 
@@ -2202,9 +2220,94 @@ async function getGoogleReviews() {
 
     return result;
   } catch (err) {
-    console.error('[reviews] Error al obtener reseñas de Google:', err.message);
-    return { fallback: true };
+    console.error('[reviews] Error al obtener resenas de Google Business Profile:', err.message);
+    return buildGoogleReviewsFallback('google_business_error');
   }
+}
+
+async function getGoogleBusinessAccessToken() {
+  try {
+    const res = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        client_id: GOOGLE_BUSINESS_CLIENT_ID,
+        client_secret: GOOGLE_BUSINESS_CLIENT_SECRET,
+        refresh_token: GOOGLE_BUSINESS_REFRESH_TOKEN,
+        grant_type: 'refresh_token'
+      })
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      console.error('[reviews] OAuth error:', data?.error_description || data?.error || `HTTP ${res.status}`);
+      return null;
+    }
+
+    return data.access_token || null;
+  } catch (err) {
+    console.error('[reviews] OAuth network error:', err.message);
+    return null;
+  }
+}
+
+function buildGoogleReviewsFallback(reason) {
+  return {
+    fallback: true,
+    reason,
+    rating: 4.8,
+    totalReviewCount: null,
+    reviews: [],
+    reviewsUrl: GOOGLE_REVIEWS_URL,
+    fetchedAt: new Date().toISOString()
+  };
+}
+
+function normalizeGoogleBusinessReview(review) {
+  const createTime = review.createTime || review.updateTime || '';
+  const reviewer = review.reviewer || {};
+  return {
+    id: review.reviewId || `${reviewer.displayName || 'review'}-${createTime}`,
+    author: reviewer.displayName || 'Cliente',
+    photoUrl: reviewer.profilePhotoUrl || null,
+    rating: googleBusinessStarRatingToNumber(review.starRating),
+    text: review.comment || '',
+    createTime,
+    relativeTime: formatReviewRelativeTime(createTime)
+  };
+}
+
+function googleBusinessStarRatingToNumber(starRating) {
+  const ratings = {
+    ONE: 1,
+    TWO: 2,
+    THREE: 3,
+    FOUR: 4,
+    FIVE: 5
+  };
+  if (typeof starRating === 'number') return Math.min(5, Math.max(0, starRating));
+  return ratings[String(starRating || '').toUpperCase()] || 5;
+}
+
+function normalizeGoogleBusinessId(value, prefix) {
+  return String(value || '').trim().replace(prefix, '');
+}
+
+function formatReviewRelativeTime(value) {
+  const date = value ? new Date(value) : null;
+  if (!date || Number.isNaN(date.getTime())) return '';
+
+  const diffMs = Date.now() - date.getTime();
+  const dayMs = 24 * 60 * 60 * 1000;
+  const days = Math.max(0, Math.floor(diffMs / dayMs));
+  if (days < 1) return 'hoy';
+  if (days < 30) return `hace ${days} ${days === 1 ? 'd\u00eda' : 'd\u00edas'}`;
+
+  const months = Math.floor(days / 30);
+  if (months < 12) return `hace ${months} ${months === 1 ? 'mes' : 'meses'}`;
+
+  const years = Math.floor(days / 365);
+  return `hace ${years} ${years === 1 ? 'a\u00f1o' : 'a\u00f1os'}`;
 }
 
 function ensureDir(target) {

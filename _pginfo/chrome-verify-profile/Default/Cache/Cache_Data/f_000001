@@ -1,0 +1,518 @@
+<!DOCTYPE html> 
+<html lang="es"> 
+    <head> 
+        <meta charset="UTF-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <link rel="icon" type="image/png" sizes="192x192" href="img/site-icon.png?v=20260505-175351"> 
+        <link rel="icon" type="image/png" sizes="32x32" href="img/favicon.png?v=20260505-175351"> 
+        <link rel="apple-touch-icon" href="img/site-icon.png?v=20260505-175351"> 
+        <title>Gestoría, Seguros y Oportunidades en Jardín América | Gestoría Sonia</title>         
+        <meta name="description" content="Gestoría Sonia en Jardín América, Misiones: gestoría del automotor, gestoría inmobiliaria, seguros y oportunidades de autos e inmuebles en un solo lugar."> 
+        <link rel="canonical" href="https://gestoriasonia.ar/"> 
+        <!-- SEO:START -->         
+        <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"> 
+        <meta property="og:locale" content="es_AR"> 
+        <meta property="og:type" content="website"> 
+        <meta property="og:site_name" content="Gestoría Sonia"> 
+        <meta property="og:title" content="Gestoría, Seguros y Oportunidades en Jardín América | Gestoría Sonia"> 
+        <meta property="og:description" content="Gestoría Sonia en Jardín América, Misiones: gestoría del automotor, gestoría inmobiliaria, seguros y oportunidades de autos e inmuebles en un solo lugar."> 
+        <meta property="og:url" content="https://gestoriasonia.ar/"> 
+        <meta property="og:image" content="https://gestoriasonia.ar/img/site-icon.png?v=20260505-175351"> 
+        <meta property="og:image:alt" content="Gestoría, Seguros y Oportunidades en Jardín América | Gestoría Sonia"> 
+        <meta name="twitter:card" content="summary_large_image"> 
+        <meta name="twitter:title" content="Gestoría, Seguros y Oportunidades en Jardín América | Gestoría Sonia"> 
+        <meta name="twitter:description" content="Gestoría Sonia en Jardín América, Misiones: gestoría del automotor, gestoría inmobiliaria, seguros y oportunidades de autos e inmuebles en un solo lugar."> 
+        <meta name="twitter:image" content="https://gestoriasonia.ar/img/site-icon.png?v=20260505-175351"> 
+        <!-- SEO:END -->         
+        <link rel="stylesheet" href="css/styles.css?v=20260505-175351">
+        <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://gestoriasonia.ar/#website",
+          "url": "https://gestoriasonia.ar/",
+          "name": "Gestoría Sonia",
+          "alternateName": "gestoriasonia.ar"
+        },
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://gestoriasonia.ar/#organization",
+          "url": "https://gestoriasonia.ar/",
+          "name": "Gestoría Sonia",
+          "alternateName": "gestoriasonia.ar",
+          "description": "Gestoría del automotor, gestoría inmobiliaria, seguros y oportunidades en Jardín América, Misiones.",
+          "logo": "https://gestoriasonia.ar/img/logo.png?v=20260505-175351",
+          "image": [
+            "https://gestoriasonia.ar/img/logo.png?v=20260505-175351",
+            "https://gestoriasonia.ar/img/site-icon.png?v=20260505-175351"
+          ],
+          "telephone": "+54 3743 66-8039",
+          "email": "mailto:Gerasoal@gmail.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Av. Antártida Argentina 564",
+            "addressLocality": "Jardín América",
+            "addressRegion": "Misiones",
+            "addressCountry": "AR"
+          },
+          "areaServed": {
+            "@type": "City",
+            "name": "Jardín América"
+          },
+          "sameAs": [
+            "https://maps.app.goo.gl/nKTV4h44HSK61qzRA"
+          ]
+        }
+      ]
+    }
+  </script>         
+        <!-- Google tag (gtag.js) -->         
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18100857997"></script>         
+        <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'AW-18100857997');
+  </script>         
+    </head>     
+    <body> 
+        <!-- ----------------------- NAVBAR --------------------------- -->         
+        <nav class="navbar"> 
+            <a href="/" class="nav-logo">  <div class="nav-logo-img-wrap"> 
+                    <img src="img/logo.png?v=20260505-175351" alt="Gestoría Sonia" class="nav-logo-img" onerror="this.classList.add('broken')"> 
+                    <div class="nav-logo-fallback" style="flex-direction:column;align-items:center;line-height:1.1;"> 
+                        <span style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:15px;color:#111;letter-spacing:0.5px;">GESTORÍA</span> 
+                        <span style="font-family:'Montserrat',sans-serif;font-style:italic;font-size:17px;color:#111;font-weight:700;">Sonia</span> 
+                    </div>                     
+                </div>  </a> 
+              <ul class="nav-links">
+    <li><a href="/">Inicio</a></li>
+    <li class="nav-dropdown" data-nav-dropdown>
+      <button type="button" class="nav-dropdown-toggle" aria-expanded="false" data-nav-dropdown-toggle data-nav-section="gestoria">
+        <span>Gestor&iacute;a automotor</span>
+      </button>
+      <ul class="nav-dropdown-menu" aria-label="Servicios de gestor&iacute;a automotor">
+        <li><a href="transferencia-automotor">Transferencia automotor</a></li>
+        <li><a href="informe-de-dominio">Informe de dominio</a></li>
+        <li><a href="denuncia-de-venta">Denuncia de venta</a></li>
+        <li><a href="cedula-y-titulo-automotor">C&eacute;dula, t&iacute;tulo y duplicados</a></li>
+        <li><a href="inscripcion-0km">Inscripci&oacute;n 0 km</a></li>
+        <li><a href="prendas-y-tramites-registrales">Prendas y tr&aacute;mites registrales</a></li>
+        <li><a href="asesoramiento-automotor">Asesoramiento personalizado</a></li>
+      </ul>
+    </li>
+    <li class="nav-dropdown" data-nav-dropdown>
+      <button type="button" class="nav-dropdown-toggle" aria-expanded="false" data-nav-dropdown-toggle data-nav-section="gestoria-inmobiliaria">
+        <span>Gestor&iacute;a inmobiliaria</span>
+      </button>
+      <ul class="nav-dropdown-menu" aria-label="Servicios de gestor&iacute;a inmobiliaria">
+        <li><a href="boleto-compra-venta-inmuebles">Boleto de compra venta de inmuebles</a></li>
+        <li><a href="contratos-de-alquiler">Contratos de alquiler</a></li>
+      </ul>
+    </li>
+    <li><a href="seguros">Seguros</a></li>
+    <li><a href="mercado">Mercado</a></li>
+  </ul>
+  <div class="nav-actions"> 
+                <a href="#contacto" class="nav-search" aria-label="Ir a la sección de contacto">  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>  <span>Contacto</span>  </a> 
+                <a href="https://maps.app.goo.gl/nKTV4h44HSK61qzRA" target="_blank" rel="noopener" class="nav-icon-btn nav-icon-btn--location" aria-label="Ver ubicación en Google Maps">  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 21s-6-4.35-6-10a6 6 0 1 1 12 0c0 5.65-6 10-6 10Z"/>
+                        <circle cx="12" cy="11" r="2.5"/>
+                    </svg>  <span>Ubicación</span>  </a> 
+                <a href="https://calendly.com/francomakoski3/30min" target="_blank" rel="noopener" class="nav-icon-btn nav-icon-btn--appointment" aria-label="Sacar turno">  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="17" rx="3"/>
+                        <path d="M8 2.75v3.5M16 2.75v3.5M3 9.5h18"/>
+                        <path d="M8 13h3M13 13h3M8 17h3"/>
+                    </svg>  <span>Sacar turno</span>  </a> 
+                <button class="nav-toggle" aria-label="Menú"> 
+                    <span></span>
+                    <span></span>
+                    <span></span> 
+                </button>                 
+            </div>             
+        </nav>         
+        <!-- ----------------------- HERO ------------------------------ -->         
+        <section class="hero home-hero"> 
+            <div class="hero-bg"></div>             
+            <div class="hero-content"> 
+                <span class="hero-tag">Mandataria nacional</span> 
+                <h1>Seguros, gestoría del&nbsp;<br><em>automotor e inmobiliaria</em><br>en un solo lugar.</h1> 
+            </div>             
+        </section>         
+        <!-- ----------------------- SERVICIOS ------------------------ -->         
+        <section class="section"> 
+            <div class="section-header"> 
+                <h2>¿Qué hacemos?</h2> 
+                <p>Cuatro servicios bajo un mismo techo, con atención personalizada y conocimiento local.</p> 
+            </div>             
+            <div class="services-grid"> 
+                <article class="service-card home-service-dropdown-card" data-home-service-dropdown data-home-service-title="Gestor&iacute;a del automotor">  <div class="service-card-img"> 
+                        <img src="img/services/gestoria-cover.jpg?v=20260505-175351" alt="Documentación y trámites de gestoría del automotor" loading="lazy"> 
+                    </div>  <div class="service-card-body"> 
+                        <h3>Gestoría del automotor</h3> 
+                        <p>Transferencia digital, informes, cédulas, título, 0 km, prendas, turnos y cambios registrales alineados con DNRPA.</p> 
+                        <button type="button" class="btn btn-dark btn-sm home-service-dropdown-toggle" aria-expanded="false" data-home-service-dropdown-toggle>Ver servicios</button>
+                        <div class="home-service-dropdown-menu" data-home-service-dropdown-menu>
+                            <a href="transferencia-automotor">Transferencia automotor</a>
+                            <a href="informe-de-dominio">Informe de dominio</a>
+                            <a href="denuncia-de-venta">Denuncia de venta</a>
+                            <a href="cedula-y-titulo-automotor">C&eacute;dula, t&iacute;tulo y duplicados</a>
+                            <a href="inscripcion-0km">Inscripci&oacute;n 0 km</a>
+                            <a href="prendas-y-tramites-registrales">Prendas y tr&aacute;mites registrales</a>
+                            <a href="asesoramiento-automotor">Asesoramiento personalizado</a>
+                        </div>
+                    </div>  </article> 
+                <article class="service-card home-service-dropdown-card" data-home-service-dropdown data-home-service-title="Gestor&iacute;a inmobiliaria">  <div class="service-card-img"> 
+                        <img src="img/services/inmuebles-cover.jpg?v=20260505-175351" alt="Gestoría inmobiliaria, compra, venta y alquiler de propiedades" loading="lazy"> 
+                    </div>  <div class="service-card-body"> 
+                        <h3>Gestoría inmobiliaria</h3> 
+                        <p>Acompañamos compras, ventas y alquileres con toda la documentación: boletos, escrituras y trámites registrales.</p> 
+                        <button type="button" class="btn btn-dark btn-sm home-service-dropdown-toggle" aria-expanded="false" data-home-service-dropdown-toggle>Ver servicios</button>
+                        <div class="home-service-dropdown-menu" data-home-service-dropdown-menu>
+                            <a href="boleto-compra-venta-inmuebles">Boleto de compra venta de inmuebles</a>
+                            <a href="contratos-de-alquiler">Contratos de alquiler</a>
+                        </div>
+                    </div>  </article> 
+                <a href="seguros" class="service-card" style="text-decoration:none;color:inherit;">  <div class="service-card-img"> 
+                        <img src="img/services/seguros-cover.jpg?v=20260505-175351" alt="Seguros del automotor con Liderar" loading="lazy"> 
+                    </div>  <div class="service-card-body"> 
+                        <h3>Seguros</h3> 
+                        <p>Cotizá tu seguro vehicular con Liderar Seguros y recibí asesoramiento personalizado desde Jardín América.</p> 
+                        <span class="btn btn-dark btn-sm">Ver seguros</span> 
+                    </div>  </a> 
+                <a href="mercado" class="service-card" style="text-decoration:none;color:inherit;">  <div class="service-card-img"> 
+                        <img src="img/services/autos-cover.jpg?v=20260505-175351" alt="Mercado de autos e inmuebles" loading="lazy"> 
+                    </div>  <div class="service-card-body"> 
+                        <h3>Mercado</h3> 
+                        <p>Autos, casas, departamentos, lotes y locales para venta y alquiler en Jardín América y alrededores.</p> 
+                        <span class="btn btn-dark btn-sm">Ver mercado</span> 
+                    </div>  </a> 
+            </div>             
+        </section>         
+        <div class="home-service-modal" data-home-service-modal hidden>
+            <div class="home-service-modal-backdrop" data-home-service-modal-close></div>
+            <section class="home-service-modal-panel" role="dialog" aria-modal="true" aria-labelledby="home-service-modal-title" tabindex="-1">
+                <button type="button" class="home-service-modal-close" aria-label="Cerrar servicios" data-home-service-modal-close>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p class="home-service-modal-eyebrow">Servicios disponibles</p>
+                <h2 id="home-service-modal-title" data-home-service-modal-title>Servicios</h2>
+                <div class="home-service-modal-list" data-home-service-modal-list></div>
+            </section>
+        </div>
+        <!-- ----------------------- QUIÉNES SOMOS -------------------- -->         
+        <section class="section quienes-section"> 
+            <div class="section-header"> 
+                <h2>Quiénes somos</h2> 
+                <p>Más de 18 años de trayectoria en Jardín América, brindando servicios cercanos, honestos y confiables.</p> 
+            </div>             
+            <div class="quienes-grid"> 
+                <div class="quienes-fotos"> 
+                    <div class="quienes-foto-wrap quienes-foto-wrap--top"> 
+                        <img src="img/team/sonia.jpeg?v=20260505-175351" alt="Sonia Altamirano, gestora matriculada del automotor" loading="lazy"> 
+                    </div>                     
+                    <div class="quienes-foto-wrap quienes-foto-wrap--bottom"> 
+                        <img src="img/team/sonia-jose.jpeg?v=20260505-175351" alt="Sonia Altamirano y José Luis Makoski" loading="lazy"> 
+                    </div>                     
+                </div>                 
+                <div class="quienes-texto"> 
+                    <span class="quienes-eyebrow">Gestoría Sonia · Desde 2008</span> 
+                    <h3>Sonia Altamirano<br><em>& José Luis Makoski</em></h3> 
+                    <div class="quienes-expandable" data-quienes-expandable id="quienes-biografia"> 
+                        <p>Mi nombre es Sonia Altamirano y desde el año 2008 me dedico a la gestión de trámites de transferencias del automotor, desarrollando mi actividad de manera ininterrumpida y siempre en el mismo lugar, donde actualmente cuento con mi oficina en casa.</p> 
+                        <p>A partir del año 2014, se sumó a este proyecto mi esposo, José Luis Makoski, con quien trabajamos en equipo para brindar un servicio cada vez más completo, eficiente y confiable.</p> 
+                        <p>A lo largo de todos estos años, renuevo anualmente mi matrícula, avalada por la Dirección Nacional, garantizando así mi idoneidad profesional. Además, me encuentro en constante capacitación participando en cursos, seminarios y actualizaciones, con el objetivo de ofrecer no solo un servicio técnico, sino también un asesoramiento legal y humano.</p> 
+                        <p>Creo profundamente en la importancia de la confianza, la claridad y el acompañamiento en cada gestión. Por eso, mi compromiso es brindar un servicio personalizado, donde cada persona se sienta segura y bien asesorada.</p> 
+                        <div class="quienes-credential"> 
+                            <span class="quienes-credential-label">Matr&iacute;cula profesional</span> 
+                            <strong>Matr&iacute;cula N&deg; M200927326642237DN</strong> 
+                            <p>Avalada por la Direcci&oacute;n Nacional y renovada de forma anual.</p> 
+                        </div>                         
+                        <div class="quienes-badges"> 
+                            <div class="quienes-badge"> 
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                                    <path d="M12 3l7 4v5c0 4.6-3 7.8-7 9-4-1.2-7-4.4-7-9V7l7-4Z"/>
+                                    <path d="m9.5 12 1.7 1.7L14.8 10"/>
+                                </svg>                                 
+                                Matrícula vigente DNRPA
+                            </div>                             
+                            <div class="quienes-badge"> 
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                                    <circle cx="12" cy="12" r="9"/>
+                                    <path d="M12 7v5l3 3"/>
+                                </svg>                                 
+                                +15 años de experiencia
+                            </div>                             
+                            <div class="quienes-badge"> 
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                                    <path d="M12 21s6-4.35 6-10a6 6 0 1 0-12 0c0 5.65 6 10 6 10Z"/>
+                                    <circle cx="12" cy="11" r="2.5"/>
+                                </svg>                                 
+                                Jardín América, Misiones
+                            </div>                             
+                            <a href="titulos" class="quienes-badge quienes-badge-link">  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                                    <path d="M7 4.5h7l3 3V19a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-13a1 1 0 0 1 1-1Z"/>
+                                    <path d="M14 4.5V8h3.5"/>
+                                    <path d="M9 12h6"/>
+                                    <path d="M9 15h6"/>
+                                </svg> 
+          Ver títulos y capacitaciones
+ </a>
+                        </div>                         
+                    </div>                     
+                    <button class="quienes-read-more" type="button" aria-expanded="false" aria-controls="quienes-biografia" data-quienes-read-more>Leer más</button>                     
+                </div>                 
+            </div>             
+        </section>         
+        <!-- ----------------------- RESEÑAS ------------------------- -->         
+        <section class="section reviews-home local-reviews" aria-labelledby="reviews-title" data-reviews-carousel>
+            <div class="section-header reviews-section-header">
+                <span class="reviews-eyebrow">Rese&ntilde;as en Google</span>
+                <h2 id="reviews-title">Qu&eacute; dicen nuestros clientes</h2>
+            </div>
+            <div class="reviews-local-widget">
+                <div class="reviews-rating-card">
+                    <div class="reviews-rating-score">
+                        <strong data-reviews-rating>4.8</strong>
+                        <span data-reviews-total>valoraci&oacute;n promedio</span>
+                    </div>
+                    <div class="reviews-rating-meta">
+                        <div class="reviews-rating-stars" aria-label="4,8 de 5 estrellas" data-reviews-stars>
+                            <span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                        </div>
+                    </div>
+                    <a class="reviews-google-btn" href="https://maps.app.goo.gl/nKTV4h44HSK61qzRA" target="_blank" rel="noopener" data-reviews-link>Opinar en Google</a>
+                </div>
+                <div class="reviews-carousel">
+                    <button class="reviews-carousel-btn reviews-carousel-btn--prev" type="button" aria-label="Ver rese&ntilde;as anteriores" data-review-prev>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M15 18 9 12l6-6"/>
+                        </svg>
+                    </button>
+                    <div class="reviews-carousel-viewport">
+                        <div class="reviews-track" data-reviews-track></div>
+                        <div class="reviews-empty-state" data-reviews-empty hidden>No se pudieron cargar las rese&ntilde;as de Google en este momento.</div>
+                    </div>
+                    <button class="reviews-carousel-btn reviews-carousel-btn--next" type="button" aria-label="Ver m&aacute;s rese&ntilde;as" data-review-next>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="m9 18 6-6-6-6"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="reviews-carousel-dots" aria-label="P&aacute;ginas de rese&ntilde;as" data-review-dots></div>
+            </div>
+        </section>
+        <!-- ----------------------- AUTOS DESTACADOS ---------------- -->         
+        <section class="section section-gray"> 
+            <div class="section-header"> 
+                <h2>Mercado</h2> 
+                <p>Autos, casas, lotes y alquileres reunidos en una sola vidriera.</p> 
+            </div>             
+            <div class="listings-grid market-grid" id="home-mercado" style="max-width:1200px;margin:0 auto;"></div>             
+            <a href="mercado" class="section-link">Ver todo el mercado →</a> 
+        </section>         
+        <!-- ----------------------- INMUEBLES DESTACADOS ------------ -->         
+        <section class="section" style="display:none;"> 
+            <div class="section-header"> 
+                <h2>Propiedad destacada</h2> 
+                <p>Los mejores inmuebles en Jardín América para venta y alquiler.</p> 
+            </div>             
+            <div class="listings-grid" data-legacy-home-inmuebles style="max-width:1200px;margin:0 auto;"></div>             
+            <a href="mercado?tipo=inmueble" class="section-link">Ver inmuebles en mercado →</a> 
+        </section>         
+        <!-- ----------------------- POR QUÉ ELEGIRNOS -------------- -->         
+        <section class="section section-dark"> 
+            <div class="section-header"> 
+                <h2>¿Por qué elegirnos?</h2> 
+            </div>             
+            <div class="features-grid"> 
+                <article class="feature-item"> 
+                    <div class="feature-icon" aria-hidden="true"> 
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"> 
+                            <path d="M12 21s6-4.35 6-10a6 6 0 1 0-12 0c0 5.65 6 10 6 10Z"/> 
+                            <circle cx="12" cy="11" r="2.5"/> 
+                        </svg>                         
+                    </div>                     
+                    <h4>Conocimiento local</h4> 
+                    <p>Somos de Jardín América. Conocemos el mercado, los barrios y los valores reales de la zona.</p> 
+                </article>                 
+                <article class="feature-item"> 
+                    <div class="feature-icon" aria-hidden="true"> 
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"> 
+                            <path d="M12 3l7 4v5c0 4.6-3 7.8-7 9-4-1.2-7-4.4-7-9V7l7-4Z"/> 
+                            <path d="m9.5 12 1.7 1.7L14.8 10"/> 
+                        </svg>                         
+                    </div>                     
+                    <h4>Sin sorpresas</h4> 
+                    <p>Trabajamos por comisión, sin costos ocultos. La operación es transparente de principio a fin.</p> 
+                </article>                 
+                <article class="feature-item"> 
+                    <div class="feature-icon" aria-hidden="true"> 
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"> 
+                            <rect x="5" y="3" width="14" height="18" rx="2"/> 
+                            <path d="M9 7h6M9 11h6M9 15h4"/> 
+                        </svg>                         
+                    </div>                     
+                    <h4>Gestoría propia</h4> 
+                    <p>Manejamos transferencia, informes, cédulas, título, 0 km, prendas y consultas registrales sin derivarte.</p> 
+                </article>                 
+                <article class="feature-item"> 
+                    <div class="feature-icon" aria-hidden="true"> 
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"> 
+                            <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/> 
+                            <path d="M8 8h8M8 12h5"/> 
+                        </svg>                         
+                    </div>                     
+                    <h4>Respuesta rápida</h4> 
+                    <p>Respondemos por WhatsApp con atención directa y sin formularios innecesarios.</p> 
+                </article>                 
+            </div>             
+        </section>         
+        <!-- ----------------------- CONTACTO ------------------------ -->         
+        <section class="section section-dark contact-section" id="contacto"> 
+            <div class="contact-grid"> 
+                <div class="contact-info"> 
+                    <span class="contact-eyebrow">Contacto directo</span> 
+                    <h3>Dónde encontrarnos</h3> 
+                    <p class="contact-intro">Atención personal para autos, inmuebles, gestoría y seguros desde Jardín América, Misiones.</p> 
+                    <div class="contact-item"> 
+                        <div class="contact-item-icon" aria-hidden="true"> 
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"> 
+                                <path d="M12 21s6-4.35 6-10a6 6 0 1 0-12 0c0 5.65 6 10 6 10Z"/> 
+                                <circle cx="12" cy="11" r="2.5"/> 
+                            </svg>                             
+                        </div>                         
+                        <div class="contact-item-text"> 
+                            <label>Ubicación</label>                             
+                            <span><a href="https://maps.app.goo.gl/nKTV4h44HSK61qzRA" target="_blank" rel="noopener">Av. Antártida Argentina 564, Jardín América, Misiones</a></span> 
+                        </div>                         
+                    </div>                     
+                    <div class="contact-item"> 
+                        <div class="contact-item-icon" aria-hidden="true"> 
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"> 
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72l.39 2.57a2 2 0 0 1-.57 1.72l-1.3 1.3a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 1.72-.57l2.57.39A2 2 0 0 1 22 16.92Z"/> 
+                            </svg>                             
+                        </div>                         
+                        <div class="contact-item-text"> 
+                            <label>WhatsApp</label>                             
+                            <span><a href="https://wa.me/543743668039" target="_blank" rel="noopener">+54 3743 66-8039</a></span> 
+                        </div>                         
+                    </div>                     
+                    <div class="contact-item"> 
+                        <div class="contact-item-icon" aria-hidden="true"> 
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"> 
+                                <circle cx="12" cy="12" r="9"/> 
+                                <path d="M12 7v5l3 3"/> 
+                            </svg>                             
+                        </div>                         
+                        <div class="contact-item-text"> 
+                            <label>Horario de atención</label>                             
+                            <span>Lunes a viernes 8:00-18:00<br>Síbados 8:00-13:00</span> 
+                        </div>                         
+                    </div>                     
+                    <div class="contact-item"> 
+                        <div class="contact-item-icon" aria-hidden="true"> 
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"> 
+                                <rect x="3" y="5" width="18" height="14" rx="2"/> 
+                                <path d="m4 7 8 6 8-6"/> 
+                            </svg>                             
+                        </div>                         
+                        <div class="contact-item-text"> 
+                            <label>Correo electrónico</label>                             
+                            <span><a href="mailto:Gerasoal@gmail.com">Gerasoal@gmail.com</a></span> 
+                        </div>                         
+                    </div>                     
+                </div>                 
+                <div class="contact-form contact-form--message"> 
+                    <span class="contact-eyebrow">Contacto con nosotros</span> 
+                    <h3>Contanos qu&eacute; necesit&aacute;s</h3> 
+                    <p class="contact-form-lead">Dejanos tu nombre, tu correo y tu consulta. Te respondemos con atenci&oacute;n personalizada.</p> 
+                    <form id="contact-form"> 
+                        <div class="form-group"> 
+                            <label for="contact-name">Nombre</label>                             
+                            <input id="contact-name" type="text" name="nombre" placeholder="Tu nombre" required> 
+                        </div>                         
+                        <div class="form-group"> 
+                            <label for="contact-email">Correo electr&oacute;nico</label>                             
+                            <input id="contact-email" type="email" name="correo" placeholder="tu@email.com" required> 
+                        </div>                         
+                        <div class="form-group"> 
+                            <label for="contact-message">Mensaje</label>                             
+                            <textarea id="contact-message" name="mensaje" placeholder="Escribinos brevemente en qu&eacute; podemos ayudarte" required></textarea> 
+                        </div>                         
+                        <button type="submit" class="btn btn-dark contact-submit-btn">Enviar consulta</button>                         
+                    </form>                     
+                </div>                 
+            </div>             
+        </section>         
+        <!-- ----------------------- FOOTER -------------------------- -->         
+        <footer class="footer"> 
+            <div class="footer-grid"> 
+                <div class="footer-brand"> 
+                    <div class="nav-logo"> 
+                        <div class="nav-logo-img-wrap"> 
+                            <img src="img/logo.png?v=20260505-175351" alt="Gestoría Sonia" class="nav-logo-img"> 
+                        </div>                         
+                    </div>                     
+                    <p>Compra, venta y alquiler de autos e inmuebles. Gestoría del automotor. Trabajamos con honestidad y conocimiento local.</p> 
+                    <div class="footer-dnrpa-badge" aria-label="DNRPA - Registro de la Propiedad del Automotor de la Nacion"> 
+                        <img src="img/dnrpa-badge.png?v=20260505-175351" alt="DNRPA - Registro de la Propiedad del Automotor de la Nacion"> 
+                    </div>                     
+                </div>                 
+                                <div class="footer-col">
+                    <h5>Servicios</h5>
+                    <a href="transferencia-automotor">Transferencia automotor</a>
+                    <a href="informe-de-dominio">Informe de dominio</a>
+                    <a href="boleto-compra-venta-inmuebles">Gestor&iacute;a inmobiliaria</a>
+                    <a href="seguros">Seguros</a>
+                    <a href="mercado">Mercado</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Navegaci&oacute;n</h5>
+                    <a href="/">Inicio</a>
+                    <a href="transferencia-automotor">Gestor&iacute;a automotor</a>
+                    <a href="boleto-compra-venta-inmuebles">Gestor&iacute;a inmobiliaria</a>
+                    <a href="seguros">Seguros</a>
+                    <a href="mercado">Mercado</a>
+                    <a href="/#contacto">Contacto</a>
+                </div>                 
+                <div class="footer-col"> 
+                    <h5>Contacto</h5> 
+                    <a href="https://wa.me/543743668039" target="_blank" rel="noopener">+54 3743 66-8039</a> 
+                    <a href="mailto:Gerasoal@gmail.com">Gerasoal@gmail.com</a>
+      <a href="https://www.instagram.com/gestoriasonia" target="_blank" rel="noopener" class="footer-social-link" aria-label="Instagram de Gestoria Sonia">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+          <circle cx="12" cy="12" r="4"></circle>
+          <circle cx="17.2" cy="6.8" r="1.1"></circle>
+        </svg>
+        <span>Instagram</span>
+      </a> 
+                    <span style="color:rgba(255,255,255,0.4);font-size:13px;"><a href="https://maps.app.goo.gl/nKTV4h44HSK61qzRA" target="_blank" rel="noopener">Av. Antártida Argentina 564, Jardín América, Misiones</a></span> 
+                </div>                 
+                <div class="footer-col"> 
+                    <h5>Legales</h5> 
+                    <a href="politica-de-privacidad">Pol&iacute;tica de Privacidad</a> 
+                    <a href="terminos-y-condiciones">T&eacute;rminos y Condiciones</a> 
+                    <a href="defensa-del-consumidor">Defensa del Consumidor</a> 
+                    <a href="boton-arrepentimiento">Bot&oacute;n de Arrepentimiento</a> 
+                </div>                 
+            </div>             
+            <div class="footer-bottom"> 
+                <p>© 2026 Gestoría Sonia. Todos los derechos reservados.</p> 
+                <p>Av. Antártida Argentina 564, Jardín América, Misiones, Argentina</p> 
+                <p class="footer-credit">Diseñado y creado por Franco Makoski</p> 
+            </div>             
+        </footer>         
+        <!-- ----------------------- WHATSAPP FLOTANTE -------------- -->         
+        <a href="https://wa.me/543743668039" target="_blank" rel="noopener" class="wa-float" aria-label="Contactar por WhatsApp">  <span class="wa-tooltip">Escribinos</span>  <svg viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+            </svg> </a> 
+        <script src="js/site.js?v=20260505-175351"></script>
+    </body>     
+</html>
