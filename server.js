@@ -29,11 +29,8 @@ const UPLOADS_DIR = path.join(ROOT_DIR, 'uploads');
 const PORT = Number.parseInt(process.env.PORT || '3000', 10);
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const COOKIE_NAME = 'gs_admin_session';
-const GOOGLE_BUSINESS_ACCOUNT_ID = process.env.GOOGLE_BUSINESS_ACCOUNT_ID || '';
-const GOOGLE_BUSINESS_LOCATION_ID = process.env.GOOGLE_BUSINESS_LOCATION_ID || '';
-const GOOGLE_BUSINESS_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
-const GOOGLE_BUSINESS_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '';
-const GOOGLE_BUSINESS_REFRESH_TOKEN = process.env.GOOGLE_REFRESH_TOKEN || '';
+const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY || '';
+const GOOGLE_PLACE_ID = process.env.GOOGLE_PLACE_ID || '';
 const GOOGLE_REVIEWS_URL = process.env.GOOGLE_REVIEWS_URL || 'https://maps.app.goo.gl/nKTV4h44HSK61qzRA';
 
 const GMAIL_CLIENT_ID = process.env.GMAIL_CLIENT_ID || '';
@@ -2150,15 +2147,9 @@ async function getGeoForIp(ip) {
 }
 
 async function getGoogleReviews() {
-  const hasBusinessConfig = Boolean(
-    GOOGLE_BUSINESS_ACCOUNT_ID &&
-    GOOGLE_BUSINESS_LOCATION_ID &&
-    GOOGLE_BUSINESS_CLIENT_ID &&
-    GOOGLE_BUSINESS_CLIENT_SECRET &&
-    GOOGLE_BUSINESS_REFRESH_TOKEN
-  );
+  const hasPlacesConfig = Boolean(GOOGLE_PLACES_API_KEY && GOOGLE_PLACE_ID);
 
-  if (!hasBusinessConfig) {
+  if (!hasPlacesConfig) {
     return buildGoogleReviewsFallback('missing_credentials');
   }
 
@@ -2167,49 +2158,26 @@ async function getGoogleReviews() {
   }
 
   try {
-    const accessToken = await getGoogleBusinessAccessToken();
-    if (!accessToken) return buildGoogleReviewsFallback('missing_access_token');
+    const url =
+      `https://places.googleapis.com/v1/places/${encodeURIComponent(GOOGLE_PLACE_ID)}` +
+      `?fields=rating,userRatingCount,reviews` +
+      `&key=${encodeURIComponent(GOOGLE_PLACES_API_KEY)}` +
+      `&languageCode=es`;
 
-    const reviews = [];
-    let pageToken = '';
-    let averageRating = null;
-    let totalReviewCount = null;
+    const placesRes = await fetch(url);
+    const placesData = await placesRes.json().catch(() => ({}));
 
-    do {
-      const params = new URLSearchParams({
-        pageSize: '50',
-        orderBy: 'updateTime desc'
-      });
-      if (pageToken) params.set('pageToken', pageToken);
+    if (!placesRes.ok) {
+      const message = placesData?.error?.message || `HTTP ${placesRes.status}`;
+      throw new Error(message);
+    }
 
-      const accountId = normalizeGoogleBusinessId(GOOGLE_BUSINESS_ACCOUNT_ID, 'accounts/');
-      const locationId = normalizeGoogleBusinessId(GOOGLE_BUSINESS_LOCATION_ID, 'locations/');
-      const endpoint = `https://mybusiness.googleapis.com/v4/accounts/${encodeURIComponent(accountId)}/locations/${encodeURIComponent(locationId)}/reviews?${params.toString()}`;
-      const reviewsRes = await fetch(endpoint, {
-        headers: { Authorization: `Bearer ${accessToken}` }
-      });
-
-      const reviewsData = await reviewsRes.json().catch(() => ({}));
-      if (!reviewsRes.ok) {
-        const message = reviewsData?.error?.message || `HTTP ${reviewsRes.status}`;
-        throw new Error(message);
-      }
-
-      if (Number.isFinite(Number(reviewsData.averageRating))) {
-        averageRating = Number(reviewsData.averageRating);
-      }
-      if (Number.isFinite(Number(reviewsData.totalReviewCount))) {
-        totalReviewCount = Number(reviewsData.totalReviewCount);
-      }
-
-      reviews.push(...(reviewsData.reviews || []).map(normalizeGoogleBusinessReview));
-      pageToken = reviewsData.nextPageToken || '';
-    } while (pageToken);
+    const reviews = (placesData.reviews || []).map(normalizePlacesReview);
 
     const result = {
       fallback: false,
-      rating: averageRating,
-      totalReviewCount,
+      rating: placesData.rating ?? null,
+      totalReviewCount: placesData.userRatingCount ?? null,
       reviews,
       reviewsUrl: GOOGLE_REVIEWS_URL,
       fetchedAt: new Date().toISOString()
@@ -2220,35 +2188,25 @@ async function getGoogleReviews() {
 
     return result;
   } catch (err) {
-    console.error('[reviews] Error al obtener resenas de Google Business Profile:', err.message);
-    return buildGoogleReviewsFallback('google_business_error');
+    console.error('[reviews] Error al obtener reseñas de Google Places:', err.message);
+    return buildGoogleReviewsFallback('google_places_error');
   }
 }
 
-async function getGoogleBusinessAccessToken() {
-  try {
-    const res = await fetch('https://oauth2.googleapis.com/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        client_id: GOOGLE_BUSINESS_CLIENT_ID,
-        client_secret: GOOGLE_BUSINESS_CLIENT_SECRET,
-        refresh_token: GOOGLE_BUSINESS_REFRESH_TOKEN,
-        grant_type: 'refresh_token'
-      })
-    });
+function normalizePlacesReview(review) {
+  const author = review.authorAttribution || {};
+  const publishTime = review.publishTime || '';
+  const reviewId = (review.name || '').split('/').pop() || `${author.displayName || 'review'}-${publishTime}`;
 
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      console.error('[reviews] OAuth error:', data?.error_description || data?.error || `HTTP ${res.status}`);
-      return null;
-    }
-
-    return data.access_token || null;
-  } catch (err) {
-    console.error('[reviews] OAuth network error:', err.message);
-    return null;
-  }
+  return {
+    id: reviewId,
+    author: author.displayName || 'Cliente',
+    photoUrl: author.photoUri || null,
+    rating: typeof review.rating === 'number' ? Math.min(5, Math.max(0, review.rating)) : 5,
+    text: review.text?.text || review.originalText?.text || '',
+    createTime: publishTime,
+    relativeTime: review.relativePublishTimeDescription || formatReviewRelativeTime(publishTime)
+  };
 }
 
 function buildGoogleReviewsFallback(reason) {
@@ -2263,35 +2221,6 @@ function buildGoogleReviewsFallback(reason) {
   };
 }
 
-function normalizeGoogleBusinessReview(review) {
-  const createTime = review.createTime || review.updateTime || '';
-  const reviewer = review.reviewer || {};
-  return {
-    id: review.reviewId || `${reviewer.displayName || 'review'}-${createTime}`,
-    author: reviewer.displayName || 'Cliente',
-    photoUrl: reviewer.profilePhotoUrl || null,
-    rating: googleBusinessStarRatingToNumber(review.starRating),
-    text: review.comment || '',
-    createTime,
-    relativeTime: formatReviewRelativeTime(createTime)
-  };
-}
-
-function googleBusinessStarRatingToNumber(starRating) {
-  const ratings = {
-    ONE: 1,
-    TWO: 2,
-    THREE: 3,
-    FOUR: 4,
-    FIVE: 5
-  };
-  if (typeof starRating === 'number') return Math.min(5, Math.max(0, starRating));
-  return ratings[String(starRating || '').toUpperCase()] || 5;
-}
-
-function normalizeGoogleBusinessId(value, prefix) {
-  return String(value || '').trim().replace(prefix, '');
-}
 
 function formatReviewRelativeTime(value) {
   const date = value ? new Date(value) : null;
