@@ -2,7 +2,7 @@
    JARDÍN GESTIONES — Hoja de estilos principal
    Reemplazar "JARDÍN GESTIONES" con el nombre comercial final
    ============================================================ */
-@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Inter:wght@300;400;500;600;700;800&display=swap');
+/* Google Fonts se carga via <link> en el HTML para evitar render-blocking */
 
 /* ── Variables ─────────────────────────────────────────────── */
 :root {
@@ -1596,7 +1596,7 @@ body.home-service-modal-open {
 .transfer-quote-cover {
     background: linear-gradient(180deg, rgba(10,8,7,0.18) 0%, rgba(10,8,7,0.42) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/transferencia-cover.png?v=20260505-180255');
+    url('../img/services/transferencia-cover.png?v=20260506-231437');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1965,7 +1965,7 @@ body.home-service-modal-open {
 .domain-report-cover {
     background: linear-gradient(180deg, rgba(10,8,7,0.18) 0%, rgba(10,8,7,0.42) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/informes-cover.png?v=20260505-180255');
+    url('../img/services/informes-cover.png?v=20260506-231437');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1989,7 +1989,7 @@ body.home-service-modal-open {
 .gestoria-sale-cover {
     background: linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.38) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/denuncia-venta-cover.png?v=20260505-180255');
+    url('../img/services/denuncia-venta-cover.png?v=20260506-231437');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1998,7 +1998,7 @@ body.home-service-modal-open {
 .gestoria-documents-cover {
     background: linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.36) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/cedula-titulo-cover.png?v=20260505-180255');
+    url('../img/services/cedula-titulo-cover.png?v=20260506-231437');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -2007,7 +2007,7 @@ body.home-service-modal-open {
 .gestoria-zero-cover {
     background: linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.34) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/inscripcion-0km-cover.png?v=20260505-180255');
+    url('../img/services/inscripcion-0km-cover.png?v=20260506-231437');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -2016,7 +2016,7 @@ body.home-service-modal-open {
 .gestoria-registral-cover {
     background: linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.38) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/prendas-registrales-cover.png?v=20260505-180255');
+    url('../img/services/prendas-registrales-cover.png?v=20260506-231437');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -2025,7 +2025,7 @@ body.home-service-modal-open {
 .gestoria-guidance-cover {
     background: linear-gradient(180deg, rgba(10,8,7,0.16) 0%, rgba(10,8,7,0.36) 100%),
     radial-gradient(circle at 18% 18%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 26%),
-    url('../img/services/asesoramiento-cover.png?v=20260505-180255');
+    url('../img/services/asesoramiento-cover.png?v=20260506-231437');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -8278,19 +8278,19 @@ a:hover {
 .gestoria-inmobiliaria-sale-cover {
     background: linear-gradient(180deg, rgba(14, 29, 56, 0.18) 0%, rgba(14, 29, 56, 0.56) 100%),
     radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 26%),
-    url('../img/services/inmuebles-cover.jpg?v=20260505-180255');
+    url('../img/services/inmuebles-cover.jpg?v=20260506-231437');
 }
 
 .gestoria-inmobiliaria-rental-cover {
     background: linear-gradient(180deg, rgba(14, 29, 56, 0.18) 0%, rgba(14, 29, 56, 0.56) 100%),
     radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 26%),
-    url('../img/services/inmuebles-cover.jpg?v=20260505-180255');
+    url('../img/services/inmuebles-cover.jpg?v=20260506-231437');
 }
 
 .seguro-brand-cover {
     background: linear-gradient(180deg, rgba(14, 29, 56, 0.2) 0%, rgba(14, 29, 56, 0.6) 100%),
     radial-gradient(circle at 18% 18%, rgba(201, 166, 107, 0.18) 0%, rgba(201, 166, 107, 0) 26%),
-    url('../img/services/seguros-cover.jpg?v=20260505-180255');
+    url('../img/services/seguros-cover.jpg?v=20260506-231437');
 }
 
 .seguro-brand-cover .transfer-quote-cover-content strong {
@@ -8935,3 +8935,19 @@ a:hover {
     border: 1px solid rgba(255,255,255,0.38);
 }
 
+/* ── Seccion de enlaces internos entre servicios ───────────────── */
+.related-service-link {
+    display: inline-block;
+    padding: 0.45rem 1rem;
+    border: 1.5px solid var(--navy);
+    border-radius: 999px;
+    color: var(--navy);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.18s, color 0.18s;
+}
+.related-service-link:hover {
+    background: var(--navy);
+    color: #fff;
+}
